@@ -7,7 +7,7 @@ const props = defineProps({
     icon: Object,
     placeholder: String,
     styles: String,
-    value: {
+    defaultValue: {
         type: Number,
         default: 0,
     },
@@ -23,7 +23,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value'])
 
-const internalValue = ref(props.value)
+const internalValue = ref(props.defaultValue)
 
 const isError = computed(() => {
     if (internalValue.value > props.max) {

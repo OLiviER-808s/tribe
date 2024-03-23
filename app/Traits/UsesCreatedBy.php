@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 trait UsesCreatedBy
 {
-    protected function bootUsesCreatedBy()
+    protected static function bootUsesCreatedBy()
     {
         static::creating(function ($model) {
             if (! $model->created_by_id) {

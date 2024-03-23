@@ -7,14 +7,12 @@ use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Conversation extends Model
+class Chat extends Model
 {
     use HasFactory, UsesUuid, UsesCreatedBy;
 
     protected $fillable = [
-        'title',
-        'description',
-        'limit',
-        'active',
+        'name',
+        'conversation_id',
     ];
 }

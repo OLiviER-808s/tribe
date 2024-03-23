@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
-use App\Traits\UsesCreatedBy;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Conversation extends Model
+class ChatMember extends Model
 {
-    use HasFactory, UsesUuid, UsesCreatedBy;
+    use HasFactory, UsesUuid;
 
     protected $fillable = [
-        'title',
-        'description',
-        'limit',
-        'active',
+        'user_id',
+        'chat_id',
+        'admin'
     ];
 }

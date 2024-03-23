@@ -44,6 +44,7 @@ const submit = () => {
 
                     <NumberInput 
                     v-model="form.limit"
+                    :default-value="form.limit"
                     label="Member Limit"
                     :min="1"
                     :max="10"
