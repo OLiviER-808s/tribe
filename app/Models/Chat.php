@@ -15,4 +15,9 @@ class Chat extends Model
         'name',
         'conversation_id',
     ];
+
+    public function members()
+    {
+        return $this->hasMany(ChatMember::class, 'chat_id');
+    }
 }

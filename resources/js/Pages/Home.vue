@@ -1,19 +1,22 @@
 <script setup>
-import Card from '../Components/Generic/Card.vue'
-import Button from '../Components/Generic/Button.vue'
-import IconButton from '../Components/Generic/IconButton.vue'
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import AuthLayout from '@/Layouts/AuthLayout.vue';
+import AuthLayout from '@/Layouts/AuthLayout.vue'
+import Conversation from '@/Components/Display/Conversation.vue'
+
+const { conversations } = defineProps({
+    conversations: Array
+})
 </script>
 
 <template>
     <AuthLayout>
-        <Card>
-            test
-            <Button variant="light" color="secondary">
-                click me
-            </Button>
-            <IconButton :icon="faHouse" size="lg" />
-        </Card>
+        <div class="overflow-auto h-full" id="scrollable-content">
+            <section class="flex justify-center overflow-auto h-full">
+                <div class="px-1 py-6 w-full max-w-2xl">
+                    <div class="flex flex-col gap-4">
+                        <Conversation v-for="conversation in conversations" :conversation="conversation" />
+                    </div>
+                </div>
+            </section>
+        </div>
     </AuthLayout>
 </template>

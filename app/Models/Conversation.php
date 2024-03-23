@@ -17,4 +17,21 @@ class Conversation extends Model
         'limit',
         'active',
     ];
+
+    public function chat()
+    {
+        return $this->hasOne(Chat::class, 'conversation_id');
+    }
+
+    public function viewModel()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'description' => $this->description,
+            'created_by' => $this->createdByUser->name,
+            'members' => $this->chat->members->count(),
+            'limit' => $this->limit
+        ];
+    }
 }
