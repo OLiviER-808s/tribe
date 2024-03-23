@@ -13,7 +13,9 @@ const { conversations } = defineProps({
             <section class="flex justify-center overflow-auto h-full">
                 <div class="px-1 py-6 w-full max-w-2xl">
                     <div class="flex flex-col gap-4">
-                        <Conversation v-for="conversation in conversations" :conversation="conversation" />
+                        <div v-for="conversation in conversations" :key="conversation.uuid">
+                            <Conversation :conversation="conversation" />
+                        </div>
                     </div>
                 </div>
             </section>

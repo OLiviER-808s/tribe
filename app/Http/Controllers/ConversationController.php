@@ -24,7 +24,7 @@ class ConversationController extends Controller
             $conversation = Conversation::create([
                 'title' => $request['title'],
                 'description' => $request['description'],
-                'limit' => $request['limit'],
+                'limit' => $request['limit'] + 1,
                 'active' => true
             ]);
 
@@ -41,5 +41,31 @@ class ConversationController extends Controller
         });
 
         return to_route('home');
+    }
+
+    public function join($conversationUuid)
+    {
+        $user = Auth::user();
+
+        $conversation = Conversation::where('uuid', $conversationUuid)
+            ->where('active', true)
+            ->whereDoesntHave('chat.members', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->with('chat.members')
+            ->firstOrFail();
+
+        DB::transaction(function () use ($conversation, $user) {
+            if ($conversation->chat->members->count() + 1 === $conversation->limit) {
+                $conversation->active = false;
+                $conversation->save();
+            }
+
+            ChatMember::create([
+                'user_id' => $user->id,
+                'chat_id' => $conversation->chat->id,
+                'admin' => false
+            ]);
+        });
     }
 }

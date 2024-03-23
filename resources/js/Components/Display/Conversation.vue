@@ -1,9 +1,17 @@
 <script setup>
+import { router } from '@inertiajs/vue3';
+import Button from '../Generic/Button.vue';
 import Card from '../Generic/Card.vue'
 
 const { conversation } = defineProps({
     conversation: Object
 })
+
+const join = () => {
+    router.post(route('conversation.join', {
+        uuid: conversation.uuid
+    }))
+}
 </script>
 
 <template>
@@ -16,6 +24,10 @@ const { conversation } = defineProps({
             <p>by <span class="font-semibold">@{{ conversation.created_by }}</span></p>
 
             <p>{{ conversation.members }}/{{ conversation.limit }}</p>
+        </div>
+
+        <div class="flex justify-end">
+            <Button styles="text-sm" @click="join">Join</Button>
         </div>
     </Card>
 </template>

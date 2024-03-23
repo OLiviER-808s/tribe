@@ -10,9 +10,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $conversations = Conversation::with('chat.members')->get()->map(function ($conversation) {
-            return $conversation->viewModel();
-        })->toArray();
+        $conversations = Conversation::where('active', true)->with('chat.members')
+            ->get()->map(function ($conversation) {
+                return $conversation->viewModel();
+            })->toArray();
 
         return Inertia::render('Home', [
             'conversations' => $conversations

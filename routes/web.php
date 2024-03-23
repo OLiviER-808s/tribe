@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');
     Route::post('/conversation/create', [ConversationController::class, 'store'])->name('conversation.store');
+    Route::post('/conversation/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
 });
 
 require __DIR__.'/auth.php';
