@@ -61,7 +61,7 @@ watch(internalValue, (newValue) => {
         </div>
 
         <p v-if="isError" class="text-error text-sm">{{ isError }}</p>
-        <p v-if="error && typeof error === 'string'" class="text-error text-sm">{{ error }}</p>
+        <p v-else-if="error && typeof error === 'string'" class="text-error text-sm">{{ error }}</p>
     </div>
 </template>
 

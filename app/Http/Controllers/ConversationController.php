@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreConversation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,7 @@ class ConversationController extends Controller
         return Inertia::render('Conversations/ConversationCreate');
     }
 
-    public function store()
+    public function store(StoreConversation $request)
     {
         
     }
