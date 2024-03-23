@@ -11,4 +11,9 @@ class ConversationController extends Controller
     {
         return Inertia::render('Conversations/ConversationCreate');
     }
+
+    public function store()
+    {
+        
+    }
 }

@@ -22,9 +22,8 @@ const { name, defaultValue, type, disabled, error, success, variant, styles, lab
     placeholder: String,
     onInput: Function as PropType<(e: Event) => void>,
 })
-const emit = defineEmits(['update:modelValue'])
 
-const focused = ref(false)
+const emit = defineEmits(['update:modelValue'])
 const internalValue = ref(defaultValue)
 
 const variantStyles = computed(() =>
@@ -44,7 +43,7 @@ const handleInput = (event: Event) => {
 
 <template>
     <div>
-        <label :for="name">{{ label }}</label>
+        <label :for="name" class="font-medium">{{ label }}</label>
 
         <div
             :class="[
@@ -53,7 +52,6 @@ const handleInput = (event: Event) => {
                 styles,
                 {
                     error: error && typeof error !== 'boolean',
-                    selected: focused,
                     success: success && typeof error !== 'boolean'
                 }
             ]"
@@ -69,8 +67,6 @@ const handleInput = (event: Event) => {
                 v-model="internalValue"
                 :disabled="disabled"
                 @input="handleInput"
-                @focus="focused = true"
-                @blur="focused = false"
                 :class="{ 'pl-0': icon }"
                 class="flex-grow w-full p-2 border-none outline-none rounded-lg bg-transparent placeholder:text-secondary-text"
             />
@@ -85,10 +81,6 @@ const handleInput = (event: Event) => {
 </template>
 
 <style>
-.selected {
-    @apply border-none ring-1 ring-primary;
-}
-
 .error {
     @apply border-none ring-1 ring-error;
 }
