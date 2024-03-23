@@ -1,9 +1,8 @@
 <script setup>
+import { inject } from 'vue';
 import ChatTab from './ChatTab.vue'
 
-const { chats } = defineProps({
-    chats: Array
-})
+const chats = inject('chats')
 </script>
 
 <template>
