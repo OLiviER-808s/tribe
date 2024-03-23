@@ -9,7 +9,7 @@ const { conversations } = defineProps({
 
 <template>
     <AuthLayout>
-        <div class="overflow-auto h-full" id="scrollable-content">
+        <div class="overflow-auto h-full">
             <section class="flex justify-center overflow-auto h-full">
                 <div class="px-1 py-6 w-full max-w-2xl">
                     <div class="flex flex-col gap-4">

@@ -20,7 +20,7 @@ import Card from '../Generic/Card.vue'
             variant="subtle"
             color="base"
             size="xl"
-            href="/"
+            href="/chats"
             />
 
             <IconButton

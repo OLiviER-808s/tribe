@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -32,6 +33,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');
     Route::post('/conversation/create', [ConversationController::class, 'store'])->name('conversation.store');
     Route::post('/conversation/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
+
+    Route::get('/chats', [ChatController::class, 'index'])->name('chats');
 });
 
 require __DIR__.'/auth.php';

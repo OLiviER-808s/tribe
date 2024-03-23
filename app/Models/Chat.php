@@ -20,4 +20,13 @@ class Chat extends Model
     {
         return $this->hasMany(ChatMember::class, 'chat_id');
     }
+
+    public function viewModel()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'members' => $this->members->map(fn ($member) => $member->viewModel())
+        ];
+    }
 }

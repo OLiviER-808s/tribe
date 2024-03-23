@@ -15,4 +15,19 @@ class ChatMember extends Model
         'chat_id',
         'admin'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function viewModel()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'user_uuid' => $this->user->uuid,
+            'name' => $this->user->name,
+            'admin' => $this->admin
+        ];
+    }
 }
