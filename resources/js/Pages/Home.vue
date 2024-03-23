@@ -3,10 +3,11 @@ import Card from '../Components/Generic/Card.vue'
 import Button from '../Components/Generic/Button.vue'
 import IconButton from '../Components/Generic/IconButton.vue'
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import AuthLayout from '@/Layouts/AuthLayout.vue';
 </script>
 
 <template>
-    <div class="p-6">
+    <AuthLayout>
         <Card>
             test
             <Button variant="light" color="secondary">
@@ -14,5 +15,5 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
             </Button>
             <IconButton :icon="faHouse" size="lg" />
         </Card>
-    </div>
+    </AuthLayout>
 </template>

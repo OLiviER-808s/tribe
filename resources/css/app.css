@@ -52,6 +52,9 @@ html {
 body {
 	@apply h-full bg-base text-base-text transition duration-300;
 }
+#app {
+	@apply h-full;
+}
 
 
 /* width */
