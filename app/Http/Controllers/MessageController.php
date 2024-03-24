@@ -8,6 +8,7 @@ use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -25,6 +26,6 @@ class MessageController extends Controller
             'content' => $request['content']
         ]);
 
-        broadcast(new MessageSent($message));
+        event(new MessageSent($message));
     }
 }

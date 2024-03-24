@@ -12,7 +12,7 @@ const { chats, chat, messages } = defineProps({
 provide('chats', chats)
 provide('chat', chat)
 
-window.Echo.channel(`chat.${chat.uuid}`).listen('.message.sent', (e) => {
+window.Echo.private(`chat.${chat.uuid}`).subscribed(() => console.log('subed')).listen('.message-sent', (e) => {
     console.log(e)
 })
 </script>
