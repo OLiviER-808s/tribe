@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
     Route::get('/chat/{uuid}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
 });
 
 require __DIR__.'/auth.php';

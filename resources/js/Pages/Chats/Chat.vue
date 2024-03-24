@@ -1,19 +1,26 @@
 <script setup>
 import { provide } from 'vue';
 import ChatLayout from '../../Layouts/ChatLayout.vue'
+import MessageInput from '@/Components/InputFields/MessageInput.vue'
 
 const { chats, chat, messages } = defineProps({
     chats: Array,
     chat: Object,
     messages: Array
 })
+
 provide('chats', chats)
+provide('chat', chat)
+
+window.Echo.channel(`chat.${chat.uuid}`).listen('.message.sent', (e) => {
+    console.log(e)
+})
 </script>
 
 <template>
     <ChatLayout>
-        <div>
-            test 2
+        <div class="h-full max-w-full flex flex-col">
+            <MessageInput />
         </div>
     </ChatLayout>
 </template>

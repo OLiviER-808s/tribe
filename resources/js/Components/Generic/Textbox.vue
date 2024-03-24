@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, defineProps, PropType } from 'vue'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const { name, defaultValue, type, disabled, error, success, variant, styles, label, icon, placeholder, onInput } = defineProps({
     name: String,
@@ -57,7 +58,7 @@ const handleInput = (event: Event) => {
             ]"
         >
             <div v-if="icon" class="flex justify-center items-center w-10 rounded-l-md">
-                <Fa :icon="icon" size="1.2x" class="text-secondary-text" />
+                <FontAwesomeIcon :icon="icon" class="text-secondary-text" />
             </div>
 
             <input
