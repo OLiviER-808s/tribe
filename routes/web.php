@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/conversation/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
 
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
+    Route::get('/chat/{uuid}', [ChatController::class, 'show'])->name('chat.show');
 });
 
 require __DIR__.'/auth.php';

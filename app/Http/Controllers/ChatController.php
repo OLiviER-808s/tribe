@@ -11,18 +11,28 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-
-        $chats = Chat::whereHas('members', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })
-        ->with('members.user')
-        ->get()
-        ->map(fn ($chat) => $chat->viewModel())
-        ->toArray();
-
         return Inertia::render('Chats/ChatsIndex', [
-            'chats' => $chats
+            'chats' => $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel())->toArray()
         ]);
+    }
+
+    public function show($chatUuid)
+    {
+        $chats = $this->getUserChats();
+        $chat = $chats->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
+
+        return Inertia::render('Chats/Chat', [
+            'chats' => $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel())->toArray(),
+            'chat' => $chat->viewModel(),
+            'messages' => $chat->messages->map(fn ($message) => $message->viewModel())->toArray()
+        ]);
+    }
+
+    private function getUserChats()
+    {
+        return Chat::whereHas('members', function ($query) {
+            $query->where('user_id', Auth::user()->id);
+        })
+        ->with('members.user');
     }
 }

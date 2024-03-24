@@ -5,7 +5,7 @@ const { chat } = defineProps({
 </script>
 
 <template>
-    <a href="#" class="block w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2">
+    <a :href="route('chat.show', { uuid: chat.uuid })" class="block w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2">
 		<div class="flex-1 overflow-hidden">
 			<div class="flex justify-between items-center gap-2">
 				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5">

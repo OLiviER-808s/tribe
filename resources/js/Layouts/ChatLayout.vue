@@ -12,8 +12,6 @@ import ChatList from '../Components/Navigation/ChatList.vue'
             </Card>
         </template>
 
-        <template>
-            <slot />
-        </template>
+        <slot />
     </AuthLayout>
 </template>
