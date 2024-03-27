@@ -4,6 +4,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Button from '@/Components/Generic/Button.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
@@ -34,6 +35,12 @@ const submit = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
+
+        <a :href="route('google.redirect')">Continue with Google</a>
+
+        <!-- <Button variant="outline" color="black" :href="route('google.redirect')">
+            <img src="/google.svg" class="w-8" /> Continue with Google
+        </Button> -->
 
         <form @submit.prevent="submit">
             <div>

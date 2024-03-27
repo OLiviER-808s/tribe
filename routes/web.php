@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\HomeController;
@@ -39,5 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/chat/{uuid}', [ChatController::class, 'show'])->name('chat.show');
     Route::post('/chat/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
 });
+
+Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
+Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
 
 require __DIR__.'/auth.php';
