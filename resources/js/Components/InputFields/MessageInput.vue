@@ -14,10 +14,8 @@ const send = () => {
 		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: content.value }, {
 			preserveScroll: true,
 			preserveState: true,
-			onSuccess: () => {
-				content.value = ''
-			}
 		})
+		content.value = ''
 	}
 }
 </script>
