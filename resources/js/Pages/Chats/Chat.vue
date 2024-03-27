@@ -4,6 +4,7 @@ import ChatLayout from '../../Layouts/ChatLayout.vue'
 import MessageInput from '@/Components/InputFields/MessageInput.vue'
 import ChatHeader from '@/Components/Display/ChatHeader.vue'
 import SentToMessage from '@/Components/Display/SentToMessage.vue'
+import SentFromMessage from '@/Components/Display/SentFromMessage.vue'
 import { ref } from 'vue'
 
 const { chats, chat, messages } = defineProps({
@@ -29,7 +30,10 @@ window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
 
             <div class="flex-grow h-full overflow-auto px-2 mt-2">
                 <div class="flex flex-col-reverse">
-                    <SentToMessage v-for="item in feedItems" :message="item" />
+                    <div v-for="item in feedItems">
+                        <SentToMessage v-if="item.sent_by.uuid === $page.props.auth.user.uuid" :message="item" />
+                        <SentFromMessage v-else :message="item" />
+                    </div>
                 </div>
             </div>
 

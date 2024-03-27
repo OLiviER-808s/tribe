@@ -26,6 +26,6 @@ class MessageController extends Controller
             'content' => $request['content']
         ]);
 
-        event(new MessageSent($message));
+        broadcast(new MessageSent($message))->toOthers();
     }
 }

@@ -31,8 +31,8 @@ class Message extends Model
         return [
             'uuid' => $this->uuid,
             'user_uuid' => $this->user->uuid,
-            'sent_by' => $this->user->name,
-            'content' => $this->content
+            'content' => $this->content,
+            'sent_by' => $this->user->viewModel(),
         ];
     }
 }
