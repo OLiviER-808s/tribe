@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, defineProps, PropType } from 'vue'
+import { ref, computed, defineProps, PropType, watch } from 'vue'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-const { name, defaultValue, type, disabled, error, success, variant, styles, label, icon, placeholder, onInput } = defineProps({
+const { name, defaultValue, type, disabled, error, success, variant, styles, label, icon, placeholder, modelValue, onInput } = defineProps({
     name: String,
     defaultValue: String,
     type: {
@@ -22,6 +22,7 @@ const { name, defaultValue, type, disabled, error, success, variant, styles, lab
     icon: Object as PropType<IconDefinition | null>,
     placeholder: String,
     onInput: Function as PropType<(e: Event) => void>,
+    modelValue: String
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -40,6 +41,10 @@ const handleInput = (event: Event) => {
         onInput(event)
     }
 }
+
+watch(() => modelValue, (newVal) => {
+    internalValue.value = newVal
+})
 </script>
 
 <template>
@@ -65,7 +70,7 @@ const handleInput = (event: Event) => {
                 :name="name"
                 :type="type"
                 :placeholder="placeholder"
-                v-model="internalValue"
+                :value="modelValue"
                 :disabled="disabled"
                 @input="handleInput"
                 :class="{ 'pl-0': icon }"
