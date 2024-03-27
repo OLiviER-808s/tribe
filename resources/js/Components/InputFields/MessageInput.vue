@@ -11,8 +11,13 @@ const chat = inject('chat')
 
 const send = () => {
 	if (content.value) {
-		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: content.value })
-		content.value = ''
+		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: content.value }, {
+			preserveScroll: true,
+			preserveState: true,
+			onSuccess: () => {
+				content.value = ''
+			}
+		})
 	}
 }
 </script>
