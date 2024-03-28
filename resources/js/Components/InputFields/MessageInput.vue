@@ -21,11 +21,11 @@ const send = () => {
 </script>
 
 <template>
-    <div class="flex items-center gap-2 w-full p-2 bg-inherit">
+    <form @submit.prevent="send()" class="flex items-center gap-2 w-full p-2 bg-inherit">
 		<div class="flex-grow">
 			<Textbox variant="outline" placeholder="Message" v-model="content" />
 		</div>
 
-		<IconButton :icon="faPaperPlane" size="lg" :on-click="send" />
-	</div>
+		<IconButton :icon="faPaperPlane" size="lg" type="submit" />
+	</form>
 </template>

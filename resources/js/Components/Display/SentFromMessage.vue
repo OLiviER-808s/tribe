@@ -8,7 +8,7 @@ const { message } = defineProps({
     <div class="flex py-1">
         <div class="max-w-md w-auto">
             <div class="flex">
-				<div class="bg-message rounded-lg p-1 rounded-bl-none flex gap-1">
+				<div class="bg-message rounded-lg p-1 rounded-tl-none flex gap-1">
 					<div class="p-1">
 						{{ message.content }}
 					</div>
