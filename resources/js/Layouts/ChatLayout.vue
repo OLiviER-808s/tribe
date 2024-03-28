@@ -5,7 +5,7 @@ import ChatList from '../Components/Navigation/ChatList.vue'
 </script>
 
 <template>
-    <AuthLayout title="Chats">
+    <AuthLayout>
         <template #additional-sidebar>
             <Card styles="w-72 h-full" padding="p-2">
                 <ChatList />

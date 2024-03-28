@@ -37,8 +37,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/conversation/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
 
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
-    Route::get('/chat/{uuid}', [ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
+    Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
 });
 
 Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
