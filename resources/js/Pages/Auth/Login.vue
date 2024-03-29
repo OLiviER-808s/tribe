@@ -24,6 +24,12 @@ const submit = () => {
 
 <template>
     <EntryLayout>
-        test
+        <section class="flex justify-center flex-1 overflow-auto h-0">
+            <div class="max-w-sm flex-grow">
+                <form class="flex flex-col gap-4" @submit.prevent="submit">
+
+                </form>
+            </div>
+        </section>
     </EntryLayout>
 </template>
