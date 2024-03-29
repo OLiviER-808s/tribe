@@ -8,10 +8,11 @@ use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Tags\HasTags;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, UsesUuid;
+    use HasFactory, Notifiable, UsesUuid, HasTags;
 
     protected $fillable = [
         'name',
