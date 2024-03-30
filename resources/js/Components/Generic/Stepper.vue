@@ -42,7 +42,7 @@ const getStepStyles = (step) => {
                 v-for="step in stepsWithStatus"
                 :key="step.value"
                 :class="['w-10 h-10 rounded-full flex items-center justify-center', getStepStyles(step)]">
-                <font-awesome-icon :icon="step.status === 'completed' ? faCheck : step.icon" size="1.2x" />
+                <font-awesome-icon :icon="step.status === 'completed' ? faCheck : step.icon" />
             </div>
         </div>
         <div class="flex justify-between items-center mt-1 px-3">

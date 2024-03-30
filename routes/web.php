@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/set-profile', [ProfileController::class, 'create'])->name('profile.create');
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');

@@ -60,4 +60,9 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function create()
+    {
+        return Inertia::render('Auth/SetProfileInfo');
+    }
 }

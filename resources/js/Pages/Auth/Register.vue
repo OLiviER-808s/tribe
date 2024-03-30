@@ -4,34 +4,27 @@ import EntryLayout from '@/Layouts/EntryLayout.vue'
 import Stepper from '@/Components/Generic/Stepper.vue'
 import Textbox from '@/Components/Generic/Textbox.vue'
 import Button from '@/Components/Generic/Button.vue'
-import { faIcons, faUser, faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
+import { REGISTER_STEPS } from '@/lib/constants'
 
 const form = useForm({
     name: '',
     email: '',
     password: '',
-    password_confirmation: '',
 });
 
 const submit = () => {
     form.post(route('register'), {
         onFinish: () => {
-            form.reset('password', 'password_confirmation');
+            form.reset('password')
         }
     })
 }
-
-const steps = [
-    { label: 'Account', value: 'account', icon: faUser },
-    { label: 'Profile', value: 'profile', icon: faUserAstronaut },
-    { label: 'Interests', value: 'interests', icon: faIcons }
-]
 </script>
 
 <template>
     <EntryLayout>
         <div class="mt-4 mb-8">
-            <Stepper :steps="steps" selected-step-value="account" />
+            <Stepper :steps="REGISTER_STEPS" selected-step-value="account" />
         </div>
 
         <section class="flex justify-center flex-1 overflow-auto h-0">
@@ -55,6 +48,7 @@ const steps = [
                     v-model="form.password"
                     name="password"
 		            label="Password"
+                    type="password"
 		            placeholder="Your password..."
                     />
 
