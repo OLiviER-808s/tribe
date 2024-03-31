@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/set-profile', [ProfileController::class, 'create'])->name('profile.create');
+    Route::get('/set-interests', [ProfileController::class, 'interests'])->name('profile.interests');
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 

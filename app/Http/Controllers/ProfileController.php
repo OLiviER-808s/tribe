@@ -7,15 +7,23 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
+    public function create()
+    {
+        return Inertia::render('Auth/SetProfileInfo');
+    }
+
+    public function interests()
+    {
+        return Inertia::render('Auth/SetInterests');
+    }
+
     public function edit(Request $request): Response
     {
         return Inertia::render('Profile/Edit', [
@@ -24,25 +32,17 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
+        $request->user()->update([
+            'username' => $request['username'],
+            'bio' => $request['bio']
+        ]);
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route($request['next_route']);
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([
@@ -61,8 +61,8 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function create()
+    public function updateInterests()
     {
-        return Inertia::render('Auth/SetProfileInfo');
+
     }
 }
