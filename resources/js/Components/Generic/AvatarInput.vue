@@ -8,21 +8,24 @@ import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { watch } from 'vue'
 
-const props = defineProps({
-    defaultSrc: {
+const { src, cropping } = defineProps({
+    src: {
         type: String,
         default: DEFAULT_PROFILE_PIC
+    },
+    cropping: {
+        type: Boolean,
+        default: false
     }
 })
 
-const cropping = ref(false)
+const emit = defineEmits(['update:src', 'update:cropping'])
+
 const hovering = ref(false)
 
 const cropImageUrl = ref(null)
 const imageElement = ref(null)
 const cropper = ref(null)
-
-const src = ref(props.defaultSrc)
 
 watch(imageElement, () => {
     if (imageElement.value) {
@@ -51,7 +54,7 @@ const handleFileChange = (event) => {
         }
         reader.readAsDataURL(selectedFile)
 
-        cropping.value = true
+        emit('update:cropping', true)
     }
 }
 
@@ -62,7 +65,7 @@ const completeCrop = () => {
         const reader = new FileReader()
 
         reader.addEventListener('loadend', () => {
-            src.value = reader.result
+            emit('update:src', reader.result)
         })
 
         reader.readAsDataURL(blob)
@@ -72,7 +75,7 @@ const completeCrop = () => {
 }
 
 const closeCrop = () => {
-    cropping.value = false
+    emit('update:cropping', false)
     hovering.value = false
     cropImageUrl.value = null
 }
