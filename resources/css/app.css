@@ -57,7 +57,7 @@ body {
 }
 
 [type="text"]:focus, [type="password"]:focus, [type="email"]:focus, [type="number"]:focus, textarea:focus {
-	@apply ring-1 ring-primary;
+	@apply ring-0;
 }
 
 

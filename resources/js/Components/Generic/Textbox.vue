@@ -28,6 +28,8 @@ const { name, defaultValue, type, disabled, error, success, variant, styles, lab
 const emit = defineEmits(['update:modelValue'])
 const internalValue = ref(defaultValue)
 
+const focused = ref(false)
+
 const variantStyles = computed(() =>
     variant === 'filled' ? 'bg-base' : 'bg-transparent border border-secondary-text'
 )
@@ -57,8 +59,9 @@ watch(() => modelValue, (newVal) => {
                 variantStyles,
                 styles,
                 {
-                    error: error && typeof error !== 'boolean',
-                    success: success && typeof error !== 'boolean'
+                    error: error,
+                    success: success,
+                    selected: focused
                 }
             ]"
         >
@@ -73,6 +76,8 @@ watch(() => modelValue, (newVal) => {
                 :value="modelValue"
                 :disabled="disabled"
                 @input="handleInput"
+                @focus="focused = true"
+                @blur="focused = false"
                 :class="{ 'pl-0': icon }"
                 class="flex-grow w-full p-2 border-none outline-none rounded-lg bg-transparent placeholder:text-secondary-text"
             />
@@ -87,6 +92,10 @@ watch(() => modelValue, (newVal) => {
 </template>
 
 <style>
+.selected {
+    @apply border-none ring-1 ring-primary;
+}
+
 .error {
     @apply border-none ring-1 ring-error;
 }

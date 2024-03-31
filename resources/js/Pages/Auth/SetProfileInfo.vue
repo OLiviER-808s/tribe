@@ -4,9 +4,9 @@ import AvatarInput from '@/Components/Generic/AvatarInput.vue'
 import Stepper from '@/Components/Generic/Stepper.vue'
 import { useForm } from '@inertiajs/vue3'
 import { DEFAULT_PROFILE_PIC, REGISTER_STEPS } from '@/lib/constants'
-import Textbox from '@/Components/Generic/Textbox.vue'
 import Textarea from '@/Components/Generic/Textarea.vue'
 import Button from '@/Components/Generic/Button.vue'
+import UsernameInput from '@/Components/Auth/UsernameInput.vue'
 import { ref } from 'vue'
 
 const cropping = ref(false)
@@ -36,11 +36,7 @@ const submit = () => {
                 </div>
 
                 <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
-                    <Textbox 
-                    v-model="form.username"
-                    label="Username"
-                    placeholder="Your username..."
-                    />
+                    <UsernameInput v-model:username="form.username" />
 
                     <Textarea
                     v-model="form.bio"

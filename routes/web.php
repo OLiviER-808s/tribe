@@ -6,6 +6,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsernameController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,5 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
 Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
+
+Route::get('/check-username/{username}', [UsernameController::class, 'check'])->name('username.check');
 
 require __DIR__.'/auth.php';
