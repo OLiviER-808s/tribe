@@ -7,11 +7,16 @@ import { DEFAULT_PROFILE_PIC } from '../../lib/constants'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { watch } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
-const { src, cropping } = defineProps({
+const { src, cropping, file } = defineProps({
     src: {
         type: String,
         default: DEFAULT_PROFILE_PIC
+    },
+    file: {
+        type: File,
+        default: null
     },
     cropping: {
         type: Boolean,
@@ -19,7 +24,7 @@ const { src, cropping } = defineProps({
     }
 })
 
-const emit = defineEmits(['update:src', 'update:cropping'])
+const emit = defineEmits(['update:src', 'update:cropping', 'update:file'])
 
 const hovering = ref(false)
 
@@ -69,6 +74,9 @@ const completeCrop = () => {
         })
 
         reader.readAsDataURL(blob)
+
+        const f = new File([blob], usePage().props.auth.user.uuid, { lastModified: new Date().getTime(), type: blob.type })
+        emit('update:file', f)
     })
 
     closeCrop()

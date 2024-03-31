@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import EntryLayout from '@/Layouts/EntryLayout.vue'
 import AvatarInput from '@/Components/Generic/AvatarInput.vue'
 import Stepper from '@/Components/Generic/Stepper.vue'
@@ -32,7 +32,7 @@ const submit = () => {
         <section class="flex justify-center flex-1 overflow-auto h-0">
             <div class="max-w-sm flex-grow">
                 <div class="mb-4">
-                    <AvatarInput v-model:cropping="cropping" v-model:src="src" />
+                    <AvatarInput v-model:cropping="cropping" v-model:src="src" v-model:file="form.photo" />
                 </div>
 
                 <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
@@ -44,8 +44,8 @@ const submit = () => {
 
                     <Textarea
                     v-model="form.bio"
-                    label="Write your bio..."
-                    placeholder="Bio"
+                    label="Bio"
+                    placeholder="Write your bio..."
                     />
 
                     <Button type="submit">Continue</Button>
