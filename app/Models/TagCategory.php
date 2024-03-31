@@ -16,4 +16,13 @@ class TagCategory extends Model
     ];
 
     public $timestamps = false;
+
+    public function viewModel()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'tags' => $this->tags->map(fn ($tag) => $tag->name)
+        ];
+    }
 }

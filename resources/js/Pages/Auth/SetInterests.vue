@@ -9,6 +9,10 @@ import Button from '@/Components/Generic/Button.vue'
 import UsernameInput from '@/Components/Auth/UsernameInput.vue'
 import { ref } from 'vue'
 
+const { categories } = defineProps({
+    categories: Array
+})
+
 const form = useForm({
     
 })
