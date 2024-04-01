@@ -4,15 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Constants\ConstMedia;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Tags\HasTags;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, UsesUuid, HasTags;
+    use HasFactory, Notifiable, UsesUuid, HasTags, InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -42,5 +45,10 @@ class User extends Authenticatable
             'name' => $this->name,
             'username' => $this->username
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();
     }
 }

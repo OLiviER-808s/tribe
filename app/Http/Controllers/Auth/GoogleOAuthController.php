@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Constants\ConstMedia;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,6 +28,12 @@ class GoogleOAuthController extends Controller
             'google_token' => $googleUser->token,
             'google_refresh_token' => $googleUser->refreshToken,
         ]);
+
+        $media = $user->getFirstMedia(ConstMedia::PROFILE_PHOTO);
+
+        if (! $media) {
+            $user->addMedia($googleUser->picture)->toMediaCollection(ConstMedia::PROFILE_PHOTO);
+        }
      
         Auth::login($user);
      

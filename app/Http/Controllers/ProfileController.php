@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstMedia;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\StoreProfileInterests;
 use App\Models\TagCategory;
@@ -9,7 +10,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -40,11 +40,17 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->update([
+        $user = $request->user();
+
+        $user->update([
             'username' => $request['username'],
             'bio' => $request['bio']
         ]);
-        $request->user()->save();
+        $user->save();
+
+        if ($request['photo']) {
+            $user->addMedia($request['photo'])->toMediaCollection(ConstMedia::PROFILE_PHOTO);
+        }
 
         return Redirect::route($request['next_route']);
     }

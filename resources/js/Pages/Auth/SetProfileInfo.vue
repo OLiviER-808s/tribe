@@ -13,6 +13,7 @@ const cropping = ref(false)
 const src = ref(DEFAULT_PROFILE_PIC)
 
 const form = useForm({
+    _method: 'PATCH',
     name: usePage().props.auth.user.name,
     username: '',
     bio: '',
@@ -21,7 +22,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.patch(route('profile.update'), {
+    form.post(route('profile.update'), {
         onError: (errors) => {
             console.log(errors)
         }
