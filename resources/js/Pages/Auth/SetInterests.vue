@@ -1,13 +1,9 @@
 <script setup>
 import EntryLayout from '@/Layouts/EntryLayout.vue'
-import AvatarInput from '@/Components/Generic/AvatarInput.vue'
 import Stepper from '@/Components/Generic/Stepper.vue'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import { REGISTER_STEPS } from '@/lib/constants'
-import Textarea from '@/Components/Generic/Textarea.vue'
 import Button from '@/Components/Generic/Button.vue'
-import UsernameInput from '@/Components/Auth/UsernameInput.vue'
-import { ref } from 'vue'
 import ClickableTag from '../../Components/Generic/ClickableTag.vue'
 
 const { categories } = defineProps({
@@ -15,23 +11,23 @@ const { categories } = defineProps({
 })
 
 const form = useForm({
-    tags: []
+    interests: []
 })
 
 const tagIsSelected = (tag) => {
-    return form.tags.includes(tag)
+    return form.interests.includes(tag)
 }
 
 const handleTagSelect = (tag) => {
     if (tagIsSelected(tag)) {
-        form.tags = form.tags.filter(t => t !== tag)
+        form.interests = form.interests.filter(t => t !== tag)
     } else {
-        form.tags.push(tag)
+        form.interests.push(tag)
     }
 }
 
 const submit = () => {
-    
+    form.patch(route('profile.interests.update'))
 }
 </script>
 
@@ -54,7 +50,7 @@ const submit = () => {
                 </div>
             </div>
 
-            <Button styles="w-full" type="submit">Complete</Button>
+            <Button styles="w-full" :on-click="submit">Complete</Button>
         </div>
     </EntryLayout>
 </template>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\StoreProfileInterests;
 use App\Models\TagCategory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -66,8 +67,10 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function updateInterests()
+    public function updateInterests(StoreProfileInterests $request)
     {
+        $request->user()->syncTags($request['interests']);
 
+        return Redirect::route('home');
     }
 }
