@@ -12,6 +12,8 @@ import { ref } from 'vue'
 const cropping = ref(false)
 const src = ref(DEFAULT_PROFILE_PIC)
 
+const errors = ref({})
+
 const form = useForm({
     _method: 'PATCH',
     name: usePage().props.auth.user.name,
@@ -23,8 +25,8 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('profile.update'), {
-        onError: (errors) => {
-            console.log(errors)
+        onError: (errs) => {
+            errors.value = errs
         }
     })
 }
@@ -43,12 +45,13 @@ const submit = () => {
                 </div>
 
                 <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
-                    <UsernameInput v-model:username="form.username" />
+                    <UsernameInput v-model:username="form.username" :error="errors.username" />
 
                     <Textarea
                     v-model="form.bio"
                     label="Bio"
                     placeholder="Write your bio..."
+                    :error="errors.bio"
                     />
 
                     <Button type="submit">Continue</Button>

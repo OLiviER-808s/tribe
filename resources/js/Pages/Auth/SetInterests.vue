@@ -5,10 +5,13 @@ import { useForm } from '@inertiajs/vue3'
 import { REGISTER_STEPS } from '@/lib/constants'
 import Button from '@/Components/Generic/Button.vue'
 import ClickableTag from '../../Components/Generic/ClickableTag.vue'
+import { ref } from 'vue'
 
 const { categories } = defineProps({
     categories: Array
 })
+
+const errors = ref({})
 
 const form = useForm({
     interests: []
@@ -27,7 +30,11 @@ const handleTagSelect = (tag) => {
 }
 
 const submit = () => {
-    form.patch(route('profile.interests.update'))
+    form.patch(route('profile.interests.update'), {
+        onError: (errs) => {
+            errors.value = errs
+        }
+    })
 }
 </script>
 
@@ -49,6 +56,8 @@ const submit = () => {
                     </div>
                 </div>
             </div>
+
+            <p v-if="errors?.interests" class="text-error text-center mb-2">{{ errors.interests }}</p>
 
             <Button styles="w-full" :on-click="submit">Complete</Button>
         </div>
