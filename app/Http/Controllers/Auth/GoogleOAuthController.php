@@ -21,19 +21,11 @@ class GoogleOAuthController extends Controller
         $googleUser = Socialite::driver('google')->user();
 
         $user = User::updateOrCreate([
-            'google_id' => $googleUser->id,
+            'email' => $googleUser->email,
         ], [
             'name' => $googleUser->name,
             'email' => $googleUser->email,
-            'google_token' => $googleUser->token,
-            'google_refresh_token' => $googleUser->refreshToken,
         ]);
-
-        $media = $user->getFirstMedia(ConstMedia::PROFILE_PHOTO);
-
-        if (! $media) {
-            $user->addMedia($googleUser->picture)->toMediaCollection(ConstMedia::PROFILE_PHOTO);
-        }
      
         Auth::login($user);
      

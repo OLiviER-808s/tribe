@@ -1,11 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import EntryLayout from '@/Layouts/EntryLayout.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
-
-defineProps<{
-    canResetPassword?: boolean;
-    status?: string;
-}>();
+import Textbox from '../../Components/Generic/Textbox.vue'
+import GoogleOAuthButton from '../../Components/Auth/GoogleOAuthButton.vue'
+import Button from '../../Components/Generic/Button.vue'
 
 const form = useForm({
     email: '',
@@ -26,8 +24,29 @@ const submit = () => {
     <EntryLayout>
         <section class="flex justify-center flex-1 overflow-auto h-0">
             <div class="max-w-sm flex-grow">
-                <form class="flex flex-col gap-4" @submit.prevent="submit">
+                <div class="my-6">
+                    <GoogleOAuthButton />
+                </div>
 
+                <h3 class="mb-6 text-center font-medium text-secondary-text">OR</h3>
+
+                <form class="flex flex-col gap-4" @submit.prevent="submit">
+                    <Textbox 
+                    v-model="form.email"
+                    name="email"
+		            label="Email"
+		            placeholder="Your email..."
+                    />
+
+                    <Textbox 
+                    v-model="form.password"
+                    name="password"
+		            label="Password"
+                    type="password"
+		            placeholder="Your password..."
+                    />
+
+                    <Button type="submit">Continue</Button>
                 </form>
             </div>
         </section>
