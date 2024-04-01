@@ -38,17 +38,19 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();
+    }
+
     public function viewModel()
     {
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'username' => $this->username
+            'username' => $this->username,
+            'photo' => $this->getFirstMedia(ConstMedia::PROFILE_PHOTO)?->getFullUrl() ?? ConstMedia::DEFAULT_PROFILE_PHOTO_PATH,
+            'interests' => $this->tags->map(fn ($tag) => $tag->name)
         ];
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();
     }
 }

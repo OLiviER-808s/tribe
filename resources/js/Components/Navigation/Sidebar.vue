@@ -2,6 +2,7 @@
 import { faIcons, faMapLocationDot, faPlus, faComments } from '@fortawesome/free-solid-svg-icons'
 import IconButton from '../Generic/IconButton.vue'
 import Card from '../Generic/Card.vue'
+import Avatar from '../Generic/Avatar.vue'
 </script>
 
 <template>
@@ -40,9 +41,9 @@ import Card from '../Generic/Card.vue'
 
             <div class="flex-grow" />
 
-            <!-- <a href="/settings/account">
-                <Avatar src={$profile?.photo} styles="w-10" />
-            </a> -->
+            <a href="#">
+                <Avatar :src="$page.props.profile.photo" styles="w-10" />
+            </a>
         </div>
     </Card>
 </template>

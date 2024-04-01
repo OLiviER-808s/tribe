@@ -75,7 +75,8 @@ const completeCrop = () => {
 
         reader.readAsDataURL(blob)
 
-        const f = new File([blob], usePage().props.auth.user.uuid, { lastModified: new Date().getTime(), type: blob.type })
+        const fileName = `${usePage().props.auth.user.uuid}.jpg`
+        const f = new File([blob], fileName, { lastModified: new Date().getTime(), type: blob.type })
         emit('update:file', f)
     })
 
