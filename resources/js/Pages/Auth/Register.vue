@@ -65,5 +65,9 @@ const submit = () => {
                 </form>
             </div>
         </section>
+
+        <p class="text-center text-sm p-5">
+            Already have an account? <a :href="route('login')" class="text-secondary font-medium">Login</a>
+        </p>
     </EntryLayout>
 </template>

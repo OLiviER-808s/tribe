@@ -50,5 +50,9 @@ const submit = () => {
                 </form>
             </div>
         </section>
+
+        <p class="text-center text-sm p-5">
+            Don't have an account? <a :href="route('register')" class="text-secondary font-medium">Signup</a>
+        </p>
     </EntryLayout>
 </template>

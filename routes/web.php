@@ -13,15 +13,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
 Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
 Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
 
@@ -43,7 +34,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterests::class])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');
     Route::post('/conversation/create', [ConversationController::class, 'store'])->name('conversation.store');
