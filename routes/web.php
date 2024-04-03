@@ -6,10 +6,10 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UsernameController;
 use App\Http\Middleware\RequiresInterests;
 use App\Http\Middleware\RequiresUsername;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -43,6 +43,8 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
     Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
+
+    Route::get('/settings/account', [SettingsController::class, 'account'])->name('settings.account');
 });
 
 require __DIR__.'/auth.php';

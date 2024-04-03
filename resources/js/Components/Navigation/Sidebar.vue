@@ -41,7 +41,7 @@ import Avatar from '../Generic/Avatar.vue'
 
             <div class="flex-grow" />
 
-            <a href="#">
+            <a :href="route('settings.account')">
                 <Avatar :src="$page.props.profile.photo" styles="w-10" />
             </a>
         </div>
