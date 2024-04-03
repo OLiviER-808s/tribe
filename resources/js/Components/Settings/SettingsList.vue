@@ -1,7 +1,5 @@
 <script setup>
-import { computed } from 'vue';
 
-const isActive = computed(() => false)
 </script>
 
 <template>
@@ -9,9 +7,8 @@ const isActive = computed(() => false)
         <div class="flex-grow h-0 overflow-auto">
             <a
                 :href="href"
-                @click="navigate"
                 class="hover:bg-base rounded-md py-2 px-4 cursor-pointer text-lg block"
-                :class="{ 'selected': isActive }"
+                :class="{ 'selected': $page.url == '/settings/account' }"
             >
                 Account
             </a>
