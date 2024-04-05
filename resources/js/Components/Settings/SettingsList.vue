@@ -8,7 +8,7 @@
             <a
                 :href="href"
                 class="hover:bg-base rounded-md py-2 px-4 cursor-pointer text-lg block"
-                :class="{ 'selected': $page.url == '/settings/account' }"
+                :class="{ 'selected-link': $page.url == '/settings/account' }"
             >
                 Account
             </a>
@@ -17,7 +17,7 @@
 </template>
 
 <style>
-.selected {
+.selected-link {
     @apply bg-base font-semibold;
 }
 .mobile {

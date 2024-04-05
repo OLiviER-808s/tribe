@@ -1,23 +1,28 @@
 <script setup lang="ts">
+import { watch } from 'vue';
 import { ref } from 'vue'
 
 const props = defineProps({
     name: String,
-    value: String,
     disabled: Boolean,
     error: [String, Boolean],
     label: String,
     placeholder: String,
+    modelValue: String
 })
 
 const emit = defineEmits(['update:modelValue'])
-const internalValue = ref(props.value)
+const internalValue = ref(props.modelValue)
 
 const handleInput = (event: Event) => {
     const target = event.target as HTMLInputElement
     internalValue.value = target.value
     emit('update:modelValue', internalValue.value)
 }
+
+watch(() => props.modelValue, (newVal) => {
+    internalValue.value = newVal
+})
 </script>
 
 <template>
@@ -28,7 +33,7 @@ const handleInput = (event: Event) => {
             :class="[{ error: error && typeof error !== 'boolean' }, 'rounded-lg p-2 bg-base outline-none w-full h-24 placeholder:text-secondary-text border-none']"
             :name="name"
             :placeholder="placeholder"
-            v-model="internalValue"
+            :value="modelValue"
             :disabled="disabled"
             @input="handleInput"
         ></textarea>

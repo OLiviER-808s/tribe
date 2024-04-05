@@ -49,6 +49,7 @@ class User extends Authenticatable implements HasMedia
             'uuid' => $this->uuid,
             'name' => $this->name,
             'username' => $this->username,
+            'bio' => $this->bio,
             'photo' => $this->getFirstMedia(ConstMedia::PROFILE_PHOTO)?->getFullUrl() ?? ConstMedia::DEFAULT_PROFILE_PHOTO_PATH,
             'interests' => $this->tags->map(fn ($tag) => $tag->name)
         ];
