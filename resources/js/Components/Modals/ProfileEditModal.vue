@@ -2,7 +2,7 @@
 import { VueFinalModal } from 'vue-final-modal'
 import Card from '../Generic/Card.vue'
 import AvatarInput from '@/Components/Generic/AvatarInput.vue'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { router, useForm, usePage } from '@inertiajs/vue3'
 import Textarea from '@/Components/Generic/Textarea.vue'
 import Button from '@/Components/Generic/Button.vue'
 import UsernameInput from '@/Components/Auth/UsernameInput.vue'
@@ -33,6 +33,7 @@ const submit = () => {
             errors.value = errs
         },
         onSuccess: () => {
+            router.reload()
             emit('close')
         }
     })
