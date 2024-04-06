@@ -13,7 +13,7 @@ import Avatar from '../Generic/Avatar.vue'
             variant="subtle"
             color="base"
             size="xl"
-            href="/home"
+            :href="route('home')"
             />
 
             <IconButton
@@ -29,14 +29,14 @@ import Avatar from '../Generic/Avatar.vue'
             variant="subtle"
             color="base"
             size="xl"
-            href="/"
+            :href="route('chats')"
             />
 
             <IconButton 
             :icon="faPlus" 
             size="xl" 
             variant="light" 
-            href="/conversation/create" 
+            :href="route('conversation.create')"
             />
 
             <div class="flex-grow" />
