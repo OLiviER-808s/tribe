@@ -14,6 +14,7 @@ class StoreProfileInterests extends FormRequest
     public function rules(): array
     {
         return [
+            'next_route' => 'required|string',
             'interests' => 'array|required|min:1'
         ];
     }

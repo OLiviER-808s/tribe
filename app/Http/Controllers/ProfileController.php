@@ -77,6 +77,6 @@ class ProfileController extends Controller
     {
         $request->user()->syncTags($request['interests']);
 
-        return Redirect::route('home');
+        return Redirect::route($request['next_route']);
     }
 }

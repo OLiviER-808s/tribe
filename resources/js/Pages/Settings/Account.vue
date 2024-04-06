@@ -7,12 +7,27 @@ import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import Tag from '@/Components/Generic/Tag.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import InterestsEditModal from '@/Components/Modals/InterestsEditModal.vue'
 
-const { open, close } = useModal({
+const { categories } = defineProps({
+    categories: Array
+})
+
+const profileModal = useModal({
     component: ProfileEditModal,
     attrs: {
         onClose() {
-            close()
+            profileModal.close()
+        }
+    }
+})
+
+const interestsModal = useModal({
+    component: InterestsEditModal,
+    attrs: {
+        categories: categories,
+        onClose() {
+            interestsModal.close()
         }
     }
 })
@@ -29,7 +44,7 @@ const { open, close } = useModal({
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-2xl font-medium">Profile</h2>
 
-                        <Button :on-click="open">
+                        <Button :on-click="profileModal.open">
                             <FontAwesomeIcon :icon="faPencil" /> Edit
                         </Button>
                     </div>
@@ -42,7 +57,7 @@ const { open, close } = useModal({
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-2xl font-medium">Interests</h2>
 
-                        <Button :on-click="open">
+                        <Button :on-click="interestsModal.open">
                             <FontAwesomeIcon :icon="faPencil" /> Edit
                         </Button>
                     </div>
