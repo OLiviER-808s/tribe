@@ -1,6 +1,7 @@
 import './bootstrap';
 import '../css/app.css';
 import 'vue-final-modal/style.css';
+import 'v-dropdown-menu/css'
 
 import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';

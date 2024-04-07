@@ -28,6 +28,7 @@
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@fortawesome/vue-fontawesome": "^3.0.6",
         "cropperjs": "^1.6.1",
+        "v-dropdown-menu": "^2.0.4",
         "vue-final-modal": "^4.5.4"
     }
 }

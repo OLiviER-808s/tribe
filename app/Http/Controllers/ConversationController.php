@@ -6,7 +6,7 @@ use App\Http\Requests\StoreConversation;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Conversation;
-use Illuminate\Http\Request;
+use App\Models\TagCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -15,7 +15,11 @@ class ConversationController extends Controller
 {
     public function create()
     {
-        return Inertia::render('Conversations/ConversationCreate');
+        $categories = TagCategory::with('tags')->get();
+
+        return Inertia::render('Conversations/ConversationCreate', [
+            'categories' => $categories->map(fn ($category) => $category->viewModel())
+        ]);
     }
 
     public function store(StoreConversation $request)

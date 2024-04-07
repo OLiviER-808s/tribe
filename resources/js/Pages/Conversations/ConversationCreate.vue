@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import Card from '@/Components/Generic/Card.vue'
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import Textbox from '@/Components/Generic/Textbox.vue'
@@ -7,13 +7,19 @@ import Textarea from '@/Components/Generic/Textarea.vue'
 import NumberInput from '@/Components/Generic/NumberInput.vue'
 import Button from '@/Components/Generic/Button.vue'
 import { useForm } from '@inertiajs/vue3'
+import ConversationCategoryDropdown from '@/Components/Dropdowns/ConversationCategoryDropdown.vue'
+
+const { categories } = defineProps({
+    categories: Array
+})
 
 const form = useForm({
     title: '',
     description: '',
-    limit: 2
+    limit: 2,
+    category: ''
 })
-const errors = ref<any>({})
+const errors = ref({})
 
 const submit = () => {
     form.post(route('conversation.store'), {
@@ -41,6 +47,8 @@ const submit = () => {
                     placeholder="Write a description..."
                     :error="errors?.description"
                     />
+
+                    <ConversationCategoryDropdown v-model="form.category" :categories="categories" :error="errors?.category" />
 
                     <NumberInput 
                     v-model="form.limit"
