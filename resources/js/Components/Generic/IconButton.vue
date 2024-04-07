@@ -55,7 +55,7 @@ const { value: btnSize } = computed(() => {
 
 <template>
     <Button 
-    :styles="`${styles} ${btnSize} flex justify-center items-center px-0 py-0`"
+    :styles="`${styles} ${btnSize} flex justify-center items-center !px-0 !py-0`"
     :href="href" 
     :type="type" 
     :color="color" 
