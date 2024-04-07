@@ -6,10 +6,11 @@ use App\Traits\UsesCreatedBy;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
 
 class Conversation extends Model
 {
-    use HasFactory, UsesUuid, UsesCreatedBy;
+    use HasFactory, UsesUuid, UsesCreatedBy, HasTags;
 
     protected $fillable = [
         'title',
@@ -31,7 +32,8 @@ class Conversation extends Model
             'description' => $this->description,
             'created_by' => $this->createdByUser->name,
             'members' => $this->chat->members->count(),
-            'limit' => $this->limit
+            'limit' => $this->limit,
+            'category' => $this->tags->first()->name
         ];
     }
 }

@@ -7,10 +7,6 @@ const props = defineProps({
     icon: Object,
     placeholder: String,
     styles: String,
-    defaultValue: {
-        type: Number,
-        default: 0,
-    },
     min: {
         type: Number,
         default: 0,
@@ -19,25 +15,25 @@ const props = defineProps({
         type: Number,
         default: 10000,
     },
+    modelValue: Number
 })
 
-const emit = defineEmits(['update:value'])
+const emit = defineEmits(['update:modelValue'])
 
-const internalValue = ref(props.defaultValue)
+const handleInput = (event) => {
+    emit('update:modelValue', event.target.value)
+}
+
 
 const isError = computed(() => {
-    if (internalValue.value > props.max) {
+    if (props.modelValue > props.max) {
         return `Value must be ${props.max} or less.`
-    } else if (internalValue.value < props.min) {
+    } else if (props.modelValue < props.min) {
         return `Value must be ${props.min} or more.`
-    } else if (internalValue.value === null) {
+    } else if (props.modelValue === null) {
         return 'Field is required.'
     }
     return false
-})
-
-watch(internalValue, (newValue) => {
-    emit('update:value', newValue)
 })
 </script>
 
@@ -51,7 +47,8 @@ watch(internalValue, (newValue) => {
             </div>
 
             <input
-                v-model.number="internalValue"
+                @input="handleInput"
+                :value="modelValue"
                 :placeholder="placeholder"
                 type="number"
                 :min="min"

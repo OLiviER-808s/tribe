@@ -31,6 +31,7 @@ class ConversationController extends Controller
                 'limit' => $request['limit'] + 1,
                 'active' => true
             ]);
+            $conversation->syncTags([ $request['category'] ]);
 
             $chat = Chat::create([
                 'name' => $request['title'],
