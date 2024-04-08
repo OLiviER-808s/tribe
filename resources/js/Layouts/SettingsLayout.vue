@@ -2,6 +2,9 @@
 import Card from '@/Components/Generic/Card.vue'
 import SettingsList from '@/Components/Settings/SettingsList.vue'
 import AuthLayout from './AuthLayout.vue'
+import { provide } from 'vue';
+
+provide('headerTitle', 'Settings')
 </script>
 
 <template>

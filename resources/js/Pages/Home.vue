@@ -1,10 +1,13 @@
 <script setup>
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import Conversation from '@/Components/Display/Conversation.vue'
+import { provide } from 'vue';
 
 const { conversations } = defineProps({
     conversations: Array
 })
+
+provide('headerTitle', 'Discover')
 </script>
 
 <template>

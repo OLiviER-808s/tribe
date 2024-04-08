@@ -2,6 +2,9 @@
 import Card from '../Components/Generic/Card.vue'
 import AuthLayout from './AuthLayout.vue'
 import ChatList from '../Components/Navigation/ChatList.vue'
+import { provide } from 'vue';
+
+provide('headerTitle', 'Chats')
 </script>
 
 <template>

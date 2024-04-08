@@ -5,7 +5,7 @@ import Header from '@/Components/Navigation/Header.vue'
 
 <template>
     <div class="h-full flex flex-col p-1">
-		<Header title="Discover" />
+		<Header />
 
         <div class="flex-1 flex gap-1">
 			<Sidebar />
