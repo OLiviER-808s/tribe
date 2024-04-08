@@ -6,8 +6,9 @@ import ProfileEditModal from '@/Components/Modals/ProfileEditModal.vue'
 import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import Tag from '@/Components/Generic/Tag.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import InterestsEditModal from '@/Components/Modals/InterestsEditModal.vue'
+import { router } from '@inertiajs/vue3'
 
 const { categories } = defineProps({
     categories: Array
@@ -31,6 +32,10 @@ const interestsModal = useModal({
         }
     }
 })
+
+const logout = () => {
+    router.post(route('logout'))
+}
 </script>
 
 <template>
@@ -67,6 +72,15 @@ const interestsModal = useModal({
                             <Tag>{{ interest }}</Tag>
                         </div>
                     </div>
+                </div>
+
+                <!-- Logout -->
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-medium">Logout</h2>
+
+                    <Button :on-click="logout" color="secondary" variant="light">
+                        <FontAwesomeIcon :icon="faRightFromBracket" /> Logout
+                    </Button>
                 </div>
             </div>
         </section>
