@@ -11,7 +11,7 @@ import Avatar from '../Generic/Avatar.vue'
             <IconButton
             :icon="faIcons"
             variant="subtle"
-            color="base"
+            :color="$page.url === '/' ? 'secondary' : 'base'"
             size="xl"
             :href="route('home')"
             />
@@ -19,7 +19,7 @@ import Avatar from '../Generic/Avatar.vue'
             <IconButton
             :icon="faComments"
             variant="subtle"
-            color="base"
+            :color="$page.url.startsWith('/chats') ? 'secondary' : 'base'"
             size="xl"
             href="/chats"
             />
@@ -27,7 +27,7 @@ import Avatar from '../Generic/Avatar.vue'
             <IconButton
             :icon="faMapLocationDot"
             variant="subtle"
-            color="base"
+            :color="$page.url.startsWith('/map') ? 'secondary' : 'base'"
             size="xl"
             :href="route('chats')"
             />
