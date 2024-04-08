@@ -32,7 +32,7 @@ window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
                 <div class="flex flex-col-reverse">
                     <div v-for="item in feedItems">
                         <SentToMessage v-if="item.sent_by.uuid === $page.props.auth.user.uuid" :message="item" />
-                        <SentFromMessage v-else :message="item" />
+                        <SentFromMessage v-else :message="item" :show-user-info="true" />
                     </div>
                 </div>
             </div>
