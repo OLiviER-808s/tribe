@@ -19,7 +19,25 @@ class ChatMember extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function chat()
+    {
+        return $this->belongsTo(Chat::class);
+    }
+
+    public function lastReadMessage()
+    {
+        return $this->belongsTo(Message::class, 'last_read_message_id');
+    }
+
+    public function getUnreadMessagesAttribute()
+    {
+        return Message::where('chat_id', $this->chat->id)
+            ->whereNot('user_id', $this->user->id)
+            ->where('created_at', '>', $this->lastReadMessage?->created_at ?? $this->chat->created_at)
+            ->count();
     }
 
     public function viewModel()

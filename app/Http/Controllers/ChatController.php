@@ -26,7 +26,7 @@ class ChatController extends Controller
 
         return Inertia::render('Chats/Chat', [
             'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel()),
-            'chat' => $chat->viewModel(),
+            'chat' => $chat->viewModel(false),
             'messages' => $chat->messages->map(fn ($message) => $message->viewModel()),
             'actions' => $chat->actions->map(fn ($action) => $action->viewModel()),
         ]);

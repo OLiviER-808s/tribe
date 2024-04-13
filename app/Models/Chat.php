@@ -6,6 +6,7 @@ use App\Traits\UsesCreatedBy;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Chat extends Model
 {
@@ -36,12 +37,15 @@ class Chat extends Model
         return $this->hasOne(Message::class)->orderBy('created_at', 'desc');
     }
 
-    public function viewModel()
+    public function viewModel($withUnreadMessages = true)
     {
+        $authMember = $this->members->where('user_id', Auth::user()->id)->first();
+
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
             'members' => $this->members->map(fn ($member) => $member->viewModel()),
+            'unreadMessages' => $withUnreadMessages ? $authMember->unread_messages : null,
             'latestMessage' => $this->latestMessage ? [
                 'content' => $this->latestMessage->content,
                 'sent_at' => $this->latestMessage->created_at
