@@ -1,5 +1,7 @@
 <script setup>
-import Avatar from '../Generic/Avatar.vue';
+import { useDates } from '@/Composables/useDates'
+import Avatar from '../Generic/Avatar.vue'
+import { computed } from 'vue'
 
 const { message } = defineProps({
     message: Object,
@@ -8,6 +10,9 @@ const { message } = defineProps({
         default: false
     }
 })
+
+const { formatTimestamp24Hour } = useDates()
+const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
 </script>
 
 <template>
@@ -26,7 +31,7 @@ const { message } = defineProps({
 					</div>
 	
 					<div class="text-xs text-secondary-text flex flex-col justify-end">
-                        10:08
+                        {{ timestamp }}
                     </div>
 				</div>
 			</div>

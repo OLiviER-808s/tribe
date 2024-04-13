@@ -1,7 +1,13 @@
 <script setup>
+import { useDates } from '@/Composables/useDates'
+import { computed } from 'vue'
+
 const { message } = defineProps({
     message: Object
 })
+
+const { formatTimestamp24Hour } = useDates()
+const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
 </script>
 
 <template>
@@ -14,8 +20,8 @@ const { message } = defineProps({
 					</div>
 	
 					<div class="text-xs text-secondary-text flex flex-col justify-end">
-                        10:08
-                    </div>			
+                        {{ timestamp }}
+                    </div>
 				</div>
 			</div>
         </div>
