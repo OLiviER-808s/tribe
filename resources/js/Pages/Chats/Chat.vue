@@ -6,12 +6,20 @@ import ChatHeader from '@/Components/Display/ChatHeader.vue'
 import SentToMessage from '@/Components/Display/SentToMessage.vue'
 import SentFromMessage from '@/Components/Display/SentFromMessage.vue'
 import { ref } from 'vue'
+import Timestamp from '@/Components/Display/Timestamp.vue';
+import { useDates } from '@/Composables/useDates';
 
 const { chats, chat, messages } = defineProps({
     chats: Array,
     chat: Object,
     messages: Array
 })
+
+const { differentDay } = useDates()
+
+const showTimestamp = (item1, item2) => {
+    return item2 ? differentDay(new Date(item1.sent_at), new Date(item2.sent_at)) : false
+}
 
 const feedItems = ref(messages)
 
@@ -30,7 +38,8 @@ window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
 
             <div class="flex-grow h-full overflow-auto px-2 mt-2">
                 <div class="flex flex-col-reverse">
-                    <div v-for="item in feedItems">
+                    <div v-for="(item, idx) in feedItems">
+                        <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
                         <SentToMessage v-if="item.sent_by.uuid === $page.props.auth.user.uuid" :message="item" />
                         <SentFromMessage v-else :message="item" :show-user-info="true" />
                     </div>

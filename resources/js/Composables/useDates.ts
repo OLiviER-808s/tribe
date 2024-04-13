@@ -23,16 +23,11 @@ export const useDates = () => {
             day: '2-digit',
             timeZone: userTimeZone
         })
-
-        console.log(timestamp)
     
         return formatter.format(timestamp)
     }
     
     const differentDay = (date1: Date, date2: Date) => {
-        console.log(date1)
-        console.log(date2)
-
         return (
             date1.getFullYear() !== date2.getFullYear() ||
             date1.getMonth() !== date2.getMonth() ||
