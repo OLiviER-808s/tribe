@@ -1,12 +1,24 @@
 <script setup>
 import { computed } from 'vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
+import { useDates } from '@/Composables/useDates'
 
 const { chat } = defineProps({
     chat: Object
 })
 
+const { formatTimestamp24Hour, formatDate, differentDay } = useDates()
+
 const avatars = computed(() => chat.members.map(member => member.photo).slice(0,3))
+
+const timestamp = computed(() => {
+	if (!chat.latestMessage) return ''
+
+	const messageSentAt = new Date(chat.latestMessage.sent_at)
+	const now = new Date()
+
+	return differentDay(messageSentAt, now) ? formatDate(messageSentAt) : formatTimestamp24Hour(messageSentAt)
+})
 </script>
 
 <template>
@@ -18,6 +30,8 @@ const avatars = computed(() => chat.members.map(member => member.photo).slice(0,
 				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5">
 					{{ chat.name }}
 				</h4>
+
+				<p class="text-xs text-secondary-text">{{ timestamp }}</p>
 			</div>
 
 			<div v-if="chat.latestMessage" class="flex items-center justify-between gap-1">
