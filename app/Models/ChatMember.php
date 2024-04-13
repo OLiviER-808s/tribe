@@ -14,7 +14,8 @@ class ChatMember extends Model
     protected $fillable = [
         'user_id',
         'chat_id',
-        'admin'
+        'admin',
+        'last_read_message_id'
     ];
 
     public function user()

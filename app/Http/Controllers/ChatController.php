@@ -24,6 +24,8 @@ class ChatController extends Controller
 
         $chat = $chatsQuery->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
 
+        $this->readMessages($chat);
+
         return Inertia::render('Chats/Chat', [
             'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel()),
             'chat' => $chat->viewModel(false),
@@ -44,5 +46,13 @@ class ChatController extends Controller
         ])
         ->orderBy('latest_message_created_at', 'desc')
         ->with(['members', 'latestMessage']);
+    }
+
+    private function readMessages($chat)
+    {
+        $authMember = $chat->members->where('user_id', Auth::user()->id)->first();
+
+        $authMember->last_read_message_id = $chat->latestMessage->id;
+        $authMember->save();
     }
 }
