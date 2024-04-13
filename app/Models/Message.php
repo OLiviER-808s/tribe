@@ -14,6 +14,7 @@ class Message extends Model implements HasMedia
     use HasFactory, UsesUuid, InteractsWithMedia;
 
     protected $fillable = [
+        'uuid',
         'user_id',
         'chat_id',
         'content',

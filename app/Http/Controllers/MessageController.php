@@ -21,11 +21,12 @@ class MessageController extends Controller
         })->firstOrFail();
 
         $message = Message::create([
+            'uuid' => $request['uuid'],
             'user_id' => $user->id,
             'chat_id' => $chat->id,
             'content' => $request['content']
         ]);
 
-        broadcast(new MessageSent($message))->toOthers();
+        broadcast(new MessageSent($message));
     }
 }

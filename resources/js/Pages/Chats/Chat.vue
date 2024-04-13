@@ -1,13 +1,14 @@
 <script setup>
-import { provide } from 'vue';
+import { provide } from 'vue'
 import ChatLayout from '../../Layouts/ChatLayout.vue'
 import MessageInput from '@/Components/InputFields/MessageInput.vue'
 import ChatHeader from '@/Components/Display/ChatHeader.vue'
 import SentToMessage from '@/Components/Display/SentToMessage.vue'
 import SentFromMessage from '@/Components/Display/SentFromMessage.vue'
 import { ref } from 'vue'
-import Timestamp from '@/Components/Display/Timestamp.vue';
-import { useDates } from '@/Composables/useDates';
+import Timestamp from '@/Components/Display/Timestamp.vue'
+import { useDates } from '@/Composables/useDates'
+import { usePage } from '@inertiajs/vue3'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -17,6 +18,7 @@ const { chats, chat, messages, actions } = defineProps({
 })
 
 const { differentDay } = useDates()
+const page = usePage()
 
 const showTimestamp = (item1, item2) => {
     return item2 ? differentDay(new Date(item1.sent_at), new Date(item2.sent_at)) : false
@@ -34,8 +36,12 @@ provide('chat', chat)
 provide('feedItems', feedItems)
 
 window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
-    console.log('test')
-    feedItems.value.unshift(message)
+    if (message.sent_by.uuid === page.props.profile.uuid) {
+        const idx = feedItems.value.findIndex(item => item.uuid === message.uuid)
+        feedItems.value[idx].status = 'sent'
+    } else {
+        feedItems.value.unshift(message)
+    }
 })
 </script>
 
@@ -49,7 +55,7 @@ window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
                     <div v-for="(item, idx) in feedItems" :key="item.uuid">
                         <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
                         <p v-if="item.text" class="py-2 text-center text-sm text-secondary-text font-medium">{{ item.text }}</p>
-                        <SentToMessage v-else-if="item.sent_by.uuid === $page.props.auth.user.uuid" :message="item" />
+                        <SentToMessage v-else-if="item.sent_by.uuid === $page.props.profile.uuid" :message="item" />
                         <SentFromMessage v-else :message="item" :show-user-info="true" />
                     </div>
                 </div>

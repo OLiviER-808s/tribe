@@ -8,25 +8,27 @@ import { inject } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
 const content = ref('')
+
 const chat = inject('chat')
 const feedItems= inject('feedItems')
-
 const page = usePage()
 
 const send = async () => {
 	if (content.value) {
 		const message = content.value
+		const uuid = uuidv4()
+
 		content.value = ''
 
 		feedItems.value.unshift({
-			uuid: uuidv4(),
+			uuid: uuid,
 			content: message,
 			status: 'sending',
 			sent_by: page.props.profile,
 			sent_at: new Date().toISOString()
 		})
 
-		await router.post(route('chat.send-message', { uuid: chat.uuid }), { content: message }, {
+		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: message, uuid: uuid }, {
 			preserveScroll: true,
 			preserveState: true,
 			headers: {
