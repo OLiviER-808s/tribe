@@ -21,6 +21,7 @@ const send = async () => {
 		feedItems.value.unshift({
 			uuid: uuidv4(),
 			content: message,
+			status: 'sending',
 			sent_by: page.props.profile,
 			sent_at: new Date().toISOString()
 		})

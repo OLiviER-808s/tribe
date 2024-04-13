@@ -1,6 +1,8 @@
 <script setup>
 import { useDates } from '@/Composables/useDates'
 import { computed } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faCircleCheck, faClock, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const { message } = defineProps({
     message: Object
@@ -8,6 +10,22 @@ const { message } = defineProps({
 
 const { formatTimestamp24Hour } = useDates()
 const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
+
+const statusIcon = computed(() => {
+    console.log(message.status)
+    let result = faClock
+
+    switch (message.status) {
+        case 'sent':
+            result = faCircleCheck
+            break
+        case 'seen':
+            result = faEye
+            break
+    }
+
+    return result
+})
 </script>
 
 <template>
@@ -20,7 +38,10 @@ const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)
 					</div>
 	
 					<div class="text-xs text-secondary-text flex flex-col justify-end">
-                        {{ timestamp }}
+                        <span class="flex items-center gap-1">
+                            {{ timestamp }}
+                            <FontAwesomeIcon :icon="statusIcon" size="xs" class="mt-0.5" />
+                        </span>
                     </div>
 				</div>
 			</div>

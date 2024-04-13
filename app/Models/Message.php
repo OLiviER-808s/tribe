@@ -16,7 +16,8 @@ class Message extends Model implements HasMedia
     protected $fillable = [
         'user_id',
         'chat_id',
-        'content'
+        'content',
+        'status'
     ];
 
     public function user()
@@ -39,6 +40,7 @@ class Message extends Model implements HasMedia
         return [
             'uuid' => $this->uuid,
             'content' => $this->content,
+            'status' => $this->status,
             'sent_by' => $this->user->viewModel(),
             'sent_at' => $this->created_at
         ];
