@@ -9,10 +9,11 @@ import { ref } from 'vue'
 import Timestamp from '@/Components/Display/Timestamp.vue';
 import { useDates } from '@/Composables/useDates';
 
-const { chats, chat, messages } = defineProps({
+const { chats, chat, messages, actions } = defineProps({
     chats: Array,
     chat: Object,
-    messages: Array
+    messages: Array,
+    actions: Array
 })
 
 const { differentDay } = useDates()
@@ -21,7 +22,12 @@ const showTimestamp = (item1, item2) => {
     return item2 ? differentDay(new Date(item1.sent_at), new Date(item2.sent_at)) : false
 }
 
-const feedItems = ref(messages)
+const getInitialFeedItems = () => {
+    const combined = [...messages, ...actions]
+    return combined.sort((a, b) => new Date(b.sent_at) - new Date(a.sent_at))
+}
+
+const feedItems = ref(getInitialFeedItems())
 
 provide('chats', chats)
 provide('chat', chat)
@@ -40,7 +46,8 @@ window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
                 <div class="flex flex-col-reverse">
                     <div v-for="(item, idx) in feedItems">
                         <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
-                        <SentToMessage v-if="item.sent_by.uuid === $page.props.auth.user.uuid" :message="item" />
+                        <p v-if="item.text" class="py-2 text-center text-sm text-secondary-text font-medium">{{ item.text }}</p>
+                        <SentToMessage v-else-if="item.sent_by.uuid === $page.props.auth.user.uuid" :message="item" />
                         <SentFromMessage v-else :message="item" :show-user-info="true" />
                     </div>
                 </div>

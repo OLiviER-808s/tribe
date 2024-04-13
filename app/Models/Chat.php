@@ -18,17 +18,22 @@ class Chat extends Model
 
     public function members()
     {
-        return $this->hasMany(ChatMember::class, 'chat_id');
+        return $this->hasMany(ChatMember::class);
     }
 
     public function messages()
     {
-        return $this->hasMany(Message::class, 'chat_id')->orderBy('created_at', 'desc');
+        return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
+    }
+
+    public function actions()
+    {
+        return $this->hasMany(ChatAction::class)->orderBy('created_at', 'desc');
     }
 
     public function latestMessage()
     {
-        return $this->hasOne(Message::class, 'chat_id')->orderBy('created_at', 'desc');
+        return $this->hasOne(Message::class)->orderBy('created_at', 'desc');
     }
 
     public function viewModel()

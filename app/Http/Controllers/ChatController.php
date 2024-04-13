@@ -13,7 +13,7 @@ class ChatController extends Controller
     public function index()
     {
         return Inertia::render('Chats/ChatsIndex', [
-            'chats' => $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel())->toArray()
+            'chats' => $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel())
         ]);
     }
 
@@ -25,9 +25,10 @@ class ChatController extends Controller
         $chat = $chatsQuery->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
 
         return Inertia::render('Chats/Chat', [
-            'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel())->toArray(),
+            'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel()),
             'chat' => $chat->viewModel(),
-            'messages' => $chat->messages->map(fn ($message) => $message->viewModel())->toArray()
+            'messages' => $chat->messages->map(fn ($message) => $message->viewModel()),
+            'actions' => $chat->actions->map(fn ($action) => $action->viewModel()),
         ]);
     }
 
