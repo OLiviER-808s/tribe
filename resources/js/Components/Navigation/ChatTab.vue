@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { useDates } from '@/Composables/useDates'
+import Badge from '../Generic/Badge.vue';
 
 const { chat } = defineProps({
     chat: Object
@@ -27,7 +28,7 @@ const timestamp = computed(() => {
 
 		<div class="flex-1 overflow-hidden">
 			<div class="flex justify-between items-center gap-2">
-				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5">
+				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5" :class="{ 'font-semibold': chat.unreadMessages > 0 }">
 					{{ chat.name }}
 				</h4>
 
@@ -35,9 +36,11 @@ const timestamp = computed(() => {
 			</div>
 
 			<div v-if="chat.latestMessage" class="flex items-center justify-between gap-1">
-				<p class="text-xs whitespace-nowrap w-4/5 overflow-hidden">
+				<p class="text-xs whitespace-nowrap w-4/5 overflow-hidden" :class="{ 'font-semibold': chat.unreadMessages > 0 }">
 					{{ chat.latestMessage.content }}
 				</p>
+
+				<Badge v-if="chat.unreadMessages > 0" :content="chat.unreadMessages" />
 			</div>
 		</div>
 	</a>
