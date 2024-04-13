@@ -10,7 +10,7 @@ provide('headerTitle', 'Chats')
 <template>
     <AuthLayout>
         <template #additional-sidebar>
-            <Card styles="w-72 h-full" padding="p-2">
+            <Card styles="w-72 h-full" padding="p-1">
                 <ChatList />
             </Card>
         </template>

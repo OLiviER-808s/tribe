@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -18,11 +19,13 @@ class ChatController extends Controller
 
     public function show($chatUuid)
     {
-        $chats = $this->getUserChats();
-        $chat = $chats->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
+        $chatsQuery = $this->getUserChats();
+        $chats = clone $chatsQuery;
+
+        $chat = $chatsQuery->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
 
         return Inertia::render('Chats/Chat', [
-            'chats' => $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel())->toArray(),
+            'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel())->toArray(),
             'chat' => $chat->viewModel(),
             'messages' => $chat->messages->map(fn ($message) => $message->viewModel())->toArray()
         ]);
@@ -33,6 +36,12 @@ class ChatController extends Controller
         return Chat::whereHas('members', function ($query) {
             $query->where('user_id', Auth::user()->id);
         })
+        ->addSelect(['latest_message_created_at' => Message::select('created_at')
+            ->whereColumn('chat_id', 'chats.id')
+            ->latest()
+            ->take(1)
+        ])
+        ->orderBy('latest_message_created_at', 'desc')
         ->with(['members', 'latestMessage']);
     }
 }
