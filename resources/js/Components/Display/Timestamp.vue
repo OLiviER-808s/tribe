@@ -4,7 +4,7 @@ import Card from '../Generic/Card.vue'
 import { computed } from 'vue';
 
 const props = defineProps({
-    timestamp: Date,
+    timestamp: String,
     show: {
         type: Boolean,
         default: true

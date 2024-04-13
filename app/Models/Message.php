@@ -38,7 +38,6 @@ class Message extends Model implements HasMedia
     {
         return [
             'uuid' => $this->uuid,
-            'user_uuid' => $this->user->uuid,
             'content' => $this->content,
             'sent_by' => $this->user->viewModel(),
             'sent_at' => $this->created_at

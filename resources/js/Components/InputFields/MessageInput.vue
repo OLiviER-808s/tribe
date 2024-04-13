@@ -1,21 +1,37 @@
 <script setup>
 import Textbox from '../Generic/Textbox.vue'
 import IconButton from '../Generic/IconButton.vue'
-import { ref } from 'vue';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { router } from '@inertiajs/vue3';
-import { inject } from 'vue';
+import { ref } from 'vue'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { router, usePage } from '@inertiajs/vue3'
+import { inject } from 'vue'
+import { v4 as uuidv4 } from 'uuid'
 
 const content = ref('')
 const chat = inject('chat')
+const feedItems= inject('feedItems')
 
-const send = () => {
+const page = usePage()
+
+const send = async () => {
 	if (content.value) {
-		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: content.value }, {
+		const message = content.value
+		content.value = ''
+
+		feedItems.value.unshift({
+			uuid: uuidv4(),
+			content: message,
+			sent_by: page.props.profile,
+			sent_at: new Date().toISOString()
+		})
+
+		await router.post(route('chat.send-message', { uuid: chat.uuid }), { content: message }, {
 			preserveScroll: true,
 			preserveState: true,
+			headers: {
+				"X-Socket-Id": window.Echo.socketId(),
+			}
 		})
-		content.value = ''
 	}
 }
 </script>

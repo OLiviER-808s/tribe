@@ -31,8 +31,10 @@ const feedItems = ref(getInitialFeedItems())
 
 provide('chats', chats)
 provide('chat', chat)
+provide('feedItems', feedItems)
 
 window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
+    console.log('test')
     feedItems.value.unshift(message)
 })
 </script>
