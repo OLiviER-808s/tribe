@@ -11,6 +11,7 @@ const content = ref('')
 
 const chat = inject('chat')
 const feedItems= inject('feedItems')
+const scrollToBottom = inject('scrollToBottom')
 const page = usePage()
 
 const send = async () => {
@@ -27,6 +28,8 @@ const send = async () => {
 			sent_by: page.props.profile,
 			sent_at: new Date().toISOString()
 		})
+
+		scrollToBottom()
 
 		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: message, uuid: uuid }, {
 			preserveScroll: true,

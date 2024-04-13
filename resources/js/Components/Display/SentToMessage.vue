@@ -12,7 +12,6 @@ const { formatTimestamp24Hour } = useDates()
 const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
 
 const statusIcon = computed(() => {
-    console.log(message.status)
     let result = faClock
 
     switch (message.status) {
