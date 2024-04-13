@@ -52,6 +52,8 @@ window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
         feedItems.value.unshift(message)
         scrollToBottom()
     }
+}).listen('.action-executed', (action) => {
+    feedItems.value.unshift(action)
 })
 
 onMounted(() => feedContainer.value.scrollTop = feedContainer.value.scrollHeight)
