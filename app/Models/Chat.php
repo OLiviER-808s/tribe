@@ -26,12 +26,21 @@ class Chat extends Model
         return $this->hasMany(Message::class, 'chat_id')->orderBy('created_at', 'desc');
     }
 
+    public function latestMessage()
+    {
+        return $this->hasOne(Message::class, 'chat_id')->orderBy('created_at', 'desc');
+    }
+
     public function viewModel()
     {
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'members' => $this->members->map(fn ($member) => $member->viewModel())
+            'members' => $this->members->map(fn ($member) => $member->viewModel()),
+            'latestMessage' => $this->latestMessage ? [
+                'content' => $this->latestMessage->content,
+                'sent_at' => $this->latestMessage->created_at
+            ] : null
         ];
     }
 }

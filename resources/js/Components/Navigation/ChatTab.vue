@@ -10,7 +10,7 @@ const avatars = computed(() => chat.members.map(member => member.photo).slice(0,
 </script>
 
 <template>
-    <a :href="route('chat.show', { uuid: chat.uuid })" class="block w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2">
+    <a :href="route('chat.show', { uuid: chat.uuid })" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2">
 		<AvatarGroup :avatars="avatars" width="w-8" />
 
 		<div class="flex-1 overflow-hidden">
@@ -18,6 +18,12 @@ const avatars = computed(() => chat.members.map(member => member.photo).slice(0,
 				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5">
 					{{ chat.name }}
 				</h4>
+			</div>
+
+			<div v-if="chat.latestMessage" class="flex items-center justify-between gap-1">
+				<p class="text-xs whitespace-nowrap w-4/5 overflow-hidden">
+					{{ chat.latestMessage.content }}
+				</p>
 			</div>
 		</div>
 	</a>

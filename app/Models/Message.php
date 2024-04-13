@@ -33,6 +33,7 @@ class Message extends Model
             'user_uuid' => $this->user->uuid,
             'content' => $this->content,
             'sent_by' => $this->user->viewModel(),
+            'sent_at' => $this->created_at
         ];
     }
 }

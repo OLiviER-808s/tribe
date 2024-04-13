@@ -33,6 +33,6 @@ class ChatController extends Controller
         return Chat::whereHas('members', function ($query) {
             $query->where('user_id', Auth::user()->id);
         })
-        ->with('members.user');
+        ->with(['members', 'latestMessage']);
     }
 }
