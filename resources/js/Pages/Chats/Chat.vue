@@ -81,7 +81,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
 <template>
     <ChatLayout>
         <div class="h-full max-w-full flex flex-col">
-            <ChatHeader :chat="chat" />
+            <ChatHeader :chat="chat" :active-members="activeMembers" />
 
             <div class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
                 <div class="flex flex-col-reverse">

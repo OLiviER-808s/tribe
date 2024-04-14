@@ -1,10 +1,21 @@
 <script setup>
 import { faArrowLeft, faEllipsisVertical, faPhone, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../Generic/IconButton.vue'
+import { computed, watch } from 'vue'
+import { usePage } from '@inertiajs/vue3'
+import Badge from '../Generic/Badge.vue';
 
-const { chat } = defineProps({
-	chat: Object
+const props = defineProps({
+	chat: Object,
+	activeMembers: Array
 })
+
+const page = usePage()
+
+const authMember = computed(() => props.chat.members.find(member => member.user_uuid === page.props.profile.uuid))
+const otherMembers = computed(() => props.activeMembers.filter(member => member.uuid !== authMember.value.uuid))
+
+watch(props.activeMembers, () => console.log(props.activeMembers), { deep: true })
 </script>
 
 <template>
@@ -12,7 +23,19 @@ const { chat } = defineProps({
 		<div class="flex items-center">
 			<IconButton variant="subtle" color="base" :icon="faArrowLeft" size="lg" href="/chats" />
 		</div>
-		<h2>{{ chat.name }}</h2>
+		
+		<div class="font-medium">
+			<h2>{{ chat.name }}</h2>
+
+			<div class="text-xs flex items-center gap-1" v-if="otherMembers.length > 0">
+				<Badge color="success" styles="mt-0.5" />
+				<p class="text-xs font-medium text-secondary-text">
+					{{ otherMembers[0].name }} 
+					<span v-if="otherMembers.length > 1">+ {{ otherMembers.length - 1 }} other are online</span>
+					<span v-else> is online</span>
+				</p>
+			</div>
+		</div>
 
 		<div class="flex-grow"></div>
 
