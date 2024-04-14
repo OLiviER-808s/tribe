@@ -7,9 +7,9 @@ import { router, usePage } from '@inertiajs/vue3'
 import { inject } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
-const { chat, activeUsers } = defineProps({
+const { chat, activeMembers } = defineProps({
 	chat: Object,
-	activeUsers: Array
+	activeMembers: Array
 })
 
 const content = ref('')
@@ -22,6 +22,7 @@ const send = async () => {
 	if (content.value) {
 		const message = content.value
 		const uuid = uuidv4()
+		const active_uuids = activeMembers.map(user => user.uuid)
 
 		content.value = ''
 
@@ -35,12 +36,14 @@ const send = async () => {
 
 		scrollToBottom()
 
-		router.post(route('chat.send-message', { uuid: chat.uuid }), { content: message, uuid: uuid }, {
+		router.post(route('chat.send-message', { uuid: chat.uuid }), 
+		{
+			content: message,
+			uuid,
+			active_uuids
+		}, {
 			preserveScroll: true,
 			preserveState: true,
-			headers: {
-				"X-Socket-Id": window.Echo.socketId(),
-			}
 		})
 	}
 }

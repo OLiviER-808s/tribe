@@ -39,14 +39,29 @@ const scrollToBottom = () => {
 const feedContainer = ref(null)
 const feedItems = ref(getInitialFeedItems())
 
-const activeUsers = ref([])
+const activeMembers = ref([])
 
 provide('chats', chats)
 provide('feedItems', feedItems)
 provide('scrollToBottom', scrollToBottom)
 
-window.Echo.join(`presence-chat.${chat.uuid}`)
+window.Echo.join(`chat.${chat.uuid}`)
+    .here((members) => {
+        activeMembers.value = members
+    })
+    .joining((member) => {
+        activeMembers.value.push(member)
+    })
+    .leaving((member) => {
+        const idx = activeMembers.value.findIndex(({ uuid }) => uuid === member.uuid)
+        activeMembers.value.splice(idx, 1)
+    })
+    .error((error) => {
+        console.error(error);
+    })
     .listen('.message-sent', (message) => {
+        console.log(message)
+
         if (message.sent_by.uuid === page.props.profile.uuid) {
             const idx = feedItems.value.findIndex(item => item.uuid === message.uuid)
             feedItems.value[idx].status = 'sent'
@@ -55,22 +70,9 @@ window.Echo.join(`presence-chat.${chat.uuid}`)
             scrollToBottom()
         }
     })
-    .here((users) => {
-        activeUsers.value = users
-    })
-    .joining((user) => {
-        activeUsers.value.push(user)
-    })
-    .leaving((user) => {
-        const idx = activeUsers.value.findIndex(({ uuid }) => uuid === user.uuid)
-        activeUsers.value.splice(idx, 1)
-    })
-    .error((error) => {
-        console.error(error);
-    })
-    .listen('.action-executed', (action) => {
-        feedItems.value.unshift(action)
-    })
+    // .listen('.action-executed', (action) => {
+    //     feedItems.value.unshift(action)
+    // })
 
 onMounted(() => feedContainer.value.scrollTop = feedContainer.value.scrollHeight)
 onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
@@ -92,7 +94,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
                 </div>
             </div>
 
-            <MessageInput :chat="chat" :active-users="activeUsers" />
+            <MessageInput :chat="chat" :active-members="activeMembers" />
         </div>
     </ChatLayout>
 </template>

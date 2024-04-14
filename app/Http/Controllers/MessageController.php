@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Http\Requests\StoreMessage;
 use App\Models\Chat;
+use App\Models\ChatMember;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -26,5 +28,11 @@ class MessageController extends Controller
         ]);
 
         broadcast(new MessageSent($message));
+
+        Log::info($request['active_uuids']);
+
+        ChatMember::whereIn('uuid', $request['active_uuids'])->update([
+            'last_read_message_id' => $message->id
+        ]);
     }
 }

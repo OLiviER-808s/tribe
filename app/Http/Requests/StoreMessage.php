@@ -15,7 +15,8 @@ class StoreMessage extends FormRequest
     {
         return [
             'uuid' => 'required|string',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'active_uuids' => 'nullable|array'
         ];
     }
 }
