@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
+use App\Events\UserTyping;
 use App\Http\Requests\StoreMessage;
+use App\Http\Requests\TypingRequest;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Message;
@@ -29,10 +31,16 @@ class MessageController extends Controller
 
         broadcast(new MessageSent($message));
 
-        Log::info($request['active_uuids']);
-
         ChatMember::whereIn('uuid', $request['active_uuids'])->update([
             'last_read_message_id' => $message->id
         ]);
+    }
+
+    public function toggleTyping($chatUuid, TypingRequest $request)
+    {
+        $chat = Chat::where('uuid', $chatUuid)->with('members')->firstOrFail();
+        $member = $chat?->members->where('user_id', Auth::user()->id)->firstOrFail();
+
+        broadcast(new UserTyping($member, $request['typing']))->toOthers();
     }
 }

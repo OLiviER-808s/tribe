@@ -42,7 +42,9 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
 
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
     Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
+
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
+    Route::post('chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
 
     Route::get('/settings/account', [SettingsController::class, 'account'])->name('settings.account');
 });

@@ -13,10 +13,13 @@ const { chat, activeMembers } = defineProps({
 })
 
 const content = ref('')
+const typing = ref(false)
 
 const feedItems= inject('feedItems')
 const scrollToBottom = inject('scrollToBottom')
 const page = usePage()
+
+let debounceTimer = null
 
 const send = async () => {
 	if (content.value) {
@@ -47,12 +50,26 @@ const send = async () => {
 		})
 	}
 }
+
+const startTyping = () => {
+	clearTimeout(debounceTimer)
+
+	if (!typing.value) {
+		typing.value = true
+		router.post(route('chat.typing', { uuid: chat.uuid }), { typing: true })
+	}
+
+	debounceTimer = setTimeout(() => {
+		typing.value = false
+		router.post(route('chat.typing', { uuid: chat.uuid }), { typing: false })
+	}, 500)
+}
 </script>
 
 <template>
     <form @submit.prevent="send()" class="flex items-center gap-2 w-full p-2 bg-inherit">
 		<div class="flex-grow">
-			<Textbox variant="outline" placeholder="Message" v-model="content" />
+			<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping" />
 		</div>
 
 		<IconButton :icon="faPaperPlane" size="lg" type="submit" />

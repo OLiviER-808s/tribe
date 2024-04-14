@@ -13,7 +13,7 @@ Broadcast::channel('chat.{chatUuid}', function ($user, $chatUuid) {
     $member = $chat?->members->where('user_id', $user->id)->first();
 
     if ($member) {
-        return [ 'uuid' => $member->uuid, 'name' => $user->name ];
+        return [ 'uuid' => $member->uuid, 'name' => $user->name, 'typing' => false ];
     }
 
     return false;

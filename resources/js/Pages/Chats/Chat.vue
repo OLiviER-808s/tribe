@@ -56,12 +56,7 @@ window.Echo.join(`chat.${chat.uuid}`)
         const idx = activeMembers.value.findIndex(({ uuid }) => uuid === member.uuid)
         activeMembers.value.splice(idx, 1)
     })
-    .error((error) => {
-        console.error(error);
-    })
     .listen('.message-sent', (message) => {
-        console.log(message)
-
         if (message.sent_by.uuid === page.props.profile.uuid) {
             const idx = feedItems.value.findIndex(item => item.uuid === message.uuid)
             feedItems.value[idx].status = 'sent'
@@ -69,6 +64,13 @@ window.Echo.join(`chat.${chat.uuid}`)
             feedItems.value.unshift(message)
             scrollToBottom()
         }
+    })
+    .listen('.user-typing', ({ member_uuid, typing }) => {
+        const idx = activeMembers.value.findIndex(({ uuid }) => uuid === member_uuid)
+        activeMembers.value[idx].typing = typing
+
+        const member = activeMembers.value[idx]
+        console.log(member.typing ? `${member.name} is typing` : `${member.name} stopped typing`)
     })
     // .listen('.action-executed', (action) => {
     //     feedItems.value.unshift(action)
