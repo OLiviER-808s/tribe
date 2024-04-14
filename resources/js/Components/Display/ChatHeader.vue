@@ -1,9 +1,10 @@
 <script setup>
 import { faArrowLeft, faEllipsisVertical, faPhone, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../Generic/IconButton.vue'
-import { inject } from 'vue';
 
-const chat = inject('chat')
+const { chat } = defineProps({
+	chat: Object
+})
 </script>
 
 <template>

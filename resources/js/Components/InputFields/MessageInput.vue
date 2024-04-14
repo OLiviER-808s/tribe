@@ -7,9 +7,13 @@ import { router, usePage } from '@inertiajs/vue3'
 import { inject } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
+const { chat, activeUsers } = defineProps({
+	chat: Object,
+	activeUsers: Array
+})
+
 const content = ref('')
 
-const chat = inject('chat')
 const feedItems= inject('feedItems')
 const scrollToBottom = inject('scrollToBottom')
 const page = usePage()

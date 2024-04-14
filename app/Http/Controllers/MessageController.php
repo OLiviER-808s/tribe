@@ -6,9 +6,7 @@ use App\Events\MessageSent;
 use App\Http\Requests\StoreMessage;
 use App\Models\Chat;
 use App\Models\Message;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {

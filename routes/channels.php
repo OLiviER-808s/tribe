@@ -7,8 +7,14 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('chat.{chatUuid}', function ($user, $chatUuid) {
-    return Chat::where('uuid', $chatUuid)->whereHas('members', function ($query) use ($user) {
+Broadcast::channel('presence-chat.{chatUuid}', function ($user, $chatUuid) {
+    $userHasAccess = Chat::where('uuid', $chatUuid)->whereHas('members', function ($query) use ($user) {
         $query->where('user_id', $user->id);
-    });
+    })->exists();
+
+    if ($userHasAccess) {
+        return [ 'uuid' => $user->uuid, 'name' => $user->name ];
+    }
+
+    return false;
 });

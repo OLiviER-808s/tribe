@@ -1,5 +1,5 @@
 <script setup>
-import { provide, ref, nextTick, onMounted } from 'vue'
+import { provide, ref, nextTick, onMounted, onUnmounted } from 'vue'
 import ChatLayout from '../../Layouts/ChatLayout.vue'
 import MessageInput from '@/Components/InputFields/MessageInput.vue'
 import ChatHeader from '@/Components/Display/ChatHeader.vue'
@@ -39,30 +39,47 @@ const scrollToBottom = () => {
 const feedContainer = ref(null)
 const feedItems = ref(getInitialFeedItems())
 
+const activeUsers = ref([])
+
 provide('chats', chats)
-provide('chat', chat)
 provide('feedItems', feedItems)
 provide('scrollToBottom', scrollToBottom)
 
-window.Echo.join(`chat.${chat.uuid}`).listen('.message-sent', (message) => {
-    if (message.sent_by.uuid === page.props.profile.uuid) {
-        const idx = feedItems.value.findIndex(item => item.uuid === message.uuid)
-        feedItems.value[idx].status = 'sent'
-    } else {
-        feedItems.value.unshift(message)
-        scrollToBottom()
-    }
-}).listen('.action-executed', (action) => {
-    feedItems.value.unshift(action)
-})
+window.Echo.join(`presence-chat.${chat.uuid}`)
+    .listen('.message-sent', (message) => {
+        if (message.sent_by.uuid === page.props.profile.uuid) {
+            const idx = feedItems.value.findIndex(item => item.uuid === message.uuid)
+            feedItems.value[idx].status = 'sent'
+        } else {
+            feedItems.value.unshift(message)
+            scrollToBottom()
+        }
+    })
+    .here((users) => {
+        activeUsers.value = users
+    })
+    .joining((user) => {
+        activeUsers.value.push(user)
+    })
+    .leaving((user) => {
+        const idx = activeUsers.value.findIndex(({ uuid }) => uuid === user.uuid)
+        activeUsers.value.splice(idx, 1)
+    })
+    .error((error) => {
+        console.error(error);
+    })
+    .listen('.action-executed', (action) => {
+        feedItems.value.unshift(action)
+    })
 
 onMounted(() => feedContainer.value.scrollTop = feedContainer.value.scrollHeight)
+onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
 </script>
 
 <template>
     <ChatLayout>
         <div class="h-full max-w-full flex flex-col">
-            <ChatHeader />
+            <ChatHeader :chat="chat" />
 
             <div class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
                 <div class="flex flex-col-reverse">
@@ -75,7 +92,7 @@ onMounted(() => feedContainer.value.scrollTop = feedContainer.value.scrollHeight
                 </div>
             </div>
 
-            <MessageInput />
+            <MessageInput :chat="chat" :active-users="activeUsers" />
         </div>
     </ChatLayout>
 </template>
