@@ -68,9 +68,6 @@ window.Echo.join(`chat.${chat.uuid}`)
     .listen('.user-typing', ({ member_uuid, typing }) => {
         const idx = activeMembers.value.findIndex(({ uuid }) => uuid === member_uuid)
         activeMembers.value[idx].typing = typing
-
-        const member = activeMembers.value[idx]
-        console.log(member.typing ? `${member.name} is typing` : `${member.name} stopped typing`)
     })
     // .listen('.action-executed', (action) => {
     //     feedItems.value.unshift(action)

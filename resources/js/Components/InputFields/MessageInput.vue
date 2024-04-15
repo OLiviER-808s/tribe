@@ -62,7 +62,7 @@ const startTyping = () => {
 	debounceTimer = setTimeout(() => {
 		typing.value = false
 		router.post(route('chat.typing', { uuid: chat.uuid }), { typing: false })
-	}, 500)
+	}, 1000)
 }
 </script>
 
