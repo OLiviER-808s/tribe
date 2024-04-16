@@ -12,13 +12,15 @@ const props = defineProps({
 
 const page = usePage()
 
-const authMember = computed(() => props.chat.members.find(member => member.user_uuid === page.props.profile.uuid))
-const otherMembers = computed(() => props.activeMembers.filter(member => member.uuid !== authMember.value.uuid))
+const otherMembers = ref([])
 const typingMembers = ref([])
 
-watch(props.activeMembers, () => {
-	typingMembers.value = otherMembers.value.filter(member => member.typing)
-}, { deep: true })
+watch(() => props.activeMembers, (newMembers, oldMembers) => {
+    const authMember = props.chat.members.find(member => member.user_uuid === page.props.profile.uuid);
+    
+    otherMembers.value = newMembers.filter(member => member.uuid !== authMember.uuid);
+    typingMembers.value = otherMembers.value.filter(member => member.typing);
+}, { deep: true, immediate: true })
 </script>
 
 <template>
