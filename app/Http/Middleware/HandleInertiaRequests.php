@@ -29,12 +29,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
             ],
-            'profile' => $request->user()?->viewModel()
+            'profile' => $user?->viewModel(),
+            'theme' => $user?->settings?->theme ?? 'light'
         ];
     }
 }

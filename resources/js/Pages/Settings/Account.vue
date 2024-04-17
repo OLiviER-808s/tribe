@@ -75,12 +75,16 @@ const logout = () => {
                 </div>
 
                 <!-- Logout -->
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-2xl font-medium">Logout</h2>
+                <div>
+                    <h2 class="text-2xl font-medium mb-4">Login</h2>
 
-                    <Button :on-click="logout" color="secondary" variant="light">
-                        <FontAwesomeIcon :icon="faRightFromBracket" /> Logout
-                    </Button>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between">
+                            <Button :on-click="logout" color="secondary" variant="light" styles="text-sm">
+                                <FontAwesomeIcon :icon="faRightFromBracket" /> Logout
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

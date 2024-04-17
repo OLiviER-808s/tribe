@@ -35,6 +35,11 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
+    public function settings()
+    {
+        return $this->hasOne(UserSettings::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();

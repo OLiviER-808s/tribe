@@ -1,4 +1,5 @@
 <script setup>
+import ThemeSwitch from './ThemeSwitch.vue';
 
 </script>
 
@@ -13,6 +14,8 @@
                 Account
             </a>
         </div>
+
+        <ThemeSwitch />
     </div>
 </template>
 

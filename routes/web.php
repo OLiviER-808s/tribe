@@ -36,17 +36,20 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterests::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
+    // CONVERSATIONS
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');
     Route::post('/conversation/create', [ConversationController::class, 'store'])->name('conversation.store');
     Route::post('/conversation/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
 
+    // CHATS
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
     Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
-
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
     Route::post('chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
 
+    // SETTINGS
     Route::get('/settings/account', [SettingsController::class, 'account'])->name('settings.account');
+    Route::patch('/settings/theme/{theme}', [SettingsController::class, 'setTheme'])->name('settings.theme');
 });
 
 require __DIR__.'/auth.php';
