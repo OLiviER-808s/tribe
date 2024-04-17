@@ -49,6 +49,8 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
 
     // SETTINGS
     Route::get('/settings/account', [SettingsController::class, 'account'])->name('settings.account');
+    Route::get('/settings/profile', [SettingsController::class, 'profile'])->name('settings.profile');
+
     Route::patch('/settings/theme/{theme}', [SettingsController::class, 'setTheme'])->name('settings.theme');
 });
 

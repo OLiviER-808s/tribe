@@ -12,10 +12,15 @@ class SettingsController extends Controller
 {
     public function account()
     {
-        $categories = TagCategory::with('tags')->get();
+        return Inertia::render('Settings/Account');
+    }
 
-        return Inertia::render('Settings/Account', [
-            'categories' => $categories->map(fn ($category) => $category->viewModel())
+    public function profile()
+    {
+        $categories = TagCategory::with('tags')->get()->map(fn ($category) => $category->viewModel());
+
+        return Inertia::render('Settings/Profile', [
+            'categories' => $categories
         ]);
     }
 

@@ -7,11 +7,19 @@ import ThemeSwitch from './ThemeSwitch.vue';
     <div class="flex flex-col h-full p-3">
         <div class="flex-grow h-0 overflow-auto">
             <a
-                :href="href"
+                :href="route('settings.account')"
                 class="hover:bg-base rounded-md py-2 px-4 cursor-pointer text-lg block"
                 :class="{ 'selected-link': $page.url == '/settings/account' }"
             >
                 Account
+            </a>
+
+            <a
+                :href="route('settings.profile')"
+                class="hover:bg-base rounded-md py-2 px-4 cursor-pointer text-lg block"
+                :class="{ 'selected-link': $page.url == '/settings/profile' }"
+            >
+                Profile
             </a>
         </div>
 
