@@ -52,7 +52,7 @@ class ChatController extends Controller
     {
         $authMember = $chat->members->where('user_id', Auth::user()->id)->first();
 
-        $authMember->last_read_message_id = $chat->latestMessage->id;
+        $authMember->last_read_message_id = $chat->latestMessage?->id;
         $authMember->save();
     }
 }

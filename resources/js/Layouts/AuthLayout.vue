@@ -6,13 +6,24 @@ import MobileHeader from '@/Components/Navigation/MobileHeader.vue'
 import MobileFooter from '@/Components/Navigation/MobileFooter.vue'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
 
+const props = defineProps({
+	showMobileHeader: {
+		type: Boolean,
+		default: true
+	},
+	showMobileFooter: {
+		type: Boolean,
+		default: true
+	}
+})
+
 const { isHandheld } = useIsHandheld()
 </script>
 
 <template>
     <GlobalLayout>
 		<div class="h-full flex flex-col" v-if="isHandheld">
-			<MobileHeader />
+			<MobileHeader v-if="showMobileHeader" />
 
 			<div class="flex-1 flex flex-col">
 				<div class="flex-grow h-0 overflow-auto" id="scrollable-content">
@@ -20,7 +31,7 @@ const { isHandheld } = useIsHandheld()
 				</div>
 			</div>
 
-			<MobileFooter />
+			<MobileFooter v-if="showMobileFooter" />
 		</div>
 		<div class="h-full flex flex-col p-1" v-else>
 			<Header />
