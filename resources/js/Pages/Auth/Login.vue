@@ -1,23 +1,11 @@
 <script setup>
 import EntryLayout from '@/Layouts/EntryLayout.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
-import Textbox from '../../Components/Generic/Textbox.vue'
 import GoogleOAuthButton from '../../Components/Auth/GoogleOAuthButton.vue'
-import Button from '../../Components/Generic/Button.vue'
+import LoginForm from '@/Components/Forms/LoginForm.vue'
+import { useIsHandheld } from '@/Composables/useIsHandheld';
+import Card from '@/Components/Generic/Card.vue';
 
-const form = useForm({
-    email: '',
-    password: '',
-    remember: false,
-});
-
-const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => {
-            form.reset('password');
-        },
-    });
-};
+const { isHandheld } = useIsHandheld()
 </script>
 
 <template>
@@ -30,24 +18,10 @@ const submit = () => {
 
                 <h3 class="mb-6 text-center font-medium text-secondary-text">OR</h3>
 
-                <form class="flex flex-col gap-4" @submit.prevent="submit">
-                    <Textbox 
-                    v-model="form.email"
-                    name="email"
-		            label="Email"
-		            placeholder="Your email..."
-                    />
-
-                    <Textbox 
-                    v-model="form.password"
-                    name="password"
-		            label="Password"
-                    type="password"
-		            placeholder="Your password..."
-                    />
-
-                    <Button type="submit">Continue</Button>
-                </form>
+                <Card v-if="isHandheld">
+                    <LoginForm />
+                </Card>
+                <LoginForm v-else />
             </div>
         </section>
 

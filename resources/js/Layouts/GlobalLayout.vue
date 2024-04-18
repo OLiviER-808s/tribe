@@ -23,7 +23,5 @@ watch(page, (newPage) => {
 </script>
 
 <template>
-    <div class="h-full w-full bg-base text-base-text">
-        <slot />
-    </div>
+    <slot />
 </template>

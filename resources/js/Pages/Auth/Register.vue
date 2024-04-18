@@ -1,30 +1,12 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
 import EntryLayout from '@/Layouts/EntryLayout.vue'
 import Stepper from '@/Components/Generic/Stepper.vue'
-import Textbox from '@/Components/Generic/Textbox.vue'
-import Button from '@/Components/Generic/Button.vue'
 import { REGISTER_STEPS } from '@/lib/constants'
-import { ref } from 'vue'
+import RegisterForm from '@/Components/Forms/RegisterForm.vue'
+import Card from '@/Components/Generic/Card.vue';
+import { useIsHandheld } from '@/Composables/useIsHandheld';
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-})
-
-const errors = ref({})
-
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => {
-            form.reset('password')
-        },
-        onError: (errs) => {
-            errors.value = errs
-        }
-    })
-}
+const { isHandheld } = useIsHandheld()
 </script>
 
 <template>
@@ -35,34 +17,10 @@ const submit = () => {
 
         <section class="flex justify-center flex-1 overflow-auto h-0">
             <div class="max-w-sm flex-grow">
-                <form class="flex flex-col gap-4" @submit.prevent="submit">
-                    <Textbox 
-                    v-model="form.name"
-                    name="name"
-		            label="Full Name"
-		            placeholder="Your name..."
-                    :error="errors.name"
-                    />
-
-                    <Textbox 
-                    v-model="form.email"
-                    name="email"
-		            label="Email"
-		            placeholder="Your email..."
-                    :error="errors.email"
-                    />
-
-                    <Textbox 
-                    v-model="form.password"
-                    name="password"
-		            label="Password"
-                    type="password"
-		            placeholder="Your password..."
-                    :error="errors.password"
-                    />
-
-                    <Button type="submit">Continue</Button>
-                </form>
+                <Card v-if="isHandheld">
+                    <RegisterForm />
+                </Card>
+                <RegisterForm v-else />
             </div>
         </section>
 
