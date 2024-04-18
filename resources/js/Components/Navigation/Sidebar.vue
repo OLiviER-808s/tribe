@@ -21,7 +21,7 @@ import Avatar from '../Generic/Avatar.vue'
             variant="subtle"
             :color="$page.url.startsWith('/chats') ? 'secondary' : 'base'"
             size="xl"
-            href="/chats"
+            :href="route('chats')"
             />
 
             <IconButton
