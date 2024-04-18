@@ -40,7 +40,7 @@ const submit = () => {
 </script>
 
 <template>
-    <VueFinalModal overlay-transition="vfm-fade" content-transition="vfm-fade" class="flex justify-center items-center" content-class="w-full max-w-xl">
+    <VueFinalModal overlay-transition="vfm-fade" content-transition="vfm-fade" class="flex justify-center items-center" content-class="w-full max-w-xl p-2">
         <Card styles="w-full">
             <div class="mb-4">
                 <AvatarInput v-model:cropping="cropping" v-model:src="src" v-model:file="form.photo" />

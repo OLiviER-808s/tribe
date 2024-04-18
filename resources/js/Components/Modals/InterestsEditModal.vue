@@ -45,7 +45,7 @@ const submit = () => {
 </script>
 
 <template>
-    <VueFinalModal overlay-transition="vfm-fade" content-transition="vfm-fade" class="flex justify-center items-center" content-class="w-full max-w-xl">
+    <VueFinalModal overlay-transition="vfm-fade" content-transition="vfm-fade" class="flex justify-center items-center" content-class="w-full max-w-xl p-2">
         <Card styles="w-full">
             <div>
                 <div class="flex flex-col gap-4">
