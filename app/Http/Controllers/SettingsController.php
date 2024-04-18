@@ -10,6 +10,11 @@ use Inertia\Inertia;
 
 class SettingsController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Settings/SettingsIndex');
+    }
+
     public function account()
     {
         return Inertia::render('Settings/Account');

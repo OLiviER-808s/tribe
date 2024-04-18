@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     Route::post('chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
 
     // SETTINGS
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::get('/settings/account', [SettingsController::class, 'account'])->name('settings.account');
     Route::get('/settings/profile', [SettingsController::class, 'profile'])->name('settings.profile');
 

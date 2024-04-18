@@ -38,7 +38,7 @@ import Avatar from '../Generic/Avatar.vue'
             :href="route('chats')"
         />
 
-        <a :href="route('settings.account')" class="flex items-center">
+        <a :href="route('settings')" class="flex items-center">
             <Avatar :src="$page.props.profile.photo" styles="w-8" />
         </a>
     </footer>
