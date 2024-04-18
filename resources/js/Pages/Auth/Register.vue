@@ -3,8 +3,8 @@ import EntryLayout from '@/Layouts/EntryLayout.vue'
 import Stepper from '@/Components/Generic/Stepper.vue'
 import { REGISTER_STEPS } from '@/lib/constants'
 import RegisterForm from '@/Components/Forms/RegisterForm.vue'
-import Card from '@/Components/Generic/Card.vue';
-import { useIsHandheld } from '@/Composables/useIsHandheld';
+import Card from '@/Components/Generic/Card.vue'
+import { useIsHandheld } from '@/Composables/useIsHandheld'
 
 const { isHandheld } = useIsHandheld()
 </script>

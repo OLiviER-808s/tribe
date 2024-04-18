@@ -119,10 +119,10 @@ const closeCrop = () => {
             <h4 class="text-lg">{{ $page.props.auth.user.name }}</h4>
             <div class="flex items-center gap-2">
                 <TribeButton @click="handleClick" variant="light" color="secondary" styles="text-xs" padding="py-2 px-4">
-                    <FontAwesomeIcon :icon="faPencil" /> Edit Photo
+                    <FontAwesomeIcon :icon="faPencil" /> Edit
                 </TribeButton>
                 <TribeButton v-if="src !== DEFAULT_PROFILE_PIC" @click="src = DEFAULT_PROFILE_PIC" variant="light" color="error" styles="text-xs" padding="py-2 px-4">
-                    <FontAwesomeIcon :icon="faXmark" /> Remove Photo
+                    <FontAwesomeIcon :icon="faXmark" /> Remove
                 </TribeButton>
             </div>
         </div>
