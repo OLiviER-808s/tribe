@@ -34,7 +34,7 @@ const join = () => {
 
         <div class="flex gap-2">
             <p class="text-sm text-secondary-text flex items-center gap-2">
-                <FontAwesomeIcon :icon="faUsers" /> <span>{{ conversation.members }}/{{ conversation.limit }}</span>
+                <FontAwesomeIcon :icon="faUsers" class="mt-1" /> <span>{{ conversation.members }}/{{ conversation.limit }}</span>
             </p>
 
             <div class="flex-grow"></div>

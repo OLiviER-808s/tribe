@@ -14,7 +14,7 @@ const props = withDefaults(
     }
 );
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 watch(
     () => props.show,
@@ -29,13 +29,13 @@ watch(
 
 const close = () => {
     if (props.closeable) {
-        emit('close');
+        emit('close')
     }
 };
 
 const closeOnEscape = (e: KeyboardEvent) => {
     if (e.key === 'Escape' && props.show) {
-        close();
+        close()
     }
 };
 

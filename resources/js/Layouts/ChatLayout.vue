@@ -20,5 +20,9 @@ const isIndexPage = computed(() => page.url === '/chats')
         </template>
 
         <slot />
+
+        <template #right-sidebar>
+            <slot name="right-sidebar" />
+        </template>
     </AuthLayout>
 </template>

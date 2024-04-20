@@ -1,14 +1,25 @@
 <script setup>
 import Card from '../Generic/Card.vue'
 import Avatar from '../Generic/Avatar.vue'
+import Tag from '../Generic/Tag.vue';
 
 const props = defineProps({
-    profile: Object
+    profile: Object,
+    styles: {
+        type: String,
+        default: ''
+    },
+    withInerests: {
+        type: Boolean,
+        default: false
+    }
 })
 </script>
 
 <template>
-    <Card>
+    <Card :styles="styles">
+        <slot name="before" />
+
         <div class="flex gap-2 mb-2">
             <Avatar :src="profile.photo" styles="w-16" />
 
@@ -21,5 +32,13 @@ const props = defineProps({
         <div class="mb-2 whitespace-pre-line">
             {{ profile.bio }}
         </div>
+
+        <div v-if="withInerests" class="flex gap-2 flex-wrap mt-4">
+            <div v-for="interest in profile.interests" :key="interest">
+                <Tag size="xs">{{ interest }}</Tag>
+            </div>
+        </div>
+
+        <slot name="after" />
     </Card>
 </template>

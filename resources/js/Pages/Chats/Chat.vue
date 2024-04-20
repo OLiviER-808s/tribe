@@ -8,6 +8,9 @@ import SentFromMessage from '@/Components/Display/SentFromMessage.vue'
 import Timestamp from '@/Components/Display/Timestamp.vue'
 import { useDates } from '@/Composables/useDates'
 import { usePage } from '@inertiajs/vue3'
+import ProfileCard from '@/Components/Profile/ProfileCard.vue'
+import IconButton from '@/Components/Generic/IconButton.vue'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -36,10 +39,13 @@ const scrollToBottom = () => {
     }
 }
 
+const setInspectInfo = (info) => inspectInfo.value = info
+
 const feedContainer = ref(null)
 const feedItems = ref(getInitialFeedItems())
 
 const activeMembers = ref([])
+const inspectInfo = ref({})
 
 provide('chats', chats)
 provide('feedItems', feedItems)
@@ -88,12 +94,22 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
                         <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
                         <p v-if="item.text" class="py-2 text-center text-sm text-secondary-text font-medium">{{ item.text }}</p>
                         <SentToMessage v-else-if="item.sent_by.uuid === $page.props.profile.uuid" :message="item" />
-                        <SentFromMessage v-else :message="item" :show-user-info="true" />
+                        <SentFromMessage v-else :message="item" :show-user-info="true" @select-user="setInspectInfo" />
                     </div>
                 </div>
             </div>
 
             <MessageInput :chat="chat" :active-members="activeMembers" />
         </div>
+
+        <template #right-sidebar v-if="inspectInfo.type === 'profile'">
+            <ProfileCard styles="h-full w-80" :with-inerests="true" :profile="inspectInfo.data">
+                <template #before>
+                    <div class="flex justify-end">
+                        <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = {}" />
+                    </div>
+                </template>
+            </ProfileCard>
+        </template>
     </ChatLayout>
 </template>
