@@ -1,9 +1,10 @@
 <script setup>
-import { faArrowLeft, faEllipsisVertical, faPhone, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPhone, faVideoCamera } from '@fortawesome/free-solid-svg-icons'
 import IconButton from '../Generic/IconButton.vue'
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { usePage } from '@inertiajs/vue3'
-import Badge from '../Generic/Badge.vue';
+import Badge from '../Generic/Badge.vue'
+import ChatOptions from '@/Components/Dropdowns/ChatOptions.vue'
 
 const props = defineProps({
 	chat: Object,
@@ -51,6 +52,6 @@ watch(() => props.activeMembers, (newMembers, oldMembers) => {
 
 		<IconButton variant="subtle" color="base" :icon="faVideoCamera" size="lg" />
 		<IconButton variant="subtle" color="base" :icon="faPhone" size="lg" />
-		<IconButton variant="subtle" color="base" :icon="faEllipsisVertical" size="lg" />
+		<ChatOptions />
 	</div>
 </template>
