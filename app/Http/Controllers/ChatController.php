@@ -40,9 +40,12 @@ class ChatController extends Controller
     public function leave($chatUuid)
     {
         $user = Auth::user();
-        $member = ChatMember::where('user_id', $user->id)->whereHas('chat', function ($query) use ($chatUuid) {
-            $query->where('uuid', $chatUuid);
-        })->with('chat')->firstOrFail();
+        $member = ChatMember::where('user_id', $user->id)
+            ->whereHas('chat', function ($query) use ($chatUuid) {
+                $query->where('uuid', $chatUuid);
+            })
+            ->with('chat')
+            ->firstOrFail();
 
         DB::transaction(function () use ($member, $user) {
             ChatAction::create([
@@ -54,6 +57,28 @@ class ChatController extends Controller
         });
 
         return to_route('chats');
+    }
+
+    public function removeMember($chatUuid, $memberUuid)
+    {
+        $user = Auth::user();
+        $chat = Chat::where('uuid', $chatUuid)
+            ->whereHas('members', function ($query) use ($user) {
+                $query->where('user_id', $user->id)->where('admin', true);
+            })
+            ->with('members.user')
+            ->firstOrFail();
+        
+        $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
+        
+        DB::transaction(function () use ($chat, $member, $user) {
+            ChatAction::create([
+                'chat_id' => $chat->id,
+                'text' => $user->name . ' removed ' . $member->user->name . ' from the chat'
+            ]);
+
+            $member->delete();
+        });
     }
 
     private function getUserChats()

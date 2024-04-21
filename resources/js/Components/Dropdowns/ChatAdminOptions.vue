@@ -2,11 +2,17 @@
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import DropdownMenu from 'v-dropdown-menu'
 import IconButton from '../Generic/IconButton.vue'
+import { router } from '@inertiajs/vue3';
 
 const { chat, member } = defineProps({
 	chat: Object,
     member: Object
 })
+
+const removeMember = () => router.delete(route('chat.remove-member', {
+    chatUuid: chat.uuid,
+    memberUuid: member.uuid
+}))
 </script>
 
 <template>
@@ -20,7 +26,7 @@ const { chat, member } = defineProps({
                 <div class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Make admin
                 </div>
-                <div class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div @click="removeMember()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Remove from chat
                 </div>
             </div>

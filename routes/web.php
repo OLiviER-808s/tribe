@@ -46,6 +46,9 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
     Route::delete('/chats/{uuid}/leave', [ChatController::class, 'leave'])->name('chat.leave');
 
+    // CHAT MEMBERS
+    Route::delete('/chats/{chatUuid}/members/{memberUuid}/remove', [ChatController::class, 'removeMember'])->name('chat.remove-member');
+
     // MESSAGES
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
     Route::post('/chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
