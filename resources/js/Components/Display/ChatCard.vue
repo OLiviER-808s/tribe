@@ -3,6 +3,8 @@ import Card from '../Generic/Card.vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { computed } from 'vue'
 import Avatar from '../Generic/Avatar.vue'
+import { usePage } from '@inertiajs/vue3'
+import ChatAdminOptions from '@/Components/Dropdowns/ChatAdminOptions.vue'
 
 const { chat } = defineProps({
     chat: Object,
@@ -12,7 +14,10 @@ const { chat } = defineProps({
     }
 })
 
+const page = usePage()
+
 const avatars = computed(() => chat.members.map(member => member.photo).slice(0,3))
+const isAdmin = computed(() => chat.members.find(member => member.user_uuid === page.props.profile.uuid).admin)
 </script>
 
 <template>
@@ -39,6 +44,12 @@ const avatars = computed(() => chat.members.map(member => member.photo).slice(0,
                     <div v-if="member.admin" class="p-1 rounded-md border-2 border-secondary text-xs text-secondary font-semibold">
                         ADMIN
                     </div>
+                    
+                    <ChatAdminOptions 
+                    v-if="isAdmin && member.user_uuid !== $page.props.profile.uuid && !member.admin" 
+                    :chat="chat" 
+                    :member="member" 
+                    />
                 </div>
             </div>
         </div>
