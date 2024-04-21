@@ -21,17 +21,17 @@ const assignAdmin = () => router.patch(route('chat.assign-admin', {
 </script>
 
 <template>
-    <DropdownMenu :overlay="false" :dropup="false" direction="right">
+    <DropdownMenu :overlay="false" :dropup="false" direction="right" withDropdownCloser>
         <template #trigger>
             <IconButton variant="subtle" color="base" :icon="faEllipsisVertical" size="md" />
         </template>
 
         <template #body>
             <div>
-                <div @click="assignAdmin()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div dropdown-closer @click="assignAdmin()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Make admin
                 </div>
-                <div @click="removeMember()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div dropdown-closer @click="removeMember()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Remove from chat
                 </div>
             </div>

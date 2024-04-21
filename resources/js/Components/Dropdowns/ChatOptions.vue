@@ -16,20 +16,20 @@ const inspectInfo = inject('inspectInfo')
 </script>
 
 <template>
-    <DropdownMenu :overlay="false" :dropup="false" direction="right">
+    <DropdownMenu :overlay="false" :dropup="false" direction="right" withDropdownCloser>
         <template #trigger>
             <IconButton variant="subtle" color="base" :icon="faEllipsisVertical" size="lg" />
         </template>
 
         <template #body>
             <div>
-                <div @click="viewChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div dropdown-closer @click="viewChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     View chat
                 </div>
-                <div class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div dropdown-closer class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Archive chat
                 </div>
-                <div @click="leaveChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div dropdown-closer @click="leaveChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Leave chat
                 </div>
             </div>
