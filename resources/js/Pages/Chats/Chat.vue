@@ -102,7 +102,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
 
                         <SentFromMessage v-else 
                         :message="item" 
-                        :show-user-info="idx < feedItems.length - 1 ? feedItems[idx + 1].sent_by.uuid !== item.sent_by.uuid : false" 
+                        :show-user-info="idx < feedItems.length - 1 ? feedItems[idx + 1].sent_by?.uuid !== item.sent_by?.uuid : false" 
                         @select-user="setInspectInfo" />
                     </div>
                 </div>
