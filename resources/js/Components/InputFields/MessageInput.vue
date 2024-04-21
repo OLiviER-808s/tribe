@@ -2,14 +2,14 @@
 import Textbox from '../Generic/Textbox.vue'
 import IconButton from '../Generic/IconButton.vue'
 import { ref } from 'vue'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faCamera, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { router, usePage } from '@inertiajs/vue3'
 import { inject } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
 const { chat, activeMembers } = defineProps({
 	chat: Object,
-	activeMembers: Array
+	activeMembers: Array,
 })
 
 const content = ref('')
@@ -69,7 +69,13 @@ const startTyping = () => {
 <template>
     <form @submit.prevent="send()" class="flex items-center gap-2 w-full p-2 bg-inherit">
 		<div class="flex-grow">
-			<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping" />
+			<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping">
+				<template #right-section>
+					<div class="mr-1 flex items-center justify-center">
+						<IconButton :icon="faCamera" color="base" variant="subtle" />
+					</div>
+				</template>
+			</Textbox>
 		</div>
 
 		<IconButton :icon="faPaperPlane" size="lg" type="submit" />
