@@ -11,6 +11,7 @@ import { usePage } from '@inertiajs/vue3'
 import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import IconButton from '@/Components/Generic/IconButton.vue'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import ChatCard from '@/Components/Display/ChatCard.vue'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -50,6 +51,7 @@ const inspectInfo = ref({})
 provide('chats', chats)
 provide('feedItems', feedItems)
 provide('scrollToBottom', scrollToBottom)
+provide('inspectInfo', inspectInfo)
 
 window.Echo.join(`chat.${chat.uuid}`)
     .here((members) => {
@@ -102,14 +104,22 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
             <MessageInput :chat="chat" :active-members="activeMembers" />
         </div>
 
-        <template #right-sidebar v-if="inspectInfo.type === 'profile'">
-            <ProfileCard styles="h-full w-80" :with-inerests="true" :profile="inspectInfo.data">
+        <template #right-sidebar>
+            <ProfileCard v-if="inspectInfo.type === 'profile'" styles="h-full w-80" :with-inerests="true" :profile="inspectInfo.data">
                 <template #before>
                     <div class="flex justify-end">
                         <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = {}" />
                     </div>
                 </template>
             </ProfileCard>
+            
+            <ChatCard v-else-if="inspectInfo.type === 'chat'" styles="h-full w-80" :chat="chat">
+                <template #before>
+                    <div class="flex justify-end">
+                        <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = {}" />
+                    </div>
+                </template>
+            </ChatCard>
         </template>
     </ChatLayout>
 </template>

@@ -3,12 +3,16 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import DropdownMenu from 'v-dropdown-menu'
 import IconButton from '../Generic/IconButton.vue'
 import { router } from '@inertiajs/vue3'
+import { inject } from 'vue'
 
 const { chat } = defineProps({
 	chat: Object
 })
 
 const leaveChat = () => router.delete(route('chat.leave', { uuid: chat.uuid }))
+const viewChat = () => inspectInfo.value = { type: 'chat' }
+
+const inspectInfo = inject('inspectInfo')
 </script>
 
 <template>
@@ -19,7 +23,7 @@ const leaveChat = () => router.delete(route('chat.leave', { uuid: chat.uuid }))
 
         <template #body>
             <div>
-                <div class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div @click="viewChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     View chat
                 </div>
                 <div class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
