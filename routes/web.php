@@ -44,8 +44,11 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     // CHATS
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
     Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
+    Route::delete('/chats/{uuid}/leave', [ChatController::class, 'leave'])->name('chat.leave');
+
+    // MESSAGES
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
-    Route::post('chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
+    Route::post('/chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
 
     // SETTINGS
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');

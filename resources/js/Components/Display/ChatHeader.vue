@@ -52,6 +52,6 @@ watch(() => props.activeMembers, (newMembers, oldMembers) => {
 
 		<IconButton variant="subtle" color="base" :icon="faVideoCamera" size="lg" />
 		<IconButton variant="subtle" color="base" :icon="faPhone" size="lg" />
-		<ChatOptions />
+		<ChatOptions :chat="chat" />
 	</div>
 </template>

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\ChatAction;
+use App\Models\ChatMember;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ChatController extends Controller
@@ -32,6 +35,25 @@ class ChatController extends Controller
             'messages' => $chat->messages->map(fn ($message) => $message->viewModel()),
             'actions' => $chat->actions->map(fn ($action) => $action->viewModel()),
         ]);
+    }
+
+    public function leave($chatUuid)
+    {
+        $user = Auth::user();
+        $member = ChatMember::where('user_id', $user->id)->whereHas('chat', function ($query) use ($chatUuid) {
+            $query->where('uuid', $chatUuid);
+        })->with('chat')->firstOrFail();
+
+        DB::transaction(function () use ($member, $user) {
+            ChatAction::create([
+                'chat_id' => $member->chat->id,
+                'text' => $user->name . ' left the chat'
+            ]);
+
+            $member->delete();
+        });
+
+        return to_route('chats');
     }
 
     private function getUserChats()
