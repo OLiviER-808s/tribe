@@ -15,8 +15,15 @@ class ChatController extends Controller
 {
     public function index()
     {
+        $chats = $this->getUserChats()
+            ->whereDoesntHave('members', function ($query) {
+                $query->where('archived', true);
+            })
+            ->get()
+            ->map(fn ($chat) => $chat->viewModel());
+
         return Inertia::render('Chats/ChatsIndex', [
-            'chats' => $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel())
+            'chats' => $chats
         ]);
     }
 
@@ -55,6 +62,20 @@ class ChatController extends Controller
 
             $member->delete();
         });
+
+        return to_route('chats');
+    }
+
+    public function archive($chatUuid)
+    {
+        $member = ChatMember::where('user_id', Auth::user()->id)
+            ->whereHas('chat', function ($query) use ($chatUuid) {
+                $query->where('uuid', $chatUuid);
+            })
+            ->firstOrFail();
+
+        $member->archived = true;
+        $member->save();
 
         return to_route('chats');
     }
