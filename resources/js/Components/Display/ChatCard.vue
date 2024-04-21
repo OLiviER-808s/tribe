@@ -5,6 +5,11 @@ import { computed } from 'vue'
 import Avatar from '../Generic/Avatar.vue'
 import { usePage } from '@inertiajs/vue3'
 import ChatAdminOptions from '@/Components/Dropdowns/ChatAdminOptions.vue'
+import Button from '../Generic/Button.vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { ModalsContainer, useModal } from 'vue-final-modal'
+import ChatEditModal from '@/Components/Modals/ChatEditModal.vue'
 
 const { chat } = defineProps({
     chat: Object,
@@ -18,6 +23,15 @@ const page = usePage()
 
 const avatars = computed(() => chat.members.map(member => member.photo).slice(0,3))
 const isAdmin = computed(() => chat.members.find(member => member.user_uuid === page.props.profile.uuid).admin)
+
+const editModal = useModal({
+    component: ChatEditModal,
+    attrs: {
+        onClose() {
+            profileModal.close()
+        }
+    }
+})
 </script>
 
 <template>
@@ -29,6 +43,14 @@ const isAdmin = computed(() => chat.members.find(member => member.user_uuid === 
                 <AvatarGroup :avatars="avatars" width="w-12 mb-2" />
                 <h3 class="text-lg font-medium text-center">{{ chat.name }}</h3>
             </div>
+        </div>
+
+        <div v-if="isAdmin" class="my-6 flex justify-center text-sm">
+            <ModalsContainer />
+
+            <Button variant="outline" :on-click="editModal.open">
+                <FontAwesomeIcon :icon="faPencil" /> Edit Chat
+            </Button>
         </div>
 
         <div>
