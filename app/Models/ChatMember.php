@@ -6,10 +6,11 @@ use App\Constants\ConstMedia;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ChatMember extends Model
 {
-    use HasFactory, UsesUuid;
+    use HasFactory, UsesUuid, SoftDeletes;
 
     protected $fillable = [
         'user_id',

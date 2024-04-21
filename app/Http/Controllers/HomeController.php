@@ -16,7 +16,7 @@ class HomeController extends Controller
 
         $conversations = Conversation::where('active', true)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
-                return $query->where('user_id', $user->id);
+                return $query->withTrashed()->where('user_id', $user->id);
             })
             ->whereHas('tags', function ($query) use ($user) {
                 return $query->whereIn('id', $user->tags->map(fn ($tag) => $tag->id)->toArray());

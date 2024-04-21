@@ -63,7 +63,7 @@ class ConversationController extends Controller
         $conversation = Conversation::where('uuid', $conversationUuid)
             ->where('active', true)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
+                $query->withTrashed()->where('user_id', $user->id);
             })
             ->with('chat.members')
             ->firstOrFail();
