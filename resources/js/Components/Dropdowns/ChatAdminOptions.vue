@@ -13,6 +13,11 @@ const removeMember = () => router.delete(route('chat.remove-member', {
     chatUuid: chat.uuid,
     memberUuid: member.uuid
 }))
+
+const assignAdmin = () => router.patch(route('chat.assign-admin', {
+    chatUuid: chat.uuid,
+    memberUuid: member.uuid
+}))
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const removeMember = () => router.delete(route('chat.remove-member', {
 
         <template #body>
             <div>
-                <div class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                <div @click="assignAdmin()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Make admin
                 </div>
                 <div @click="removeMember()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">

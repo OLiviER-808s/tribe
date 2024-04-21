@@ -81,6 +81,22 @@ class ChatController extends Controller
         });
     }
 
+    public function assignAdmin($chatUuid, $memberUuid)
+    {
+        $user = Auth::user();
+        $chat = Chat::where('uuid', $chatUuid)
+            ->whereHas('members', function ($query) use ($user) {
+                $query->where('user_id', $user->id)->where('admin', true);
+            })
+            ->with('members.user')
+            ->firstOrFail();
+        
+        $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
+        
+        $member->admin = true;
+        $member->save();
+    }
+
     private function getUserChats()
     {
         return Chat::whereHas('members', function ($query) {

@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
 
     // CHAT MEMBERS
     Route::delete('/chats/{chatUuid}/members/{memberUuid}/remove', [ChatController::class, 'removeMember'])->name('chat.remove-member');
+    Route::patch('/chats/{chatUuid}/members/{memberUuid}/assign-admin', [ChatController::class, 'assignAdmin'])->name('chat.assign-admin');
 
     // MESSAGES
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
