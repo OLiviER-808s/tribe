@@ -28,11 +28,12 @@ const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)
             </p>
 
             <div class="flex gap-1 items-start">
-                <button @click="onSelect">
+                <button @click="onSelect" v-if="showUserInfo">
                     <Avatar :src="message.sent_by.photo" styles="w-8" />
                 </button>
+                <div v-else class="w-8"></div>
 
-				<div class="bg-message rounded-lg p-1 rounded-tl-none flex gap-1">
+				<div class="bg-message rounded-lg p-1 flex gap-1" :class="{ 'rounded-tl-none': showUserInfo }">
 					<div class="p-1">
 						{{ message.content }}
 					</div>

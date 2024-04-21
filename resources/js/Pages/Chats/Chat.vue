@@ -95,9 +95,15 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
                 <div class="flex flex-col-reverse">
                     <div v-for="(item, idx) in feedItems" :key="item.uuid">
                         <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
+
                         <ChatAction v-if="item.text" :action="item" />
+
                         <SentToMessage v-else-if="item.sent_by.uuid === $page.props.profile.uuid" :message="item" />
-                        <SentFromMessage v-else :message="item" :show-user-info="true" @select-user="setInspectInfo" />
+
+                        <SentFromMessage v-else 
+                        :message="item" 
+                        :show-user-info="idx < feedItems.length - 1 ? feedItems[idx + 1].sent_by.uuid !== item.sent_by.uuid : false" 
+                        @select-user="setInspectInfo" />
                     </div>
                 </div>
             </div>
