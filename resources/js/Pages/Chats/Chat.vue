@@ -12,6 +12,7 @@ import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import IconButton from '@/Components/Generic/IconButton.vue'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import ChatCard from '@/Components/Display/ChatCard.vue'
+import ChatAction from '@/Components/Display/ChatAction.vue'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -94,7 +95,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
                 <div class="flex flex-col-reverse">
                     <div v-for="(item, idx) in feedItems" :key="item.uuid">
                         <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
-                        <p v-if="item.text" class="py-2 text-center text-sm text-secondary-text font-medium">{{ item.text }}</p>
+                        <ChatAction v-if="item.text" :action="item" />
                         <SentToMessage v-else-if="item.sent_by.uuid === $page.props.profile.uuid" :message="item" />
                         <SentFromMessage v-else :message="item" :show-user-info="true" @select-user="setInspectInfo" />
                     </div>

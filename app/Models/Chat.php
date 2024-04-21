@@ -22,11 +22,6 @@ class Chat extends Model
         return $this->hasMany(ChatMember::class);
     }
 
-    public function removedMembers()
-    {
-        return $this->hasMany(ChatMember::class)->onlyTrashed();
-    }
-
     public function messages()
     {
         return $this->hasMany(Message::class);
