@@ -27,7 +27,7 @@ watch(() => props.activeMembers, (newMembers, oldMembers) => {
 <template>
     <div class="p-2 flex items-center gap-2">
 		<div class="flex items-center">
-			<IconButton variant="subtle" color="base" :icon="faArrowLeft" size="lg" href="/chats" />
+			<IconButton variant="subtle" color="base" :icon="faArrowLeft" size="lg" :href="route('chats')" />
 		</div>
 		
 		<div class="font-medium">
