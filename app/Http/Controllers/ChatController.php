@@ -15,12 +15,7 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $chats = $this->getUserChats()
-            ->whereDoesntHave('members', function ($query) {
-                $query->where('archived', true);
-            })
-            ->get()
-            ->map(fn ($chat) => $chat->viewModel());
+        $chats = $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel());
 
         return Inertia::render('Chats/ChatsIndex', [
             'chats' => $chats

@@ -46,6 +46,7 @@ class Chat extends Model
             'name' => $this->name,
             'members' => $this->members->map(fn ($member) => $member->viewModel()),
             'unreadMessages' => $withUnreadMessages ? $authMember->unread_messages : null,
+            'archived' => $authMember->archived ?? false,
             'latestMessage' => $this->latestMessage ? [
                 'content' => $this->latestMessage->content,
                 'sent_at' => $this->latestMessage->created_at

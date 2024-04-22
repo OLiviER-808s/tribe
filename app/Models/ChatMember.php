@@ -19,6 +19,11 @@ class ChatMember extends Model
         'last_read_message_id'
     ];
 
+    protected $casts = [
+        'admin' => 'boolean',
+        'archived' => 'boolean'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
