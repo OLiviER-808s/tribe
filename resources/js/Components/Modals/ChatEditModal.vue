@@ -26,7 +26,7 @@ const form = useForm({
 })
 const errors = ref({})
 
-const src = ref('')
+const src = ref(chat.photo ?? '')
 const cropping = ref(false)
 const cropImageUrl = ref(null)
 const imageElement = ref(null)

@@ -52,6 +52,7 @@ class Chat extends Model implements HasMedia
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
+            'photo' => $this->getFirstMedia(ConstMedia::CHAT_PHOTO)?->getFullUrl() ?? null,
             'members' => $this->members->map(fn ($member) => $member->viewModel()),
             'unreadMessages' => $withUnreadMessages ? $authMember->unread_messages : null,
             'archived' => $authMember->archived ?? false,

@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { useDates } from '@/Composables/useDates'
 import Badge from '../Generic/Badge.vue';
+import Avatar from '../Generic/Avatar.vue';
 
 const { chat } = defineProps({
     chat: Object
@@ -24,7 +25,8 @@ const timestamp = computed(() => {
 
 <template>
     <a :href="route('chat.show', { uuid: chat.uuid })" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2">
-		<AvatarGroup :avatars="avatars" width="w-8" />
+		<Avatar v-if="chat.photo" :src="chat.photo" styles="w-8 h-8" />
+		<AvatarGroup v-else :avatars="avatars" width="w-8" />
 
 		<div class="flex-1 overflow-hidden">
 			<div class="flex justify-between items-center gap-2">

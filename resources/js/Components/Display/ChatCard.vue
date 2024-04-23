@@ -40,8 +40,9 @@ const editModal = useModal({
         <slot name="before" />
 
         <div class="flex justify-center mb-4">
-            <div>
-                <AvatarGroup :avatars="avatars" width="w-12 mb-2" />
+            <div class="flex flex-col items-center gap-2">
+                <Avatar v-if="chat.photo" :src="chat.photo" styles="w-20 h-20" />
+                <AvatarGroup v-else :avatars="avatars" width="w-12" />
                 <h3 class="text-lg font-medium text-center">{{ chat.name }}</h3>
             </div>
         </div>
