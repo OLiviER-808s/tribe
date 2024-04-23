@@ -27,6 +27,7 @@ const isAdmin = computed(() => chat.members.find(member => member.user_uuid === 
 const editModal = useModal({
     component: ChatEditModal,
     attrs: {
+        chat: chat,
         onClose() {
             profileModal.close()
         }
