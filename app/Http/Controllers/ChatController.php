@@ -75,6 +75,20 @@ class ChatController extends Controller
         return to_route('chats');
     }
 
+    public function unarchive($chatUuid)
+    {
+        $member = ChatMember::where('user_id', Auth::user()->id)
+            ->whereHas('chat', function ($query) use ($chatUuid) {
+                $query->where('uuid', $chatUuid);
+            })
+            ->firstOrFail();
+
+        $member->archived = false;
+        $member->save();
+
+        return to_route('chats');
+    }
+
     public function removeMember($chatUuid, $memberUuid)
     {
         $user = Auth::user();

@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');
     Route::get('/chats/{uuid}', [ChatController::class, 'show'])->name('chat.show');
     Route::patch('/chats/{uuid}/archive', [ChatController::class, 'archive'])->name('chat.archive');
+    Route::patch('/chats/{uuid}/unarchive', [ChatController::class, 'unarchive'])->name('chat.unarchive');
     Route::delete('/chats/{uuid}/leave', [ChatController::class, 'leave'])->name('chat.leave');
 
     // CHAT MEMBERS

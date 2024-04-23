@@ -10,7 +10,7 @@ const { chat } = defineProps({
 })
 
 const leaveChat = () => router.delete(route('chat.leave', { uuid: chat.uuid }))
-const archiveChat = () => router.patch(route('chat.archive', { uuid: chat.uuid }))
+const archiveChat = () => router.patch(route(chat.archived ? 'chat.unarchive' : 'chat.archive', { uuid: chat.uuid }))
 const viewChat = () => inspectInfo.value = { type: 'chat' }
 
 const inspectInfo = inject('inspectInfo')
@@ -28,7 +28,7 @@ const inspectInfo = inject('inspectInfo')
                     View chat
                 </div>
                 <div dropdown-closer @click="archiveChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
-                    Archive chat
+                    {{ chat.archived ? 'Unarchive' : 'Archive' }} chat
                 </div>
                 <div dropdown-closer @click="leaveChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     Leave chat
