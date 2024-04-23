@@ -29,7 +29,7 @@ const editModal = useModal({
     attrs: {
         chat: chat,
         onClose() {
-            profileModal.close()
+            editModal.close()
         }
     }
 })

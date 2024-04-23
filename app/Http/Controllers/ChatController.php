@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstMedia;
+use App\Http\Requests\StoreChat;
 use App\Models\Chat;
 use App\Models\ChatAction;
 use App\Models\ChatMember;
@@ -36,6 +38,41 @@ class ChatController extends Controller
             'chat' => $chat->viewModel(false),
             'messages' => $chat->messages->map(fn ($message) => $message->viewModel()),
             'actions' => $chat->actions->map(fn ($action) => $action->viewModel()),
+        ]);
+    }
+
+    public function update($chatUuid, StoreChat $request)
+    {
+        $user = Auth::user();
+        $chat = Chat::where('uuid', $chatUuid)
+            ->whereHas('members', function ($query) use ($user) {
+                $query->where('user_id', $user->id)->where('admin', true);
+            })
+            ->firstOrFail();
+
+        DB::transaction(function () use ($chat, $user, $request) {
+            if ($request['name'] != $chat->name) {
+                ChatAction::create([
+                    'chat_id' => $chat->id,
+                    'text' => $user->name . ' changed the chat name to ' . $request['name'],
+                ]);
+
+                $chat->name = $request['name'];
+                $chat->save();
+            }
+
+            if ($request['photo']) {
+                ChatAction::create([
+                    'chat_id' => $chat->id,
+                    'text' => $user->name . ' changed the chat photo',
+                ]);
+
+                $chat->addMedia($request['photo'])->toMediaCollection(ConstMedia::CHAT_PHOTO);
+            }
+        });
+
+        return to_route('chat.show', [
+            'uuid' => $chat->uuid
         ]);
     }
 
@@ -86,7 +123,9 @@ class ChatController extends Controller
         $member->archived = false;
         $member->save();
 
-        return to_route('chats');
+        return to_route('chat.show', [
+            'uuid' => $member->chat->uuid
+        ]);
     }
 
     public function removeMember($chatUuid, $memberUuid)

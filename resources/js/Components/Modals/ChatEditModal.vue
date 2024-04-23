@@ -20,7 +20,7 @@ const emit = defineEmits(['close'])
 const avatars = computed(() => chat.members.map(member => member.photo).slice(0,3))
 
 const form = useForm({
-    _method: 'PATCH',
+    _method: 'PUT',
     name: chat.name,
     photo: chat.photo ?? null,
 })
@@ -87,6 +87,17 @@ const closeCrop = () => {
     cropping.value = false
     cropImageUrl.value = null
 }
+
+const submit = () => {
+    form.post(route('chat.update', { uuid: chat.uuid }), {
+        onSuccess: () => {
+            emit('close')
+        },
+        onError: (errs) => {
+            errors.value = errs
+        }
+    })
+}
 </script>
 
 <template>
@@ -117,7 +128,6 @@ const closeCrop = () => {
                 <form class="flex flex-col gap-4" @submit.prevent="submit">
                     <Textbox 
                     v-model="form.name"
-                    name="name"
                     label="Chat Name"
                     placeholder="Your chat's name..."
                     :error="errors.name"
