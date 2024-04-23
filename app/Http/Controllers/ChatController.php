@@ -54,7 +54,7 @@ class ChatController extends Controller
             if ($request['name'] != $chat->name) {
                 ChatAction::create([
                     'chat_id' => $chat->id,
-                    'text' => $user->name . ' changed the chat name to ' . $request['name'],
+                    'text' => $user->name . ' changed the chat name to "' . $request['name'] . '"',
                 ]);
 
                 $chat->name = $request['name'];
