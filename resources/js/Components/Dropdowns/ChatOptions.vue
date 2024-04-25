@@ -25,13 +25,13 @@ const inspectInfo = inject('inspectInfo')
         <template #body>
             <div>
                 <div dropdown-closer @click="viewChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
-                    View chat
+                    View
                 </div>
                 <div dropdown-closer @click="archiveChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
-                    {{ chat.archived ? 'Unarchive' : 'Archive' }} chat
+                    {{ chat.archived ? 'Unarchive' : 'Archive' }}
                 </div>
                 <div dropdown-closer @click="leaveChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
-                    Leave chat
+                    Leave
                 </div>
             </div>
         </template>

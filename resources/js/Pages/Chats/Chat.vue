@@ -3,16 +3,12 @@ import { provide, ref, nextTick, onMounted, onUnmounted } from 'vue'
 import ChatLayout from '../../Layouts/ChatLayout.vue'
 import MessageInput from '@/Components/InputFields/MessageInput.vue'
 import ChatHeader from '@/Components/Display/ChatHeader.vue'
-import SentToMessage from '@/Components/Display/SentToMessage.vue'
-import SentFromMessage from '@/Components/Display/SentFromMessage.vue'
-import Timestamp from '@/Components/Display/Timestamp.vue'
-import { useDates } from '@/Composables/useDates'
 import { usePage } from '@inertiajs/vue3'
 import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import IconButton from '@/Components/Generic/IconButton.vue'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import ChatCard from '@/Components/Display/ChatCard.vue'
-import ChatAction from '@/Components/Display/ChatAction.vue'
+import MessageFeed from '@/Components/Chat/MessageFeed.vue'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -21,12 +17,7 @@ const { chats, chat, messages, actions } = defineProps({
     actions: Array
 })
 
-const { differentDay } = useDates()
 const page = usePage()
-
-const showTimestamp = (item1, item2) => {
-    return item2 ? differentDay(new Date(item1.sent_at), new Date(item2.sent_at)) : false
-}
 
 const getInitialFeedItems = () => {
     const combined = [...messages, ...actions]
@@ -40,8 +31,6 @@ const scrollToBottom = () => {
         })
     }
 }
-
-const setInspectInfo = (info) => inspectInfo.value = info
 
 const feedContainer = ref(null)
 const feedItems = ref(getInitialFeedItems())
@@ -90,20 +79,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
             <ChatHeader :chat="chat" :active-members="activeMembers" />
 
             <div class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
-                <div class="flex flex-col-reverse">
-                    <div v-for="(item, idx) in feedItems" :key="item.uuid">
-                        <Timestamp :show="showTimestamp(item, feedItems[idx + 1])" :timestamp="item.sent_at" />
-
-                        <ChatAction v-if="item.text" :action="item" />
-
-                        <SentToMessage v-else-if="item.sent_by.uuid === $page.props.profile.uuid" :message="item" />
-
-                        <SentFromMessage v-else 
-                        :message="item" 
-                        :show-user-info="idx < feedItems.length - 1 ? feedItems[idx + 1].sent_by?.uuid !== item.sent_by?.uuid : false" 
-                        @select-user="setInspectInfo" />
-                    </div>
-                </div>
+                <MessageFeed :feed-items="feedItems" />
             </div>
 
             <MessageInput v-model="feedItems" :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
