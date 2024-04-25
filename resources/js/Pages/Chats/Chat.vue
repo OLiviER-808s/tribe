@@ -51,7 +51,6 @@ const inspectInfo = ref({})
 
 provide('chats', chats)
 provide('feedItems', feedItems)
-provide('scrollToBottom', scrollToBottom)
 provide('inspectInfo', inspectInfo)
 
 window.Echo.join(`chat.${chat.uuid}`)
@@ -108,7 +107,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
                 </div>
             </div>
 
-            <MessageInput :chat="chat" :active-members="activeMembers" />
+            <MessageInput :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
         </div>
 
         <template #right-sidebar>

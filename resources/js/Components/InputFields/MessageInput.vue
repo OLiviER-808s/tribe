@@ -6,20 +6,17 @@ import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { router, usePage } from '@inertiajs/vue3'
 import { inject } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
-import MessageAttachmentSelect from '../Chat/MessageAttachmentSelect.vue'
 
-const { chat, activeMembers } = defineProps({
+const { chat, activeMembers, onSend } = defineProps({
 	chat: Object,
 	activeMembers: Array,
+	onSend: Function
 })
-
-const attachmentDrawOpen = ref(false)
 
 const content = ref('')
 const typing = ref(false)
 
 const feedItems= inject('feedItems')
-const scrollToBottom = inject('scrollToBottom')
 const page = usePage()
 
 let debounceTimer = null
@@ -40,7 +37,7 @@ const send = async () => {
 			sent_at: new Date().toISOString()
 		})
 
-		scrollToBottom()
+		onSend()
 
 		router.post(route('chat.send-message', { uuid: chat.uuid }), 
 		{
@@ -71,8 +68,6 @@ const startTyping = () => {
 
 <template>
     <div class="p-2 bg-inherit w-full">
-		<MessageAttachmentSelect :show="attachmentDrawOpen" />
-
 		<form @submit.prevent="send()" class="flex items-center gap-2">
 			<div class="flex-grow">
 				<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping">
