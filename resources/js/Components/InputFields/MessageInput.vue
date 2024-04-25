@@ -4,19 +4,19 @@ import IconButton from '../Generic/IconButton.vue'
 import { ref } from 'vue'
 import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { router, usePage } from '@inertiajs/vue3'
-import { inject } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
-const { chat, activeMembers, onSend } = defineProps({
+const props = defineProps({
 	chat: Object,
 	activeMembers: Array,
-	onSend: Function
+	onSend: Function,
+	modelValue: Array
 })
+const emit = defineEmits(['update:modelValue'])
 
 const content = ref('')
 const typing = ref(false)
 
-const feedItems= inject('feedItems')
 const page = usePage()
 
 let debounceTimer = null
@@ -25,21 +25,24 @@ const send = async () => {
 	if (content.value) {
 		const message = content.value
 		const uuid = uuidv4()
-		const active_uuids = activeMembers.map(user => user.uuid)
+		const active_uuids = props.activeMembers.map(user => user.uuid)
 
 		content.value = ''
 
-		feedItems.value.unshift({
-			uuid: uuid,
-			content: message,
-			status: 'sending',
-			sent_by: page.props.profile,
-			sent_at: new Date().toISOString()
-		})
+		emit('update:modelValue', [
+			{
+				uuid: uuid,
+				content: message,
+				status: 'sending',
+				sent_by: page.props.profile,
+				sent_at: new Date().toISOString()
+			},
+			...props.modelValue
+		])
 
-		onSend()
+		props.onSend()
 
-		router.post(route('chat.send-message', { uuid: chat.uuid }), 
+		router.post(route('chat.send-message', { uuid: props.chat.uuid }), 
 		{
 			content: message,
 			uuid,
@@ -56,12 +59,12 @@ const startTyping = () => {
 
 	if (!typing.value) {
 		typing.value = true
-		router.post(route('chat.typing', { uuid: chat.uuid }), { typing: true })
+		router.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: true })
 	}
 
 	debounceTimer = setTimeout(() => {
 		typing.value = false
-		router.post(route('chat.typing', { uuid: chat.uuid }), { typing: false })
+		router.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: false })
 	}, 1000)
 }
 </script>

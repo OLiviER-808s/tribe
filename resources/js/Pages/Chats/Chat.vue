@@ -50,7 +50,6 @@ const activeMembers = ref([])
 const inspectInfo = ref({})
 
 provide('chats', chats)
-provide('feedItems', feedItems)
 provide('inspectInfo', inspectInfo)
 
 window.Echo.join(`chat.${chat.uuid}`)
@@ -107,7 +106,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
                 </div>
             </div>
 
-            <MessageInput :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
+            <MessageInput v-model="feedItems" :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
         </div>
 
         <template #right-sidebar>
