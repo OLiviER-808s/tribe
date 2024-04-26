@@ -9,6 +9,7 @@ import IconButton from '@/Components/Generic/IconButton.vue'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import ChatCard from '@/Components/Display/ChatCard.vue'
 import MessageFeed from '@/Components/Chat/MessageFeed.vue'
+import AttachmentUploadView from '@/Components/Chat/AttachmentUploadView.vue'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -34,12 +35,14 @@ const scrollToBottom = () => {
 
 const feedContainer = ref(null)
 const feedItems = ref(getInitialFeedItems())
-
 const activeMembers = ref([])
+
 const inspectInfo = ref({})
+const mainContent = ref({})
 
 provide('chats', chats)
 provide('inspectInfo', inspectInfo)
+provide('mainContent', mainContent)
 
 window.Echo.join(`chat.${chat.uuid}`)
     .here((members) => {
@@ -76,10 +79,11 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
 <template>
     <ChatLayout>
         <div class="h-full max-w-full flex flex-col">
-            <ChatHeader :chat="chat" :active-members="activeMembers" />
+            <ChatHeader v-if="!mainContent.type" :chat="chat" :active-members="activeMembers" />
 
             <div class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
-                <MessageFeed :feed-items="feedItems" />
+                <AttachmentUploadView v-if="mainContent.type === 'attachment-upload'" />
+                <MessageFeed v-else :feed-items="feedItems" />
             </div>
 
             <MessageInput v-model="feedItems" :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />

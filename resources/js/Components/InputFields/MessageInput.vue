@@ -1,7 +1,7 @@
 <script setup>
 import Textbox from '../Generic/Textbox.vue'
 import IconButton from '../Generic/IconButton.vue'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { router, usePage } from '@inertiajs/vue3'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,10 +14,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
+const page = usePage()
+
 const content = ref('')
 const typing = ref(false)
 
-const page = usePage()
+const mainContent = inject('mainContent')
 
 let debounceTimer = null
 
@@ -67,16 +69,27 @@ const startTyping = () => {
 		router.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: false })
 	}, 1000)
 }
+
+const handleAttachmentUpload = (event) => {
+	mainContent.value = { type: 'attachment-upload', data: { files: Array.from(event.target.files) } }
+}
+
+const handleAttachmentClick = () => {
+	const target = document.getElementById('message-attchment-upload')
+    target.click()
+}
 </script>
 
 <template>
     <div class="p-2 bg-inherit w-full">
 		<form @submit.prevent="send()" class="flex items-center gap-2">
+			<input name="message-attchments" @change="handleAttachmentUpload" id="message-attchment-upload" type="file" multiple hidden />
+
 			<div class="flex-grow">
 				<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping">
 					<template #right-section>
 						<div class="mr-1 flex items-center justify-center">
-							<IconButton :icon="faPaperclip" color="base" variant="subtle" @click="attachmentDrawOpen = !attachmentDrawOpen" />
+							<IconButton :icon="faPaperclip" color="base" variant="subtle" @click="handleAttachmentClick" />
 						</div>
 					</template>
 				</Textbox>
