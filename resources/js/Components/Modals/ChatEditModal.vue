@@ -22,7 +22,7 @@ const avatars = computed(() => chat.members.map(member => member.photo).slice(0,
 const form = useForm({
     _method: 'PUT',
     name: chat.name,
-    photo: chat.photo ?? null,
+    photo: null,
 })
 const errors = ref({})
 
