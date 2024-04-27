@@ -1,9 +1,11 @@
 <script setup>
 import { inject, computed, ref } from 'vue'
-import IconButton from '../Generic/IconButton.vue';
-import { faArrowLeft, faArrowRight, faFile, faHeadphones, faVideoCamera, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import IconButton from '../Generic/IconButton.vue'
+import { faArrowLeft, faArrowRight, faFile, faHeadphones, faVideoCamera, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { useFiles } from '@/Composables/useFiles'
 
+const { readableFileSize } = useFiles()
 const mainContent = inject('mainContent')
 
 const selectedIdx = ref(0)
@@ -15,6 +17,7 @@ const formattedFiles = computed(() => mainContent.value.data?.files?.map(file =>
         preview: URL.createObjectURL(file),
         type: fileType,
         name: file.name,
+        size: file.size,
         file: file,
     }
 }))
@@ -22,7 +25,13 @@ const formattedFiles = computed(() => mainContent.value.data?.files?.map(file =>
 
 <template>
     <div class="w-full h-full flex flex-col">
-        <div class="flex justify-end w-full mb-4">
+        <div class="flex items-center justify-between w-full mb-4">
+            <div class="flex items-center gap-4">
+                <h3 class="text-lg font-medium">{{ formattedFiles[selectedIdx].name }}</h3>
+
+                <p class="text-xs text-secondary-text">{{ readableFileSize(formattedFiles[selectedIdx].size) }}</p>
+            </div>
+
             <IconButton variant="subtle" color="base" :icon="faXmark" size="lg" @click="mainContent = null" />
         </div>
 
