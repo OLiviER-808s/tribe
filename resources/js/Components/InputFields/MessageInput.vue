@@ -6,6 +6,7 @@ import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { v4 as uuidv4 } from 'uuid'
 import { AxiosError } from 'axios'
+import { useFiles } from '@/Composables/useFiles'
 
 const props = defineProps({
 	chat: Object,
@@ -15,6 +16,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
+const { formatFiles } = useFiles()
 const page = usePage()
 
 const content = ref('')
@@ -42,7 +44,8 @@ const send = () => {
 				content: message,
 				status: 'sending',
 				sent_by: page.props.profile,
-				sent_at: new Date().toISOString()
+				sent_at: new Date().toISOString(),
+				files: formatFiles(files)
 			},
 			...props.modelValue
 		])

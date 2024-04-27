@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useFiles } from '@/Composables/useFiles'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
 
-const { readableFileSize } = useFiles()
+const { readableFileSize, formatFiles } = useFiles()
 const { isHandheld } = useIsHandheld()
 
 const mainContent = inject('mainContent')
@@ -22,17 +22,7 @@ const removeFile = (idx) => {
     mainContent.value.data.files = mainContent.value.data.files.filter((file, i) => i !== idx)
 }
 
-const formattedFiles = computed(() => mainContent.value.data.files.map(file => {
-    const fileType = file.type.split('/')[0]
-
-    return {
-        preview: URL.createObjectURL(file),
-        type: fileType,
-        name: file.name,
-        size: file.size,
-        file: file,
-    }
-}))
+const formattedFiles = computed(() => formatFiles(mainContent.value.data.files))
 </script>
 
 <template>

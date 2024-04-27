@@ -10,5 +10,15 @@ export const useFiles = () => {
         return `${size} ${sizes[i]}`
     }
 
-    return { readableFileSize }
+    const formatFiles = (files: Array<File>) => {
+        return files.map(file => ({
+            preview: URL.createObjectURL(file),
+            type: file.type.split('/')[0],
+            name: file.name,
+            size: file.size,
+            file: file,
+        }))
+    }
+
+    return { readableFileSize , formatFiles}
 }
