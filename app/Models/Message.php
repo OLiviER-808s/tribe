@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\ConstMedia;
+use App\Traits\UsesFiles;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Message extends Model implements HasMedia
 {
-    use HasFactory, UsesUuid, InteractsWithMedia;
+    use HasFactory, UsesUuid, InteractsWithMedia, UsesFiles;
 
     protected $fillable = [
         'uuid',
@@ -43,7 +44,8 @@ class Message extends Model implements HasMedia
             'content' => $this->content,
             'status' => $this->status,
             'sent_by' => $this->user->viewModel(),
-            'sent_at' => $this->created_at
+            'sent_at' => $this->created_at,
+            'files' => $this->formatFiles($this->getMedia(ConstMedia::MESSAGE_ATTACHMENTS))
         ];
     }
 }
