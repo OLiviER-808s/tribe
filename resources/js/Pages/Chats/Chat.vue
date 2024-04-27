@@ -1,5 +1,5 @@
 <script setup>
-import { provide, ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { provide, ref, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import ChatLayout from '../../Layouts/ChatLayout.vue'
 import MessageInput from '@/Components/InputFields/MessageInput.vue'
 import ChatHeader from '@/Components/Display/ChatHeader.vue'
@@ -37,8 +37,8 @@ const feedContainer = ref(null)
 const feedItems = ref(getInitialFeedItems())
 const activeMembers = ref([])
 
-const inspectInfo = ref({})
-const mainContent = ref({})
+const inspectInfo = ref(null)
+const mainContent = ref(null)
 
 provide('chats', chats)
 provide('inspectInfo', inspectInfo)
@@ -72,36 +72,43 @@ window.Echo.join(`chat.${chat.uuid}`)
     //     feedItems.value.unshift(action)
     // })
 
-onMounted(() => feedContainer.value.scrollTop = feedContainer.value.scrollHeight)
+watch(feedContainer, () => {
+    if (feedContainer.value) {
+        feedContainer.value.scrollTop = feedContainer.value.scrollHeight
+    }
+}, { immediate: true })
+
 onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
 </script>
 
 <template>
     <ChatLayout>
         <div class="h-full max-w-full flex flex-col">
-            <ChatHeader v-if="!mainContent.type" :chat="chat" :active-members="activeMembers" />
+            <ChatHeader v-if="!mainContent?.type" :chat="chat" :active-members="activeMembers" />
 
-            <div class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
-                <AttachmentUploadView v-if="mainContent.type === 'attachment-upload'" />
-                <MessageFeed v-else :feed-items="feedItems" />
+            <div v-if="mainContent?.type === 'attachment-upload'" class="flex-grow h-full px-2">
+                <AttachmentUploadView />
+            </div>
+            <div v-else class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
+                <MessageFeed :feed-items="feedItems" />
             </div>
 
             <MessageInput v-model="feedItems" :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
         </div>
 
         <template #right-sidebar>
-            <ProfileCard v-if="inspectInfo.type === 'profile'" styles="h-full w-80" :with-inerests="true" :profile="inspectInfo.data">
+            <ProfileCard v-if="inspectInfo?.type === 'profile'" styles="h-full w-80" :with-inerests="true" :profile="inspectInfo.data">
                 <template #before>
                     <div class="flex justify-end">
-                        <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = {}" />
+                        <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = null" />
                     </div>
                 </template>
             </ProfileCard>
             
-            <ChatCard v-else-if="inspectInfo.type === 'chat'" styles="h-full w-80" :chat="chat">
+            <ChatCard v-else-if="inspectInfo?.type === 'chat'" styles="h-full w-80" :chat="chat">
                 <template #before>
                     <div class="flex justify-end">
-                        <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = {}" />
+                        <IconButton :icon="faXmark" variant="light" color="base" :on-click="() => inspectInfo = null" />
                     </div>
                 </template>
             </ChatCard>
