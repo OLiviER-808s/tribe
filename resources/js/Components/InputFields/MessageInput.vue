@@ -17,6 +17,8 @@ const emit = defineEmits(['update:modelValue'])
 const page = usePage()
 
 const content = ref('')
+const fileInput = ref(null)
+
 const typing = ref(false)
 
 const mainContent = inject('mainContent')
@@ -71,20 +73,24 @@ const startTyping = () => {
 }
 
 const handleAttachmentUpload = (event) => {
-	mainContent.value = { type: 'attachment-upload', data: { files: Array.from(event.target.files) } }
+	const files = Array.from(event.target.files)
+
+	if (files.length > 0) {
+		mainContent.value = { type: 'attachment-upload', data: { files: files } }
+	}
 }
 
 const handleAttachmentClick = () => {
-	const target = document.getElementById('message-attchment-upload')
-    target.click()
+	fileInput.value.value = ''
+    fileInput.value.click()
 }
 </script>
 
 <template>
     <div class="p-2 bg-inherit w-full">
-		<form @submit.prevent="send()" class="flex items-center gap-2">
-			<input name="message-attchments" @change="handleAttachmentUpload" id="message-attchment-upload" type="file" multiple hidden />
+		<input name="message-attchments" @change="handleAttachmentUpload" ref="fileInput" type="file" multiple hidden />
 
+		<form @submit.prevent="send()" class="flex items-center gap-2">
 			<div class="flex-grow">
 				<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping">
 					<template #right-section>

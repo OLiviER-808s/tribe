@@ -4,13 +4,25 @@ import IconButton from '../Generic/IconButton.vue'
 import { faArrowLeft, faArrowRight, faFile, faHeadphones, faVideoCamera, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useFiles } from '@/Composables/useFiles'
+import { useIsHandheld } from '@/Composables/useIsHandheld'
 
 const { readableFileSize } = useFiles()
+const { isHandheld } = useIsHandheld()
+
 const mainContent = inject('mainContent')
 
 const selectedIdx = ref(0)
+const hoveredIdx = ref(null)
 
-const formattedFiles = computed(() => mainContent.value.data?.files?.map(file => {
+const removeFile = (idx) => {
+    if (mainContent.value.data.files.length === 1) {
+        mainContent.value = null
+    }
+
+    mainContent.value.data.files = mainContent.value.data.files.filter((file, i) => i !== idx)
+}
+
+const formattedFiles = computed(() => mainContent.value.data.files.map(file => {
     const fileType = file.type.split('/')[0]
 
     return {
@@ -60,7 +72,7 @@ const formattedFiles = computed(() => mainContent.value.data?.files?.map(file =>
         </div>
 
         <div class="flex justify-center gap-2 w-full p-4">
-            <div v-for="(file, idx) in formattedFiles" class="relative w-16 h-16">
+            <div v-for="(file, idx) in formattedFiles" class="relative w-16 h-16" @mouseenter="hoveredIdx = idx" @mouseleave="hoveredIdx = null">
                 <button class="w-full h-full" @click="selectedIdx = idx">
                     <img v-if="file.type === 'image'" :src="file.preview" class="w-full h-full object-cover rounded-md" />
                     <div v-else class="w-full h-full flex items-center justify-center text-secondary-text bg-card rounded-md">
@@ -68,6 +80,10 @@ const formattedFiles = computed(() => mainContent.value.data?.files?.map(file =>
                         <FontAwesomeIcon v-else-if="file.type === 'video'" :icon="faVideoCamera" size="lg" />
                         <FontAwesomeIcon v-else :icon="faFile" size="lg" />
                     </div>
+                </button>
+
+                <button @click="removeFile(idx)" v-if="(hoveredIdx === idx) || isHandheld" class="absolute cursor-pointer top-0 right-0 text-secondary-text bg-card/80 rounded-full w-5 h-5 flex justify-center items-center">
+                    <FontAwesomeIcon :icon="faXmark" size="xs" />
                 </button>
             </div>
         </div>
