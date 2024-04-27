@@ -11,7 +11,7 @@ trait UsesFiles
                 'uuid' => $file->uuid,
                 'name' => $file->name,
                 'size' => $file->size,
-                'type' => $file->mime_type,
+                'type' => explode('/', $file->mime_type)[0],
                 'preview' => $file->getFullUrl() ?? null
             ];
         })->toArray();
