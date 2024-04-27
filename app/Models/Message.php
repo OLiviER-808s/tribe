@@ -33,7 +33,7 @@ class Message extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(ConstMedia::MESSAGE_PHOTOS);
+        $this->addMediaCollection(ConstMedia::MESSAGE_ATTACHMENTS);
     }
 
     public function viewModel()

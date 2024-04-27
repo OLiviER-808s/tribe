@@ -12,5 +12,5 @@ class ConstMedia
     public const CHAT_PHOTO = 'chat.photo';
 
     // MESSAGES
-    public const MESSAGE_PHOTOS = 'message.photos';
+    public const MESSAGE_ATTACHMENTS = 'message.attachments';
 }

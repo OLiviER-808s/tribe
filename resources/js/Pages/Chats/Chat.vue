@@ -26,7 +26,7 @@ const getInitialFeedItems = () => {
 }
 
 const scrollToBottom = () => {
-    if (feedContainer.value.scrollHeight - feedContainer.value.clientHeight <= feedContainer.value.scrollTop + 50) {
+    if (feedContainer.value && (feedContainer.value.scrollHeight - feedContainer.value.clientHeight <= feedContainer.value.scrollTop + 50)) {
         nextTick(() => {
             feedContainer.value.scrollTop = feedContainer.value.scrollHeight
         })

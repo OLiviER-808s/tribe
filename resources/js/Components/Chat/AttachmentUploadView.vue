@@ -72,7 +72,7 @@ const formattedFiles = computed(() => mainContent.value.data.files.map(file => {
         </div>
 
         <div class="flex justify-center gap-2 w-full p-4">
-            <div v-for="(file, idx) in formattedFiles" class="relative w-16 h-16" @mouseenter="hoveredIdx = idx" @mouseleave="hoveredIdx = null">
+            <div v-for="(file, idx) in formattedFiles" class="relative w-16 h-16 border-secondary rounded-md" :class="{ 'border-2': selectedIdx === idx }" @mouseenter="hoveredIdx = idx" @mouseleave="hoveredIdx = null">
                 <button class="w-full h-full" @click="selectedIdx = idx">
                     <img v-if="file.type === 'image'" :src="file.preview" class="w-full h-full object-cover rounded-md" />
                     <div v-else class="w-full h-full flex items-center justify-center text-secondary-text bg-card rounded-md">

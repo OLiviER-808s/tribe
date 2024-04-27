@@ -3,8 +3,9 @@ import Textbox from '../Generic/Textbox.vue'
 import IconButton from '../Generic/IconButton.vue'
 import { ref, inject } from 'vue'
 import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
-import { router, usePage } from '@inertiajs/vue3'
+import { router, useForm, usePage } from '@inertiajs/vue3'
 import { v4 as uuidv4 } from 'uuid'
+import { AxiosError } from 'axios'
 
 const props = defineProps({
 	chat: Object,
@@ -25,13 +26,15 @@ const mainContent = inject('mainContent')
 
 let debounceTimer = null
 
-const send = async () => {
+const send = () => {
 	if (content.value) {
 		const message = content.value
+		const files = mainContent.value?.data?.files
 		const uuid = uuidv4()
 		const active_uuids = props.activeMembers.map(user => user.uuid)
 
 		content.value = ''
+		mainContent.value = null
 
 		emit('update:modelValue', [
 			{
@@ -46,12 +49,14 @@ const send = async () => {
 
 		props.onSend()
 
-		router.post(route('chat.send-message', { uuid: props.chat.uuid }), 
-		{
+		const form = useForm({
 			content: message,
+			files,
 			uuid,
 			active_uuids
-		}, {
+		})
+
+		form.post(route('chat.send-message', { uuid: props.chat.uuid }), {
 			preserveScroll: true,
 			preserveState: true,
 		})
