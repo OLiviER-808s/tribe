@@ -1,10 +1,12 @@
 <script setup>
-import { faFile, faHeadphones, faVideo } from '@fortawesome/free-solid-svg-icons'
+import { faDownload, faFile, faHeadphones, faVideo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useFiles } from '@/Composables/useFiles'
 import { inject } from 'vue';
+import IconButton from '../Generic/IconButton.vue'
 
 const props = defineProps({
+    messageUuid: String,
     files: Array
 })
 
@@ -12,6 +14,11 @@ const mainContent = inject('mainContent')
 const { readableFileSize } = useFiles()
 
 const inpsectFile = (idx) => mainContent.value = { type: 'attachment-inspect', data: { idx } }
+
+const downloadFile = (file) => window.open(route('message.download-attachment', {
+    messageUuid: props.messageUuid,
+    fileUuid: file.uuid
+}))
 </script>
 
 <template>
@@ -31,12 +38,16 @@ const inpsectFile = (idx) => mainContent.value = { type: 'attachment-inspect', d
             <img v-if="file.type === 'image'" :src="file.preview" class="rounded-sm" />
             <audio v-else-if="file.type === 'audio'" :src="file.preview" controls />
             <video v-else-if="file.type === 'video'" :src="file.preview" controls class="rounded-sm" />
-            <div v-else class="flex items-center gap-2 min-w-64 px-2">
+            <div v-else class="flex items-center gap-4 min-w-64 px-2">
                 <FontAwesomeIcon :icon="faFile" size="lg" />
                 <div>
-                    <p class="font-medium">{{ file.name }}</p>
+                    <p class="text-sm font-medium">{{ file.name }}</p>
                     <p class="text-xs text-secondary-text">{{ readableFileSize(file.size) }}</p>
                 </div>
+
+                <div class="flex-grow"></div>
+
+                <IconButton :on-click="() => downloadFile(file)" variant="subtle" color="base" :icon="faDownload" />
             </div>
         </div>
     </div>

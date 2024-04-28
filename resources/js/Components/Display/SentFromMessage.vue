@@ -39,7 +39,7 @@ const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)
                 <div v-else class="min-w-8 w-8"></div>
 
 				<div class="bg-message rounded-lg p-1" :class="{ 'rounded-tl-none': showUserInfo }">
-                    <MessageAttachments :files="message.files" />
+                    <MessageAttachments :files="message.files" :message-uuid="message.uuid" />
 
                     <div class="flex gap-1 justify-between">
                         <div class="p-1">

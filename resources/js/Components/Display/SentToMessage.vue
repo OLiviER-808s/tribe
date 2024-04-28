@@ -36,7 +36,7 @@ const statusIcon = computed(() => {
         <div :class="[message.files?.length > 0 ? 'w-1/3' : 'w-3/5']">
             <div class="flex flex-row-reverse">
 				<div class="bg-primary/30 rounded-lg p-1 rounded-br-none">
-                    <MessageAttachments :files="message.files" />
+                    <MessageAttachments :files="message.files" :message-uuid="message.uuid" />
 
 					<div class="flex gap-1 justify-between">
                         <div class="p-1">
