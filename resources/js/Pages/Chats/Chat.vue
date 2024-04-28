@@ -10,6 +10,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import ChatCard from '@/Components/Display/ChatCard.vue'
 import MessageFeed from '@/Components/Chat/MessageFeed.vue'
 import AttachmentUploadView from '@/Components/Chat/AttachmentUploadView.vue'
+import AttachmentInspectView from '@/Components/Chat/AttachmentInspectView.vue'
 
 const { chats, chat, messages, actions } = defineProps({
     chats: Array,
@@ -86,14 +87,17 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
         <div class="h-full max-w-full flex flex-col">
             <ChatHeader v-if="!mainContent?.type" :chat="chat" :active-members="activeMembers" />
 
-            <div v-if="mainContent?.type === 'attachment-upload'" class="flex-grow h-full px-2">
+            <div v-if="mainContent?.type === 'attachment-inspect'" class="flex-grow h-full px-2">
+                <AttachmentInspectView :files="messages.flatMap(message => message.files)" :default-selected-idx="mainContent.data.idx" />
+            </div>
+            <div v-else-if="mainContent?.type === 'attachment-upload'" class="flex-grow h-full px-2">
                 <AttachmentUploadView />
             </div>
             <div v-else class="flex-grow h-full overflow-auto px-2 mt-2" ref="feedContainer">
                 <MessageFeed :feed-items="feedItems" />
             </div>
 
-            <MessageInput v-model="feedItems" :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
+            <MessageInput v-if="mainContent?.type !== 'attachment-inspect'" v-model="feedItems" :chat="chat" :active-members="activeMembers" :on-send="scrollToBottom" />
         </div>
 
         <template #right-sidebar>
