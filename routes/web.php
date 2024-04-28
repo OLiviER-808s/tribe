@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     // MESSAGES
     Route::post('/chats/{uuid}/send-message', [MessageController::class, 'store'])->name('chat.send-message');
     Route::post('/chats/{uuid}/typing', [MessageController::class, 'toggleTyping'])->name('chat.typing');
+    Route::get('/messages/{messageUuid}/download/{fileUuid}', [MessageController::class, 'downloadAttachment'])->name('message.download-attachment');
 
     // SETTINGS
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');

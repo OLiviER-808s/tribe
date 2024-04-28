@@ -1,7 +1,7 @@
 <script setup>
 import { inject, ref } from 'vue'
 import IconButton from '../Generic/IconButton.vue'
-import { faArrowLeft, faArrowRight, faFile, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faDownload, faFile, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useFiles } from '@/Composables/useFiles'
 
@@ -17,23 +17,31 @@ const { readableFileSize } = useFiles()
 
 const mainContent = inject('mainContent')
 const selectedIdx = ref(props.defaultSelectedIdx)
+
+const downloadFile = () => window.open(route('message.download-attachment', {
+    messageUuid: props.files[selectedIdx.value].message_uuid,
+    fileUuid: props.files[selectedIdx.value].uuid
+}))
 </script>
 
 <template>
     <div class="w-full h-full flex flex-col">
-        <div class="flex items-center justify-between w-full mb-4">
+        <div class="flex items-center w-full mb-4 gap-2">
             <div class="flex items-center gap-4">
                 <h3 class="text-lg font-medium">{{ files[selectedIdx].name }}</h3>
 
                 <p class="text-xs text-secondary-text">{{ readableFileSize(files[selectedIdx].size) }}</p>
             </div>
 
-            <IconButton variant="subtle" color="base" :icon="faXmark" size="lg" @click="mainContent = null" />
+            <div class="flex-grow"></div>
+
+            <IconButton v-if="files[selectedIdx].status === 'sent'" :on-click="downloadFile" variant="subtle" color="base" :icon="faDownload" size="lg" />
+            <IconButton variant="subtle" color="base" :icon="faXmark" size="lg" :on-click="() => mainContent = null" />
         </div>
 
         <div class="flex flex-col w-full h-full flex-grow">
             <div class="w-full h-full flex items-center justify-between gap-4">
-                <IconButton :disabled="selectedIdx === 0" variant="subtle" color="base" :icon="faArrowLeft" @click="selectedIdx -= 1" />
+                <IconButton :disabled="selectedIdx === 0" variant="subtle" color="base" :icon="faArrowLeft" :on-click="() => selectedIdx -= 1" />
 
                 <div>
                     <div v-if="files[selectedIdx].type === 'image'">
@@ -51,7 +59,7 @@ const selectedIdx = ref(props.defaultSelectedIdx)
                     </div>
                 </div>
 
-                <IconButton :disabled="selectedIdx === files.length - 1" variant="subtle" color="base" :icon="faArrowRight" @click="selectedIdx += 1" />
+                <IconButton :disabled="selectedIdx === files.length - 1" variant="subtle" color="base" :icon="faArrowRight" :on-click="() => selectedIdx += 1" />
             </div>
         </div>
     </div>

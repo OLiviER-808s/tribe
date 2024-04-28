@@ -47,6 +47,17 @@ class MessageController extends Controller
         broadcast(new MessageSent($message));
     }
 
+    public function downloadAttachment($messageUuid, $fileUuid)
+    {
+        $message = Message::where('uuid', $messageUuid)
+            ->whereHas('chat.members', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })
+            ->firstOrFail();
+
+        return $message->getMedia('*')->where('uuid', $fileUuid)->firstOrFail();
+    }
+
     public function toggleTyping($chatUuid, TypingRequest $request)
     {
         $chat = Chat::where('uuid', $chatUuid)->with('members')->firstOrFail();

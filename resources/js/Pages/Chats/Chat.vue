@@ -88,7 +88,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
             <ChatHeader v-if="!mainContent?.type" :chat="chat" :active-members="activeMembers" />
 
             <div v-if="mainContent?.type === 'attachment-inspect'" class="flex-grow h-full px-2">
-                <AttachmentInspectView :files="messages.flatMap(message => message.files)" :default-selected-idx="mainContent.data.idx" />
+                <AttachmentInspectView :files="messages.flatMap(message => message.files.map(file => (({ ...file, message_uuid: message.uuid, status: message.status }))))" :default-selected-idx="mainContent.data.idx" />
             </div>
             <div v-else-if="mainContent?.type === 'attachment-upload'" class="flex-grow h-full px-2">
                 <AttachmentUploadView />

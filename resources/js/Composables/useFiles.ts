@@ -20,5 +20,5 @@ export const useFiles = () => {
         }))
     }
 
-    return { readableFileSize , formatFiles}
+    return { readableFileSize , formatFiles }
 }
