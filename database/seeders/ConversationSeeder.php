@@ -2,26 +2,40 @@
 
 namespace Database\Seeders;
 
+use App\Models\Chat;
+use App\Models\ChatMember;
 use App\Models\Conversation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Tags\Tag;
 
 class ConversationSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $conversations = Conversation::factory()->count(100)->create([
-            'active' => true
-        ]);
+        DB::transaction(function () {
+            $conversations = Conversation::factory()->count(100)->create([
+                'active' => true
+            ]);
+    
+            $tags = Tag::all();
+    
+            foreach ($conversations as $conversation) {
+                $conversation->attachTag($tags->random()->name);
 
-        $tags = Tag::all();
+                $chat = Chat::factory()->create([
+                    'conversation_id' => $conversation->id,
+                    'created_by_id' => $conversation->created_by_id,
+                    'name' => $conversation->title
+                ]);
 
-        foreach ($conversations as $conversation) {
-            $conversation->attachTag($tags->random()->name);
-        }
+                ChatMember::factory()->create([
+                    'chat_id' => $chat->id,
+                    'user_id' => $chat->created_by_id,
+                    'admin' => true
+                ]);
+            }
+        });
     }
 }
