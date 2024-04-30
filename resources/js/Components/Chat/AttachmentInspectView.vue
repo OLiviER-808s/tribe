@@ -7,16 +7,13 @@ import { useFiles } from '@/Composables/useFiles'
 
 const props = defineProps({
     files: Array,
-    defaultSelectedIdx: {
-        type: Number,
-        default: 0
-    }
+    defaultSelectedFileUuid: String
 })
 
 const { readableFileSize } = useFiles()
 
 const mainContent = inject('mainContent')
-const selectedIdx = ref(props.defaultSelectedIdx)
+const selectedIdx = ref(props.files.findIndex(file => file.uuid === props.defaultSelectedFileUuid))
 
 const downloadFile = () => window.open(route('message.download-attachment', {
     messageUuid: props.files[selectedIdx.value].message_uuid,

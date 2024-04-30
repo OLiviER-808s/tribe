@@ -13,7 +13,7 @@ const props = defineProps({
 const mainContent = inject('mainContent')
 const { readableFileSize } = useFiles()
 
-const inpsectFile = (idx) => mainContent.value = { type: 'attachment-inspect', data: { idx } }
+const inpsectFile = (file) => mainContent.value = { type: 'attachment-inspect', data: { fileUuid: file.uuid } }
 
 const downloadFile = (file) => window.open(route('message.download-attachment', {
     messageUuid: props.messageUuid,
@@ -23,7 +23,7 @@ const downloadFile = (file) => window.open(route('message.download-attachment', 
 
 <template>
     <div v-if="files.length > 3" class="grid grid-cols-2 mb-1 gap-1">
-        <button v-for="(file, idx) in files.slice(0, 4)" @click="inpsectFile(idx)" class="xl:w-32 xl:h-32 lg:w-28 lg:h-28 w-24 h-24">
+        <button v-for="(file, idx) in files.slice(0, 4)" @click="inpsectFile(file)" class="xl:w-32 xl:h-32 lg:w-28 lg:h-28 w-24 h-24">
             <img v-if="file.type === 'image'" :src="file.preview" class="xl:w-32 xl:h-32 lg:w-28 lg:h-28 w-24 h-24 rounded-sm object-cover" />
             <div v-else class="rounded-sm bg-card flex justify-center items-center text-base-text h-full w-full">
                 <h4 v-if="files.length > 4 && idx === 3" class="text-xl font-semibold">+{{ files.length - 3 }}</h4>
