@@ -30,7 +30,7 @@ class Conversation extends Model
             'uuid' => $this->uuid,
             'title' => $this->title,
             'description' => $this->description,
-            'created_by' => $this->createdByUser->name,
+            'created_by' => $this->createdByUser->username,
             'members' => $this->chat->members->count(),
             'limit' => $this->limit,
             'category' => $this->tags->first()->name
