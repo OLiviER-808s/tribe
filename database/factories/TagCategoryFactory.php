@@ -9,7 +9,7 @@ class TagCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name
+            'name' => fake()->name()
         ];
     }
 }
