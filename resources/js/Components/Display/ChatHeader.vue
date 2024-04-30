@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import Badge from '../Generic/Badge.vue'
 import ChatOptions from '@/Components/Dropdowns/ChatOptions.vue'
+import { useIsHandheld } from '@/Composables/useIsHandheld'
 
 const props = defineProps({
 	chat: Object,
@@ -12,6 +13,7 @@ const props = defineProps({
 })
 
 const page = usePage()
+const { isHandheld } = useIsHandheld()
 
 const otherMembers = ref([])
 const typingMembers = ref([])
@@ -26,7 +28,7 @@ watch(() => props.activeMembers, (newMembers, oldMembers) => {
 
 <template>
     <div class="p-2 flex items-center gap-2">
-		<div class="flex items-center">
+		<div class="flex items-center" v-if="isHandheld">
 			<IconButton variant="subtle" color="base" :icon="faArrowLeft" size="lg" :href="route('chats')" />
 		</div>
 		
