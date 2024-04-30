@@ -1,22 +1,41 @@
 <script setup>
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import Conversation from '@/Components/Display/Conversation.vue'
-import { provide } from 'vue';
+import { provide, ref } from 'vue'
+import { useInfiniteScroll } from '@vueuse/core/index.cjs';
+import axios from 'axios';
 
-const { conversations } = defineProps({
-    conversations: Array
+const props = defineProps({
+    conversations: Object
 })
 
 provide('headerTitle', 'Discover')
+
+const conversationContainer = ref(null)
+const loading = ref(false)
+
+useInfiniteScroll(conversationContainer, async () => {
+    if (loading.value || !props.conversations.meta.next_cursor) return
+
+    loading.value = true
+    console.log(props.conversations.meta.next_cursor)
+    const response = await axios.get(`${props.conversations.meta.path}?cursor=${props.conversations.meta.next_cursor}`)
+
+    console.log(response.data)
+
+    props.conversations.data = [...props.conversations.data, ...response.data.data]
+    props.conversations.meta = response.data.meta
+    loading.value = false
+}, { distance: 10 })
 </script>
 
 <template>
     <AuthLayout>
         <div class="overflow-auto h-full">
-            <section class="flex justify-center overflow-auto h-full">
+            <section class="flex justify-center overflow-auto h-full" ref="conversationContainer">
                 <div class="px-1 py-6 w-full max-w-2xl">
                     <div class="flex flex-col gap-4">
-                        <div v-for="conversation in conversations" :key="conversation.uuid">
+                        <div v-for="conversation in conversations.data" :key="conversation.uuid">
                             <Conversation :conversation="conversation" />
                         </div>
                     </div>

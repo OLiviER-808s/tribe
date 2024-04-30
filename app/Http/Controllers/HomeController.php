@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,10 +11,9 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-
         $conversations = Conversation::where('active', true)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
                 return $query->withTrashed()->where('user_id', $user->id);
@@ -22,12 +22,15 @@ class HomeController extends Controller
                 return $query->whereIn('id', $user->tags->map(fn ($tag) => $tag->id)->toArray());
             })
             ->with('chat.members')
-            ->get()
-            ->map(fn ($conversation) => $conversation->viewModel())
-            ->toArray();
+            ->orderBy('created_at', 'desc')
+            ->cursorPaginate(5);
+
+        if ($request->wantsJson()) {
+            return ConversationResource::collection($conversations);
+        }
 
         return Inertia::render('Home', [
-            'conversations' => $conversations
+            'conversations' => ConversationResource::collection($conversations)
         ]);
     }
 }
