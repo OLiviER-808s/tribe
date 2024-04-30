@@ -18,10 +18,7 @@ useInfiniteScroll(conversationContainer, async () => {
     if (loading.value || !props.conversations.meta.next_cursor) return
 
     loading.value = true
-    console.log(props.conversations.meta.next_cursor)
     const response = await axios.get(`${props.conversations.meta.path}?cursor=${props.conversations.meta.next_cursor}`)
-
-    console.log(response.data)
 
     props.conversations.data = [...props.conversations.data, ...response.data.data]
     props.conversations.meta = response.data.meta
