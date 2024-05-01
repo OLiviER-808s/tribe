@@ -19,7 +19,8 @@ class Message extends Model implements HasMedia
         'user_id',
         'chat_id',
         'content',
-        'status'
+        'status',
+        'type'
     ];
 
     public function user()
@@ -43,6 +44,7 @@ class Message extends Model implements HasMedia
             'uuid' => $this->uuid,
             'content' => $this->content,
             'status' => $this->status,
+            'type' => $this->type,
             'sent_by' => $this->user->viewModel(),
             'sent_at' => $this->created_at,
             'files' => $this->formatFiles($this->getMedia(ConstMedia::MESSAGE_ATTACHMENTS))

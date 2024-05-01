@@ -3,10 +3,10 @@ import Textbox from '../Generic/Textbox.vue'
 import IconButton from '../Generic/IconButton.vue'
 import { ref, inject } from 'vue'
 import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
-import { router, useForm, usePage } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import { v4 as uuidv4 } from 'uuid'
-import { AxiosError } from 'axios'
 import { useFiles } from '@/Composables/useFiles'
+import axios from 'axios'
 
 const props = defineProps({
 	chat: Object,
@@ -31,7 +31,7 @@ let debounceTimer = null
 const send = () => {
 	if (content.value) {
 		const message = content.value
-		const files = mainContent.value?.data?.files
+		const files = mainContent.value?.data?.files ?? []
 		const uuid = uuidv4()
 		const active_uuids = props.activeMembers.map(user => user.uuid)
 
@@ -71,12 +71,12 @@ const startTyping = () => {
 
 	if (!typing.value) {
 		typing.value = true
-		router.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: true })
+		axios.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: true })
 	}
 
 	debounceTimer = setTimeout(() => {
 		typing.value = false
-		router.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: false })
+		axios.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: false })
 	}, 1000)
 }
 

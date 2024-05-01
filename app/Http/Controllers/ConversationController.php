@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreConversation;
 use App\Models\Chat;
-use App\Models\ChatAction;
 use App\Models\ChatMember;
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\TagCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,9 +48,11 @@ class ConversationController extends Controller
                 'admin' => true
             ]);
 
-            ChatAction::create([
+            Message::create([
+                'user_id' => $user->id,
                 'chat_id' => $chat->id,
-                'text' => $user->name . ' created the chat'
+                'content' => 'created the chat',
+                'type' => ConstMessageTypes::ACTION
             ]);
         });
 
@@ -81,9 +84,11 @@ class ConversationController extends Controller
                 'admin' => false
             ]);
 
-            ChatAction::create([
+            Message::create([
+                'user_id' => $user->id,
                 'chat_id' => $chat->id,
-                'text' => $user->name . ' joined the chat'
+                'content' => 'joined the chat',
+                'type' => ConstMessageTypes::ACTION
             ]);
         });
 

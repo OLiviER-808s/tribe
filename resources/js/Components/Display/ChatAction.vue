@@ -12,7 +12,7 @@ const timestamp = computed(() => formatTimestamp24Hour(new Date(action.sent_at))
 
 <template>
     <div class="flex items-center justify-center gap-6 py-2 text-sm text-secondary-text">
-        <p class="font-medium">{{ action.text }}</p>
+        <p class="font-medium">{{ action.sent_by.name }} {{ action.content }}</p>
         <p>{{ timestamp }}</p>
     </div>
 </template>

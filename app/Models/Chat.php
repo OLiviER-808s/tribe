@@ -30,11 +30,6 @@ class Chat extends Model implements HasMedia
         return $this->hasMany(Message::class);
     }
 
-    public function actions()
-    {
-        return $this->hasMany(ChatAction::class);
-    }
-
     public function latestMessage()
     {
         return $this->hasOne(Message::class)->orderBy('created_at', 'desc');
