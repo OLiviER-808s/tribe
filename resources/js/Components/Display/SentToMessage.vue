@@ -4,15 +4,12 @@ import { computed } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faCircleCheck, faClock, faEye } from '@fortawesome/free-solid-svg-icons'
 import MessageAttachments from '../Chat/MessageAttachments.vue'
-import { useFiles } from '@/Composables/useFiles'
 
 const { message } = defineProps({
     message: Object
 })
 
-const { readableFileSize } = useFiles()
 const { formatTimestamp24Hour } = useDates()
-
 const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
 
 const statusIcon = computed(() => {
@@ -36,7 +33,7 @@ const statusIcon = computed(() => {
         <div :class="[message.files?.length > 0 ? 'w-1/3' : 'w-3/5']">
             <div class="flex flex-row-reverse">
 				<div class="bg-primary/30 rounded-lg p-1 rounded-br-none">
-                    <MessageAttachments :files="message.files" :message-uuid="message.uuid" />
+                    <MessageAttachments v-if="message.files?.length > 0" :files="message.files" :message-uuid="message.uuid" />
 
 					<div class="flex gap-1 justify-between">
                         <div class="p-1">

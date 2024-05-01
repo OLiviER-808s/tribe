@@ -2,9 +2,6 @@
 import { useDates } from '@/Composables/useDates'
 import Avatar from '../Generic/Avatar.vue'
 import { computed, inject } from 'vue'
-import { useFiles } from '@/Composables/useFiles';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faFile } from '@fortawesome/free-solid-svg-icons';
 import MessageAttachments from '../Chat/MessageAttachments.vue';
 
 const { message, showUserInfo } = defineProps({
@@ -16,12 +13,9 @@ const { message, showUserInfo } = defineProps({
 })
 
 const inspectInfo = inject('inspectInfo')
-
 const onInspect = () => inspectInfo.value = { type: 'profile', data: message.sent_by }
 
-const { readableFileSize } = useFiles()
 const { formatTimestamp24Hour } = useDates()
-
 const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
 </script>
 
@@ -39,7 +33,7 @@ const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)
                 <div v-else class="min-w-8 w-8"></div>
 
 				<div class="bg-message rounded-lg p-1" :class="{ 'rounded-tl-none': showUserInfo }">
-                    <MessageAttachments :files="message.files" :message-uuid="message.uuid" />
+                    <MessageAttachments v-if="message.files?.length > 0" :files="message.files" :message-uuid="message.uuid" />
 
                     <div class="flex gap-1 justify-between">
                         <div class="p-1">

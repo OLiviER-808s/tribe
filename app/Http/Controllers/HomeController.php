@@ -23,7 +23,7 @@ class HomeController extends Controller
             })
             ->with('chat.members')
             ->orderBy('created_at', 'desc')
-            ->cursorPaginate(5);
+            ->cursorPaginate(15);
 
         if ($request->wantsJson()) {
             return ConversationResource::collection($conversations);

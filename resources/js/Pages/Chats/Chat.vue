@@ -12,7 +12,7 @@ import MessageFeed from '@/Components/Chat/MessageFeed.vue'
 import AttachmentUploadView from '@/Components/Chat/AttachmentUploadView.vue'
 import AttachmentInspectView from '@/Components/Chat/AttachmentInspectView.vue'
 
-const { chats, chat, messages, actions } = defineProps({
+const props = defineProps({
     chats: Array,
     chat: Object,
     messages: Array,
@@ -22,7 +22,7 @@ const { chats, chat, messages, actions } = defineProps({
 const page = usePage()
 
 const getInitialFeedItems = () => {
-    const combined = [...messages, ...actions]
+    const combined = [...props.messages.data, ...props.actions]
     return combined.sort((a, b) => new Date(b.sent_at) - new Date(a.sent_at))
 }
 
@@ -41,11 +41,11 @@ const activeMembers = ref([])
 const inspectInfo = ref(null)
 const mainContent = ref(null)
 
-provide('chats', chats)
+provide('chats', props.chats)
 provide('inspectInfo', inspectInfo)
 provide('mainContent', mainContent)
 
-window.Echo.join(`chat.${chat.uuid}`)
+window.Echo.join(`chat.${props.chat.uuid}`)
     .here((members) => {
         activeMembers.value = members
     })
@@ -79,7 +79,7 @@ watch(feedContainer, () => {
     }
 }, { immediate: true })
 
-onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
+onUnmounted(() => window.Echo.leave(`presence-chat.${props.chat.uuid}`))
 </script>
 
 <template>
@@ -88,7 +88,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${chat.uuid}`))
             <ChatHeader v-if="!mainContent?.type" :chat="chat" :active-members="activeMembers" />
 
             <div v-if="mainContent?.type === 'attachment-inspect'" class="flex-grow h-full px-2">
-                <AttachmentInspectView :files="messages.flatMap(message => message.files.map(file => (({ ...file, message_uuid: message.uuid, status: message.status }))))" :default-selected-file-uuid="mainContent.data.fileUuid" />
+                <AttachmentInspectView :files="messages.data.flatMap(message => message.files.map(file => (({ ...file, message_uuid: message.uuid, status: message.status }))))" :default-selected-file-uuid="mainContent.data.fileUuid" />
             </div>
             <div v-else-if="mainContent?.type === 'attachment-upload'" class="flex-grow h-full px-2">
                 <AttachmentUploadView />

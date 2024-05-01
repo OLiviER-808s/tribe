@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\ConstMedia;
 use App\Http\Requests\StoreChat;
+use App\Http\Resources\MessageResource;
 use App\Models\Chat;
 use App\Models\ChatAction;
 use App\Models\ChatMember;
@@ -24,19 +25,24 @@ class ChatController extends Controller
         ]);
     }
 
-    public function show($chatUuid)
+    public function show($chatUuid, Request $request)
     {
         $chatsQuery = $this->getUserChats();
         $chats = clone $chatsQuery;
 
         $chat = $chatsQuery->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
+        $messages = Message::where('chat_id', $chat->id)->orderBy('created_at', 'desc')->cursorPaginate(15);
+
+        if ($request->wantsJson()) {
+            return MessageResource::collection($messages);
+        }
 
         $this->readMessages($chat);
 
         return Inertia::render('Chats/Chat', [
             'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel()),
             'chat' => $chat->viewModel(false),
-            'messages' => $chat->messages->map(fn ($message) => $message->viewModel()),
+            'messages' => MessageResource::collection($messages),
             'actions' => $chat->actions->map(fn ($action) => $action->viewModel()),
         ]);
     }
