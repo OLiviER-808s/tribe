@@ -11,6 +11,7 @@ import ChatCard from '@/Components/Display/ChatCard.vue'
 import MessageFeed from '@/Components/Chat/MessageFeed.vue'
 import AttachmentUploadView from '@/Components/Chat/AttachmentUploadView.vue'
 import AttachmentInspectView from '@/Components/Chat/AttachmentInspectView.vue'
+import { useInfiniteScroll } from '@vueuse/core'
 
 const props = defineProps({
     chats: Array,
@@ -29,6 +30,8 @@ const scrollToBottom = () => {
 }
 
 const messagesState = ref(props.messages.data)
+const loading = ref(false)
+
 const feedContainer = ref(null)
 const activeMembers = ref([])
 
@@ -71,6 +74,17 @@ watch(feedContainer, () => {
         feedContainer.value.scrollTop = feedContainer.value.scrollHeight
     }
 }, { immediate: true })
+
+useInfiniteScroll(feedContainer, async () => {
+    if (loading.value || !props.messages.meta.next_cursor) return
+
+    loading.value = true
+    const response = await axios.get(`${props.messages.meta.path}?cursor=${props.messages.meta.next_cursor}`)
+
+    messagesState.value = [...messagesState.value, ...response.data.data]
+    props.messages.meta = response.data.meta
+    loading.value = false
+}, { distance: 200, direction: 'top' })
 
 onUnmounted(() => window.Echo.leave(`presence-chat.${props.chat.uuid}`))
 </script>

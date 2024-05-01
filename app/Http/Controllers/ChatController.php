@@ -31,7 +31,7 @@ class ChatController extends Controller
         $chats = clone $chatsQuery;
 
         $chat = $chatsQuery->where('uuid', $chatUuid)->with('messages.user')->firstOrFail();
-        $messages = Message::where('chat_id', $chat->id)->orderBy('created_at', 'desc')->cursorPaginate(15);
+        $messages = Message::where('chat_id', $chat->id)->orderBy('created_at', 'desc')->cursorPaginate(30);
 
         if ($request->wantsJson()) {
             return MessageResource::collection($messages);
