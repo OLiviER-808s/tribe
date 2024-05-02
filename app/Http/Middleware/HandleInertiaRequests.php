@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
+                'isOAuthUser' => ! $user?->password
             ],
             'profile' => $user?->viewModel(),
             'theme' => $user?->settings?->theme ?? 'light'
