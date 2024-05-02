@@ -18,9 +18,9 @@ const { isHandheld } = useIsHandheld()
         <section class="flex justify-center flex-1 overflow-auto h-0">
             <div class="max-w-sm flex-grow">
                 <Card v-if="isHandheld">
-                    <ProfileForm />
+                    <ProfileForm next-route="profile.interests" submit-button-text="Continue" />
                 </Card>
-                <ProfileForm v-else />
+                <ProfileForm v-else next-route="profile.interests" submit-button-text="Continue" />
             </div>
         </section>
     </EntryLayout>

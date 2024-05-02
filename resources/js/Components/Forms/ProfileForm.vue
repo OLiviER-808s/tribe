@@ -1,30 +1,51 @@
 <script setup>
 import AvatarInput from '@/Components/Generic/AvatarInput.vue'
 import { useForm, usePage } from '@inertiajs/vue3'
-import { DEFAULT_PROFILE_PIC, REGISTER_STEPS } from '@/lib/constants'
+import { DEFAULT_PROFILE_PIC } from '@/lib/constants'
 import Textarea from '@/Components/Generic/Textarea.vue'
 import Button from '@/Components/Generic/Button.vue'
 import UsernameInput from '@/Components/Auth/UsernameInput.vue'
 import { ref } from 'vue'
 
+const props = defineProps({
+    nextRoute: String,
+    existingProfile: {
+        type: Object,
+        default: null
+    },
+    submitButtonText: {
+        type: String,
+        default: 'Confirm'
+    },
+    onSuccess: {
+        type: Function,
+        default: () => {}
+    }
+})
+
+const page = usePage()
+
 const cropping = ref(false)
-const src = ref(DEFAULT_PROFILE_PIC)
+const src = ref(props.existingProfile?.photo ?? DEFAULT_PROFILE_PIC)
 
 const errors = ref({})
 
 const form = useForm({
     _method: 'PATCH',
-    name: usePage().props.auth.user.name,
-    username: '',
-    bio: '',
+    name: page.props.auth.user.name,
+    username: props.existingProfile?.username,
+    bio: props.existingProfile?.bio,
     photo: null,
-    next_route: 'profile.interests'
+    next_route: props.nextRoute
 })
 
 const submit = () => {
     form.post(route('profile.update'), {
         onError: (errs) => {
             errors.value = errs
+        },
+        onSuccess: () => {
+            props.onSuccess()
         }
     })
 }
@@ -37,7 +58,7 @@ const submit = () => {
         </div>
 
         <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
-            <UsernameInput v-model:username="form.username" :error="errors.username" />
+            <UsernameInput v-model:username="form.username" :error="errors.username" :existing-username="existingProfile?.username" />
 
             <Textarea
             v-model="form.bio"
@@ -46,7 +67,7 @@ const submit = () => {
             :error="errors.bio"
             />
 
-            <Button type="submit">Continue</Button>
+            <Button type="submit">{{ submitButtonText }}</Button>
         </form>
     </div>
 </template>
