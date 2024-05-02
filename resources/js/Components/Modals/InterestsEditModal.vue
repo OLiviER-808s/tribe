@@ -62,7 +62,7 @@ const submit = () => {
 
                 <p v-if="errors?.interests" class="text-error text-center my-2">{{ errors.interests }}</p>
 
-                <Button styles="w-full mt-2" :on-click="submit">Complete</Button>
+                <Button styles="w-full mt-2" :on-click="submit">Confirm</Button>
             </div>
         </Card>
     </VueFinalModal>
