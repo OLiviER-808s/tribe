@@ -14,7 +14,7 @@ const { categories } = defineProps({
 const errors = ref({})
 
 const form = useForm({
-    next_route: 'home',
+    next_route: 'discover',
     interests: []
 })
 

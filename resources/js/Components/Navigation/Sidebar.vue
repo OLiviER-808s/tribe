@@ -11,9 +11,9 @@ import Avatar from '../Generic/Avatar.vue'
             <IconButton
             :icon="faIcons"
             variant="subtle"
-            :color="$page.url === '/' ? 'secondary' : 'base'"
+            :color="$page.url.startsWith('/discover') ? 'secondary' : 'base'"
             size="xl"
-            :href="route('home')"
+            :href="route('discover')"
             />
 
             <IconButton

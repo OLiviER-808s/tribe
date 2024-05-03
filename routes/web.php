@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\GoogleOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterests::class])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/discover', [DiscoverController::class, 'index'])->name('discover');
 
     // CONVERSATIONS
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');

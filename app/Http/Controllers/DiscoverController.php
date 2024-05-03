@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
-class HomeController extends Controller
+class DiscoverController extends Controller
 {
     public function index(Request $request)
     {
@@ -29,7 +29,7 @@ class HomeController extends Controller
             return ConversationResource::collection($conversations);
         }
 
-        return Inertia::render('Home', [
+        return Inertia::render('Discover', [
             'conversations' => ConversationResource::collection($conversations)
         ]);
     }

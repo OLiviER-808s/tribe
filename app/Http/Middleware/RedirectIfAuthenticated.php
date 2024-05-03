@@ -20,7 +20,7 @@ class RedirectIfAuthenticated
         } else if ($user->tags->count() < 1) {
             return Redirect::route('profile.interests');
         } else {
-            return Redirect::route('home');
+            return Redirect::route('discover');
         }
     }
 }

@@ -56,7 +56,7 @@ class ConversationController extends Controller
             ]);
         });
 
-        return to_route('home');
+        return to_route('discover');
     }
 
     public function join($conversationUuid)
