@@ -4,6 +4,7 @@ import Conversation from '@/Components/Display/Conversation.vue'
 import { provide, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core/index.cjs';
 import axios from 'axios';
+import Tag from '@/Components/Generic/Tag.vue';
 
 const props = defineProps({
     conversations: Object
@@ -31,6 +32,10 @@ useInfiniteScroll(conversationContainer, async () => {
         <div class="overflow-auto h-full">
             <section class="flex justify-center overflow-auto h-full" ref="conversationContainer">
                 <div class="px-1 py-6 w-full max-w-2xl">
+                    <div class="flex items-center gap-2 mb-6">
+                        <Tag rounded="md" color="secondary-text/60" size="sm">test</Tag>
+                    </div>
+
                     <div class="flex flex-col gap-4">
                         <div v-for="conversation in conversations.data" :key="conversation.uuid">
                             <Conversation :conversation="conversation" />

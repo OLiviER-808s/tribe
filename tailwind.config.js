@@ -52,6 +52,9 @@ export default {
 		},
 		{
 			pattern: /(bg|text)-(red|orange|yellow|green|teal|blue|indigo|purple|pink|cyan|sky|lime|amber|violet|rose|fuchsia|emerald)-500/
+		},
+		{
+			pattern: /rounded-(sm|md|lg|xl|full)/
 		}
 	],
     plugins: [forms],
