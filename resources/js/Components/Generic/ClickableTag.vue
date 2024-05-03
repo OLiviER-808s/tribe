@@ -12,6 +12,10 @@ const props = defineProps({
         type: String,
         default: 'md'
     },
+    rounded: {
+        type: String,
+        default: 'full'
+    },
     styles: {
         type: String,
         default: ''
@@ -28,7 +32,7 @@ const hoverBgColorClass = computed(() => `${props.color}/10`)
 <template>
     <button 
         @click="onSelect" 
-        :class="`py-1 px-3 rounded-full border-2 duration-100 text-center ${textSizeClass} ${borderColorClass} ${selected ? bgColorClass + ' text-black' : 'bg-transparent ' + textColorClass + ' hover:bg-' + hoverBgColorClass}` + ' ' + styles"
+        :class="`py-1 px-3 rounded-${rounded} border-2 duration-100 text-center ${textSizeClass} ${borderColorClass} ${selected ? bgColorClass + ' text-black' : 'bg-transparent ' + textColorClass + ' hover:bg-' + hoverBgColorClass}` + ' ' + styles"
     >
         <slot />
     </button>
