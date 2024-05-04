@@ -43,19 +43,19 @@ const handleClick = (e) => {
     onClick(e)
 }
 
-const { value: btnColor } = computed(() => {
+const btnColor = computed(() => {
     return color === 'base' ? 'secondary-text' : color
 })
-const { value: classes } = computed(() => {
+const classes = computed(() => {
     switch (variant) {
 		case 'light':
-			return `${styles} btn bg-${btnColor}/20 hover:bg-${btnColor}/35 text-${btnColor}`
+			return `${styles} btn bg-${btnColor.value}/20 hover:bg-${btnColor.value}/35 text-${btnColor.value}`
 		case 'outline':
-			return `${styles} btn text-${btnColor} border-${btnColor} hover:bg-${btnColor}/10 border-2`
+			return `${styles} btn text-${btnColor.value} border-${btnColor.value} hover:bg-${btnColor.value}/10 border-2`
 		case 'subtle':
-			return `${styles} btn text-${btnColor} hover:bg-${btnColor}/10`
+			return `${styles} btn text-${btnColor.value} hover:bg-${btnColor.value}/10`
 		default:
-			return `${styles} btn text-black bg-${btnColor}`
+			return `${styles} btn text-black bg-${btnColor.value}`
 	}
 })
 </script>
