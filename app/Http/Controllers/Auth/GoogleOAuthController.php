@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleOAuthController extends Controller
@@ -29,6 +30,6 @@ class GoogleOAuthController extends Controller
      
         Auth::login($user);
      
-        return redirect('/');
+        return Redirect::route('discover');
     }
 }
