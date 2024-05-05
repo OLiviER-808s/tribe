@@ -14,6 +14,7 @@ class DiscoverController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+
         $conversations = Conversation::where('active', true)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
                 return $query->withTrashed()->where('user_id', $user->id);

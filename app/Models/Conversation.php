@@ -15,13 +15,19 @@ class Conversation extends Model
     protected $fillable = [
         'title',
         'description',
+        'topic_id',
         'limit',
         'active',
     ];
 
     public function chat()
     {
-        return $this->hasOne(Chat::class, 'conversation_id');
+        return $this->hasOne(Chat::class);
+    }
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
     }
 
     public function viewModel()
@@ -33,7 +39,7 @@ class Conversation extends Model
             'created_by' => $this->createdByUser->username,
             'members' => $this->chat->members->count(),
             'limit' => $this->limit,
-            'category' => $this->tags->first()->name
+            'topic' => $this->topic->viewModel()
         ];
     }
 }

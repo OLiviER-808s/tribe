@@ -8,7 +8,8 @@ use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Conversation;
 use App\Models\Message;
-use App\Models\TagCategory;
+use App\Models\Topic;
+use App\Models\TopicCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -17,7 +18,7 @@ class ConversationController extends Controller
 {
     public function create()
     {
-        $categories = TagCategory::with('tags')->get();
+        $categories = TopicCategory::all();
 
         return Inertia::render('Conversations/ConversationCreate', [
             'categories' => $categories->map(fn ($category) => $category->viewModel())
@@ -26,16 +27,17 @@ class ConversationController extends Controller
 
     public function store(StoreConversation $request)
     {
-        DB::transaction(function () use ($request) {
-            $user = Auth::user();
+        $user = Auth::user();
+        $topic = Topic::where('uuid', $request['category'])->firstOrFail();
 
+        DB::transaction(function () use ($request, $user, $topic) {
             $conversation = Conversation::create([
                 'title' => $request['title'],
                 'description' => $request['description'],
+                'topic_id' => $topic->id,
                 'limit' => $request['limit'] + 1,
                 'active' => true
             ]);
-            $conversation->syncTags([ $request['category'] ]);
 
             $chat = Chat::create([
                 'name' => $request['title'],

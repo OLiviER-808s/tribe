@@ -26,7 +26,7 @@ class TopicCategory extends Model
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'topics' => $this->topics->whereNull('parent_id')->map(fn ($topic) => $topic->viewModel())
+            'topics' => $this->topics->map(fn ($topic) => $topic->viewModel())
         ];
     }
 }

@@ -14,14 +14,15 @@ const searchValue = ref(modelValue)
 
 const filteredCategories = computed(() => categories.map(category => ({
     ...category,
-    tags: category.tags.filter(tag => tag.toLowerCase().includes(searchValue.value.toLowerCase()) && tag.toLowerCase() !== searchValue.value.toLowerCase())
+    topics: category.topics.filter(topic => topic.label.toLowerCase().includes(searchValue.value.toLowerCase()) && topic.label.toLowerCase() !== searchValue.value.toLowerCase())
 })))
-const allTags = computed(() => categories.flatMap(category => category.tags).map(tag => tag.toLowerCase()))
+const allTopics = computed(() => categories.flatMap(category => category.topics))
 
 watch(searchValue, () => {
-    if (allTags.value.includes(searchValue.value.toLowerCase())) {
-        console.log('test')
-        emit('update:modelValue', searchValue.value)
+    const topic = allTopics.value.find(topic => topic.label.toLowerCase() === searchValue.value.toLowerCase())
+
+    if (topic) {
+        emit('update:modelValue', topic.uuid)
     } else {
         emit('update:modelValue', '')
     }
@@ -42,10 +43,10 @@ watch(searchValue, () => {
         <template #body>
             <div class="overflow-auto max-h-64">
                 <div v-for="category in filteredCategories" :key="category.uuid">
-                    <h5 class="text-sm font-semibold text-dropdown-text p-2" v-if="category.tags.length > 0">{{ category.name }}</h5>
+                    <h5 class="text-sm font-semibold text-dropdown-text p-2" v-if="category.topics.length > 0">{{ category.name }}</h5>
 
-                    <div @click="searchValue = tag" v-for="tag in category.tags" :key="tag" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
-                        {{ tag }}
+                    <div @click="searchValue = topic.label" v-for="topic in category.topics" :key="topic.uuid" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
+                        {{ topic.label }}
                     </div>
                 </div>
             </div>
