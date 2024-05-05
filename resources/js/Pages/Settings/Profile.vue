@@ -8,7 +8,6 @@ import Tag from '@/Components/Generic/Tag.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPencil, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import InterestsEditModal from '@/Components/Modals/InterestsEditModal.vue'
-import { router } from '@inertiajs/vue3'
 
 const { categories } = defineProps({
     categories: Array
@@ -32,10 +31,6 @@ const interestsModal = useModal({
         }
     }
 })
-
-const logout = () => {
-    router.post(route('logout'))
-}
 </script>
 
 <template>
@@ -68,8 +63,8 @@ const logout = () => {
                     </div>
 
                     <div class="flex gap-2 items-center flex-wrap">
-                        <div v-for="interest in $page.props.profile.interests" :key="interest">
-                            <Tag>{{ interest }}</Tag>
+                        <div v-for="interest in $page.props.profile.interests" :key="interest.uuid">
+                            <Tag>{{ interest.label }}</Tag>
                         </div>
                     </div>
                 </div>

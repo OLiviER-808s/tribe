@@ -24,7 +24,7 @@ const tagIsSelected = (topic) => {
 
 const handleTagSelect = (topic) => {
     if (tagIsSelected(topic)) {
-        form.interests = form.interests.filter(t => t !== topic.uuid)
+        form.interests = form.interests.filter(uuid => uuid !== topic.uuid)
     } else {
         form.interests.push(topic.uuid)
     }

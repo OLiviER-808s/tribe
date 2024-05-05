@@ -37,7 +37,7 @@ class User extends Authenticatable implements HasMedia
 
     public function interests()
     {
-        return $this->belongsToMany(Topic::class, 'profile_interests');
+        return $this->belongsToMany(Topic::class, 'user_interests');
     }
 
     public function settings()

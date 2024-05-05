@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TagCategory;
+use App\Models\TopicCategory;
 use App\Models\UserSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,10 +23,10 @@ class SettingsController extends Controller
 
     public function profile()
     {
-        $categories = TagCategory::with('tags')->get()->map(fn ($category) => $category->viewModel());
+        $categories = TopicCategory::all();
 
         return Inertia::render('Settings/Profile', [
-            'categories' => $categories
+            'categories' => $categories->map(fn ($category) => $category->viewModel())
         ]);
     }
 
