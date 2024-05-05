@@ -6,6 +6,7 @@ use App\Constants\ConstMedia;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\StoreProfileInterests;
 use App\Models\TagCategory;
+use App\Models\Topic;
 use App\Models\TopicCategory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -76,7 +77,8 @@ class ProfileController extends Controller
 
     public function updateInterests(StoreProfileInterests $request)
     {
-        $request->user()->syncTags($request['interests']);
+        $topics = Topic::whereIn('uuid', $request['interests'])->get();
+        $request->user()->interests()->sync($topics);
 
         return Redirect::route($request['next_route']);
     }

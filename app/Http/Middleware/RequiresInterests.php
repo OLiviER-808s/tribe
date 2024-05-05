@@ -11,7 +11,7 @@ class RequiresInterests
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->tags->count() < 1) {
+        if ($request->user()->interests->count() < 1) {
             return Redirect::route('profile.interests');
         }
 
