@@ -10,7 +10,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Spatie\Tags\Tag;
 
 class ConversationSeeder extends Seeder
 {
@@ -26,11 +25,7 @@ class ConversationSeeder extends Seeder
                     'active' => true
                 ]);
     
-            $tags = Tag::all();
-    
             foreach ($conversations as $conversation) {
-                $conversation->attachTag($tags->random()->name);
-
                 $chat = Chat::factory()->create([
                     'conversation_id' => $conversation->id,
                     'created_by_id' => $conversation->created_by_id,

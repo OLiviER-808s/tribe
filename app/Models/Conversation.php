@@ -6,11 +6,10 @@ use App\Traits\UsesCreatedBy;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Tags\HasTags;
 
 class Conversation extends Model
 {
-    use HasFactory, UsesUuid, UsesCreatedBy, HasTags;
+    use HasFactory, UsesUuid, UsesCreatedBy;
 
     protected $fillable = [
         'title',

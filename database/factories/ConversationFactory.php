@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Topic;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,6 +22,7 @@ class ConversationFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
+            'topic_id' => Topic::all()->random()->id,
             'limit' => fake()->numberBetween(1, 10),
             'active' => fake()->boolean(),
             'created_by_id' => User::all()->random()->id,

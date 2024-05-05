@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -10,7 +11,7 @@ use Spatie\Tags\Tag;
 
 class UserSeeder extends Seeder
 {
-    private const PASSWORD = 'password1';
+    private const PASSWORD = 'password';
 
     public function run(): void
     {
@@ -36,7 +37,7 @@ class UserSeeder extends Seeder
         ]);
 
         foreach ($users as $user) {
-            $user->attachTags(Tag::inRandomOrder()->take(5)->pluck('name')->toArray());
+            $user->interests()->saveMany(Topic::inRandomOrder()->take(5)->get());
         }
     }
 }
