@@ -35,6 +35,11 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
+    public function interests()
+    {
+        return $this->belongsToMany(Topic::class, 'profile_interests');
+    }
+
     public function settings()
     {
         return $this->hasOne(UserSettings::class);
@@ -53,7 +58,7 @@ class User extends Authenticatable implements HasMedia
             'username' => $this->username,
             'bio' => $this->bio,
             'photo' => $this->getFirstMedia(ConstMedia::PROFILE_PHOTO)?->getFullUrl() ?? ConstMedia::DEFAULT_PROFILE_PHOTO_PATH,
-            'interests' => $this->tags->map(fn ($tag) => $tag->name)
+            'interests' => $this->interests->map(fn ($topic) => $topic->viewModel())
         ];
     }
 }

@@ -19,14 +19,14 @@ const form = useForm({
 })
 
 const tagIsSelected = (tag) => {
-    return form.interests.includes(tag)
+    return form.interests.includes(tag.uuid)
 }
 
 const handleTagSelect = (tag) => {
     if (tagIsSelected(tag)) {
-        form.interests = form.interests.filter(t => t !== tag)
+        form.interests = form.interests.filter(t => t !== tag.uuid)
     } else {
-        form.interests.push(tag)
+        form.interests.push(tag.uuid)
     }
 }
 
@@ -51,8 +51,8 @@ const submit = () => {
                     <h2 class="text-xl mb-2">{{ category.name }}</h2>
 
                     <div class="flex gap-y-4 gap-x-2 flex-wrap items-center">
-                        <div v-for="tag in category.tags" :key="tag">
-                            <ClickableTag :selected="tagIsSelected(tag)" :on-select="() => handleTagSelect(tag)">{{ tag }}</ClickableTag>
+                        <div v-for="topic in category.topics" :key="topic.uuid">
+                            <ClickableTag :selected="tagIsSelected(topic)" :on-select="() => handleTagSelect(topic)">{{ topic.label }}</ClickableTag>
                         </div>
                     </div>
                 </div>

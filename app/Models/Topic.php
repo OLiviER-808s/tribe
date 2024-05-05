@@ -16,4 +16,13 @@ class Topic extends Model
         'category_id',
         'parent_id'
     ];
+
+    public function viewModel()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'label' => $this->label,
+            'emoji' => $this->emoji
+        ];
+    }
 }

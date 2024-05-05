@@ -6,6 +6,7 @@ use App\Constants\ConstMedia;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\StoreProfileInterests;
 use App\Models\TagCategory;
+use App\Models\TopicCategory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ProfileController extends Controller
 
     public function interests()
     {
-        $categories = TagCategory::with('tags')->get();
+        $categories = TopicCategory::all();
 
         return Inertia::render('Auth/SetInterests', [
             'categories' => $categories->map(fn ($category) => $category->viewModel())

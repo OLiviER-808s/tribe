@@ -15,4 +15,18 @@ class TopicCategory extends Model
     ];
 
     public $timestamps = false;
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class, 'category_id');
+    }
+
+    public function viewModel()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'topics' => $this->topics->whereNull('parent_id')->map(fn ($topic) => $topic->viewModel())
+        ];
+    }
 }
