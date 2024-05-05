@@ -14,13 +14,12 @@ class DiscoverController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $userInterests = $user->interests->pluck('id')->toArray();
 
         $conversations = Conversation::where('active', true)
+            ->whereIn('topic_id', $userInterests)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
                 return $query->withTrashed()->where('user_id', $user->id);
-            })
-            ->whereHas('tags', function ($query) use ($user) {
-                return $query->whereIn('id', $user->tags->map(fn ($tag) => $tag->id)->toArray());
             })
             ->with('chat.members')
             ->orderBy('created_at', 'desc')

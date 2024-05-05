@@ -26,7 +26,7 @@ const join = () => {
         <p class="mb-3 whitespace-pre-line">{{ conversation.description }}</p>
 
         <div class="flex items-center justify-between mb-6">
-            <Tag size="sm">{{ conversation.category }}</Tag>
+            <Tag size="sm">{{ conversation.topic.label }}</Tag>
 
             <!-- TODO: make this a link to profile page -->
             <p class="text-sm text-secondary-text">by <span class="font-semibold">@{{ conversation.created_by }}</span></p>
