@@ -7,6 +7,7 @@ use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UsernameController;
 use App\Http\Middleware\RequiresInterests;
 use App\Http\Middleware\RequiresUsername;
@@ -17,6 +18,7 @@ Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name
 Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
 
 Route::get('/check-username/{username}', [UsernameController::class, 'check'])->name('username.check');
+Route::get('/topics', [TopicController::class, 'index'])->name('topics');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

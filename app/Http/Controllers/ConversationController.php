@@ -18,11 +18,7 @@ class ConversationController extends Controller
 {
     public function create()
     {
-        $categories = TopicCategory::all();
-
-        return Inertia::render('Conversations/ConversationCreate', [
-            'categories' => $categories->map(fn ($category) => $category->viewModel())
-        ]);
+        return Inertia::render('Conversations/ConversationCreate');
     }
 
     public function store(StoreConversation $request)

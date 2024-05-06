@@ -1,28 +1,30 @@
 <script setup>
 import DropdownMenu from 'v-dropdown-menu'
 import Textbox from '@/Components/Generic/Textbox.vue'
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue'
+import { watchDebounced } from '@vueuse/core'
+import axios from 'axios'
 
-const { categories, modelValue } = defineProps({
-    categories: Array,
+const props = defineProps({
     modelValue: String,
     error: [String, Boolean],
 })
 const emit = defineEmits(['update:modelValue'])
 
-const searchValue = ref(modelValue)
+const searchValue = ref(props.modelValue)
+const suggestedTopics = ref([])
 
-const filteredCategories = computed(() => categories.map(category => ({
-    ...category,
-    topics: category.topics.filter(topic => topic.label.toLowerCase().includes(searchValue.value.toLowerCase()) && topic.label.toLowerCase() !== searchValue.value.toLowerCase())
-})))
-const allTopics = computed(() => categories.flatMap(category => category.topics))
+watchDebounced(searchValue, async () => {
+    const response = await axios.get(`/topics?search=${searchValue.value}`)
+    suggestedTopics.value = response.data?.topics
+}, { debounce: 300, maxWait: 500 })
 
 watch(searchValue, () => {
-    const topic = allTopics.value.find(topic => topic.label.toLowerCase() === searchValue.value.toLowerCase())
+    const topic = suggestedTopics.value.find(topic => topic.label.toLowerCase() === searchValue.value.toLowerCase())
 
     if (topic) {
         emit('update:modelValue', topic.uuid)
+        suggestedTopics.value = []
     } else {
         emit('update:modelValue', '')
     }
@@ -41,14 +43,10 @@ watch(searchValue, () => {
         </template>
         
         <template #body>
-            <div class="overflow-auto max-h-64">
-                <div v-for="category in filteredCategories" :key="category.uuid">
-                    <h5 class="text-sm font-semibold text-dropdown-text p-2" v-if="category.topics.length > 0">{{ category.name }}</h5>
-
-                    <div @click="searchValue = topic.label" v-for="topic in category.topics" :key="topic.uuid" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
-                        {{ topic.label }}
-                    </div>
-                </div>
+            <div class="overflow-auto max-h-64 flex flex-col">
+                <button @click="searchValue = topic.label" v-for="topic in suggestedTopics" :key="topic.uuid" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md text-left">
+                    {{ topic.label }}
+                </button>
             </div>
         </template>
     </DropdownMenu>

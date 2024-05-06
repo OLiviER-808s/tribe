@@ -9,7 +9,7 @@ class UsernameController extends Controller
 {
     public function check($username)
     {
-        $taken = User::where('username', 'LIKE', $username.'%')->exists();
+        $taken = User::where('username', $username)->exists();
 
         return [
             'taken' => $taken
