@@ -9,7 +9,6 @@ use App\Models\ChatMember;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Topic;
-use App\Models\TopicCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;

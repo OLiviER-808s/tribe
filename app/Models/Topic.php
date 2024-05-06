@@ -22,6 +22,11 @@ class Topic extends Model
         return $this->belongsTo(TopicCategory::class, 'category_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Topic::class, 'parent_id');
+    }
+
     public function viewModel()
     {
         return [

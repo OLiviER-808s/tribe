@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Traits\UsesCreatedBy;
+use App\Traits\UsesTopic;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Conversation extends Model
 {
-    use HasFactory, UsesUuid, UsesCreatedBy;
+    use HasFactory, UsesUuid, UsesCreatedBy, UsesTopic;
 
     protected $fillable = [
         'title',
@@ -22,11 +24,6 @@ class Conversation extends Model
     public function chat()
     {
         return $this->hasOne(Chat::class);
-    }
-
-    public function topic()
-    {
-        return $this->belongsTo(Topic::class);
     }
 
     public function viewModel()
