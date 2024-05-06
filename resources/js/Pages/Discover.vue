@@ -2,11 +2,10 @@
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import Conversation from '@/Components/Display/Conversation.vue'
 import QuickFilters from '@/Components/Discover/QuickFilters.vue'
+import GlobalSearch from '@/Components/Dropdowns/GlobalSearch.vue'
 import { provide, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core/index.cjs'
 import axios from 'axios'
-import Textbox from '@/Components/Generic/Textbox.vue'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const props = defineProps({
     conversations: Object
@@ -15,8 +14,6 @@ const props = defineProps({
 provide('headerTitle', 'Discover')
 
 const conversationContainer = ref(null)
-
-const searchFocused = ref(false)
 
 useInfiniteScroll(conversationContainer, async () => {
     if (!props.conversations.links.next) return
@@ -32,13 +29,7 @@ useInfiniteScroll(conversationContainer, async () => {
 <template>
     <AuthLayout>
         <template #header-right-section>
-            <Textbox 
-            :icon="faSearch" 
-            placeholder="Press / to search"
-            :on-focus="() => searchFocused = true"
-            :on-blur="() => searchFocused = false"
-            :styles="searchFocused ? 'w-96' : 'w-auto'"
-            />
+            <GlobalSearch />
         </template>
 
         <div class="overflow-auto h-full">
