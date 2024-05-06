@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DiscoverController extends Controller
@@ -16,13 +18,18 @@ class DiscoverController extends Controller
         $userInterests = $user->interests->pluck('id')->toArray();
 
         $conversations = Conversation::where('active', true)
-            //->whereIn('topic_id', $userInterests)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
                 return $query->withTrashed()->where('user_id', $user->id);
             })
             ->with('chat.members')
-            ->orderBy('created_at', 'desc')
-            ->get()
+            ->orderBy('created_at', 'desc');
+
+        if ($request->input('topics')) {
+            $topics = Topic::whereIn('label', explode(',', $request->input('topics')))->get()->pluck('id')->toArray();
+            $conversations = $conversations->whereIn('topic_id', $topics);
+        }
+        
+        $conversations = $conversations->get()
             ->sortByDesc(fn ($conversation) => $conversation->calculateRelavance($userInterests))
             ->paginate(15);
 
