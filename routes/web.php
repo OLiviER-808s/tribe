@@ -6,6 +6,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UsernameController;
@@ -36,7 +37,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterests::class])->group(function () {
+    // DISCOVER
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover');
+
+    // GLOBAL SEARCH
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
 
     // CONVERSATIONS
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');

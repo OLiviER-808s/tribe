@@ -1,35 +1,57 @@
 <script setup>
 import DropdownMenu from 'v-dropdown-menu'
 import Textbox from '@/Components/Generic/Textbox.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 import axios from 'axios'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-
-const props = defineProps({
-    modelValue: String,
-    error: [String, Boolean],
-})
-const emit = defineEmits(['update:modelValue'])
+import { faSearch, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Avatar from '../Generic/Avatar.vue'
 
 const focused = ref(false)
+const searchValue = ref('')
+const searchResults = ref(null)
+
+watchDebounced(searchValue, async () => {
+    const response = await axios.get(`/search?query=${searchValue.value}`)
+    searchResults.value = response.data.results
+}, { debounce: 500, maxWait: 1000 })
 </script>
 
 <template>
     <DropdownMenu :overlay="false" :dropup="false">
         <template #trigger>
             <Textbox 
+            v-model="searchValue"
             :icon="faSearch" 
             placeholder="Press / to search"
             :on-focus="() => focused = true"
             :on-blur="() => focused = false"
-            :styles="focused ? 'w-96' : 'w-auto'"
+            :styles="focused || searchValue.length > 0 ? 'w-96' : 'w-auto'"
             />
         </template>
         
         <template #body>
-            <div class="overflow-auto max-h-64 flex flex-col">
-
+            <div class="overflow-auto max-h-64 flex flex-col" v-if="searchValue.length > 0 && searchResults?.data.length > 0">
+                <button class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md flex items-center gap-4">
+                    <FontAwesomeIcon :icon="faSearch" /> Results for "{{ searchValue }}"
+                </button>
+                <button v-for="result in searchResults.data" :key="result.uuid" class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md text-left">
+                    <div class="flex items-center gap-4" v-if="result.resultType === 'conversation'">
+                        <FontAwesomeIcon :icon="faUsers" />
+                        <div>
+                            <p cla>{{ result.title }}</p>
+                            <p class="text-sm">Conversation by @{{ result.created_by }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4" v-if="result.resultType === 'user'">
+                        <Avatar :src="result.photo" styles="w-8" />
+                        <div>
+                            <p cla>{{ result.name }}</p>
+                            <p class="text-sm">@{{ result.username }}</p>
+                        </div>
+                    </div>
+                </button>
             </div>
         </template>
     </DropdownMenu>
