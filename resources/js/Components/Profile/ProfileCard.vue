@@ -34,8 +34,8 @@ const props = defineProps({
         </div>
 
         <div v-if="withInerests" class="flex gap-2 flex-wrap mt-4">
-            <div v-for="interest in profile.interests" :key="interest">
-                <Tag size="xs">{{ interest }}</Tag>
+            <div v-for="topic in profile.interests" :key="topic.uuid">
+                <Tag size="xs">{{ topic.label }}</Tag>
             </div>
         </div>
 

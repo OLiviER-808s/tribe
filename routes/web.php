@@ -43,6 +43,9 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     // GLOBAL SEARCH
     Route::get('/search', [SearchController::class, 'index'])->name('search');
 
+    // PROFILES
+    Route::get('/profile/{username}', [ProfileController::class, 'show'])->name('profile');
+
     // CONVERSATIONS
     Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');
     Route::post('/conversation/create', [ConversationController::class, 'store'])->name('conversation.store');

@@ -7,10 +7,21 @@ import axios from 'axios'
 import { faSearch, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Avatar from '../Generic/Avatar.vue'
+import { router } from '@inertiajs/vue3'
 
 const focused = ref(false)
 const searchValue = ref('')
 const searchResults = ref(null)
+
+const selectResult = (result) => {
+    switch (result.resultType) {
+        case 'user':
+            router.visit(route('profile', { username: result.username }))
+            break
+        default:
+            break
+    }
+}
 
 watchDebounced(searchValue, async () => {
     const response = await axios.get(`/search?query=${searchValue.value}`)
@@ -36,7 +47,7 @@ watchDebounced(searchValue, async () => {
                 <button class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md flex items-center gap-4">
                     <FontAwesomeIcon :icon="faSearch" /> Results for "{{ searchValue }}"
                 </button>
-                <button v-for="result in searchResults.data" :key="result.uuid" class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md text-left">
+                <button v-for="result in searchResults.data" @click="selectResult(result)" :key="result.uuid" class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md text-left">
                     <div class="flex items-center gap-4" v-if="result.resultType === 'conversation'">
                         <FontAwesomeIcon :icon="faUsers" />
                         <div>

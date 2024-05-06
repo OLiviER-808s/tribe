@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Constants\ConstMedia;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\StoreProfileInterests;
-use App\Models\TagCategory;
 use App\Models\Topic;
 use App\Models\TopicCategory;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,6 +18,15 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function show($username)
+    {
+        $user = User::where('username', $username)->firstOrFail();
+
+        return Inertia::render('Profile/Profile', [
+            'profile' => $user->viewModel()
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('Auth/SetProfileInfo');
