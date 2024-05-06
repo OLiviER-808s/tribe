@@ -3,6 +3,7 @@ import { faIcons, faMapLocationDot, faPlus, faComments } from '@fortawesome/free
 import IconButton from '../Generic/IconButton.vue'
 import Card from '../Generic/Card.vue'
 import Avatar from '../Generic/Avatar.vue'
+import { router } from '@inertiajs/vue3';
 </script>
 
 <template>
@@ -41,9 +42,9 @@ import Avatar from '../Generic/Avatar.vue'
 
             <div class="flex-grow" />
 
-            <a :href="route('settings.profile')">
+            <button @click="router.visit(route('settings.profile'))">
                 <Avatar :src="$page.props.profile.photo" styles="w-10" />
-            </a>
+            </button>
         </div>
     </Card>
 </template>
