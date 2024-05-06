@@ -34,7 +34,11 @@ const { isHandheld } = useIsHandheld()
 			<MobileFooter v-if="showMobileFooter" />
 		</div>
 		<div class="h-full flex flex-col p-1" v-else>
-			<Header />
+			<Header>
+				<template #right-section>
+					<slot name="header-right-section" />
+				</template>
+			</Header>
 
 			<div class="flex-1 flex gap-1">
 				<Sidebar />

@@ -6,9 +6,12 @@ const headerTitle = inject('headerTitle')
 </script>
 
 <template>
-    <Card styles="w-full flex items-center gap-6 mb-1">
-        <img src="/logo.svg" alt="logo" class="w-11" />
+    <Card styles="w-full flex items-center justify-between mb-1">
+        <div class="flex items-center gap-6">
+            <img src="/logo.svg" alt="logo" class="w-11" />
+            <h1 class="font-bold text-3xl mb-1">{{ headerTitle }}</h1>
+        </div>
 
-        <h1 class="font-bold text-3xl mb-1">{{ headerTitle }}</h1>
+        <slot name="right-section" />
     </Card>
 </template>

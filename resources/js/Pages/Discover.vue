@@ -5,6 +5,8 @@ import QuickFilters from '@/Components/Discover/QuickFilters.vue'
 import { provide, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core/index.cjs'
 import axios from 'axios'
+import Textbox from '@/Components/Generic/Textbox.vue'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const props = defineProps({
     conversations: Object
@@ -13,23 +15,24 @@ const props = defineProps({
 provide('headerTitle', 'Discover')
 
 const conversationContainer = ref(null)
-const loading = ref(false)
 
 useInfiniteScroll(conversationContainer, async () => {
-    if (loading.value || !props.conversations.links.next) return
+    if (!props.conversations.links.next) return
 
-    loading.value = true
     const response = await axios.get(props.conversations.links.next)
 
     props.conversations.data = [...props.conversations.data, ...response.data.data]
     props.conversations.meta = response.data.meta
     props.conversations.links = response.data.links
-    loading.value = false
 }, { distance: 20 })
 </script>
 
 <template>
     <AuthLayout>
+        <template #header-right-section>
+            <Textbox :icon="faSearch" placeholder="Press / to search" />
+        </template>
+
         <div class="overflow-auto h-full">
             <section class="flex justify-center overflow-auto h-full" ref="conversationContainer">
                 <div class="px-1 py-6 w-full max-w-2xl">
