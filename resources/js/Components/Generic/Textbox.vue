@@ -3,7 +3,7 @@ import { ref, computed, defineProps, PropType, watch } from 'vue'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-const { name, defaultValue, type, disabled, error, success, variant, styles, label, icon, placeholder, modelValue, onInput } = defineProps({
+const props = defineProps({
     name: String,
     defaultValue: String,
     type: {
@@ -22,29 +22,37 @@ const { name, defaultValue, type, disabled, error, success, variant, styles, lab
     icon: Object as PropType<IconDefinition | null>,
     placeholder: String,
     onInput: Function as PropType<(e: Event) => void>,
+    onFocus: Function as PropType<() => void>,
+    onBlur: Function as PropType<() => void>,
     modelValue: String
 })
 
 const emit = defineEmits(['update:modelValue'])
-const internalValue = ref(defaultValue)
+const internalValue = ref(props.defaultValue)
 
 const focused = ref(false)
 
-const variantStyles = computed(() =>
-    variant === 'filled' ? 'bg-base' : 'bg-transparent border border-secondary-text'
-)
+const variantStyles = computed(() => props.variant === 'filled' ? 'bg-base' : 'bg-transparent border border-secondary-text')
+
+const handleFocus = () => {
+    focused.value = true
+    if (props.onFocus) props.onFocus()
+}
+
+const handleBlur = () => {
+    focused.value = false
+    if (props.onBlur) props.onBlur()
+}
 
 const handleInput = (event: Event) => {
     const target = event.target as HTMLInputElement
     internalValue.value = target.value
     emit('update:modelValue', internalValue.value)
 
-    if (onInput) {
-        onInput(event)
-    }
+    if (props.onInput) props.onInput(event)
 }
 
-watch(() => modelValue, (newVal) => {
+watch(() => props.modelValue, (newVal) => {
     internalValue.value = newVal
 })
 </script>
@@ -55,7 +63,7 @@ watch(() => modelValue, (newVal) => {
 
         <div
             :class="[
-                'rounded-lg flex h-10',
+                'rounded-lg flex h-10 duration-300',
                 variantStyles,
                 styles,
                 {
@@ -76,8 +84,8 @@ watch(() => modelValue, (newVal) => {
                 :value="modelValue"
                 :disabled="disabled"
                 @input="handleInput"
-                @focus="focused = true"
-                @blur="focused = false"
+                @focus="handleFocus"
+                @blur="handleBlur"
                 :class="{ 'pl-0': icon }"
                 class="flex-grow w-full p-2 border-none outline-none rounded-lg bg-transparent placeholder:text-secondary-text"
             />

@@ -16,6 +16,8 @@ provide('headerTitle', 'Discover')
 
 const conversationContainer = ref(null)
 
+const searchFocused = ref(false)
+
 useInfiniteScroll(conversationContainer, async () => {
     if (!props.conversations.links.next) return
 
@@ -30,7 +32,13 @@ useInfiniteScroll(conversationContainer, async () => {
 <template>
     <AuthLayout>
         <template #header-right-section>
-            <Textbox :icon="faSearch" placeholder="Press / to search" />
+            <Textbox 
+            :icon="faSearch" 
+            placeholder="Press / to search"
+            :on-focus="() => searchFocused = true"
+            :on-blur="() => searchFocused = false"
+            :styles="searchFocused ? 'w-96' : 'w-auto'"
+            />
         </template>
 
         <div class="overflow-auto h-full">
