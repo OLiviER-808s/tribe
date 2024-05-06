@@ -13,6 +13,7 @@
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.9",
         "pusher/pusher-php-server": "^7.2",
+        "spatie/laravel-collection-macros": "^7.14",
         "spatie/laravel-medialibrary": "^11.4",
         "tightenco/ziggy": "^2.0"
     },

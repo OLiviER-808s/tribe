@@ -16,13 +16,15 @@ class DiscoverController extends Controller
         $userInterests = $user->interests->pluck('id')->toArray();
 
         $conversations = Conversation::where('active', true)
-            ->whereIn('topic_id', $userInterests)
+            //->whereIn('topic_id', $userInterests)
             ->whereDoesntHave('chat.members', function ($query) use ($user) {
                 return $query->withTrashed()->where('user_id', $user->id);
             })
             ->with('chat.members')
             ->orderBy('created_at', 'desc')
-            ->cursorPaginate(15);
+            ->get()
+            ->sortByDesc(fn ($conversation) => $conversation->calculateRelavance($userInterests))
+            ->paginate(15);
 
         if ($request->wantsJson()) {
             return ConversationResource::collection($conversations);

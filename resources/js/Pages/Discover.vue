@@ -16,15 +16,16 @@ const conversationContainer = ref(null)
 const loading = ref(false)
 
 useInfiniteScroll(conversationContainer, async () => {
-    if (loading.value || !props.conversations.meta.next_cursor) return
+    if (loading.value || !props.conversations.links.next) return
 
     loading.value = true
-    const response = await axios.get(`${props.conversations.meta.path}?cursor=${props.conversations.meta.next_cursor}`)
+    const response = await axios.get(props.conversations.links.next)
 
     props.conversations.data = [...props.conversations.data, ...response.data.data]
     props.conversations.meta = response.data.meta
+    props.conversations.links = response.data.links
     loading.value = false
-}, { distance: 10 })
+}, { distance: 20 })
 </script>
 
 <template>
