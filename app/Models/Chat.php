@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\ConstMedia;
+use App\Constants\ConstMessageTypes;
 use App\Traits\UsesCreatedBy;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +33,7 @@ class Chat extends Model implements HasMedia
 
     public function latestMessage()
     {
-        return $this->hasOne(Message::class)->orderBy('created_at', 'desc');
+        return $this->hasOne(Message::class)->where('type', ConstMessageTypes::MESSAGE)->orderBy('created_at', 'desc');
     }
 
     public function registerMediaCollections(): void
