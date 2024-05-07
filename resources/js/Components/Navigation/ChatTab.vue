@@ -4,6 +4,7 @@ import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { useDates } from '@/Composables/useDates'
 import Badge from '../Generic/Badge.vue';
 import Avatar from '../Generic/Avatar.vue';
+import { router } from '@inertiajs/vue3';
 
 const { chat } = defineProps({
     chat: Object
@@ -21,10 +22,12 @@ const timestamp = computed(() => {
 
 	return differentDay(messageSentAt, now) ? formatDate(messageSentAt) : formatTimestamp24Hour(messageSentAt)
 })
+
+const selectTab = () => router.visit(route('chat.show', { uuid: chat.uuid }))
 </script>
 
 <template>
-    <a :href="route('chat.show', { uuid: chat.uuid })" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2">
+    <div @click="selectTab" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-2 cursor-pointer">
 		<Avatar v-if="chat.photo" :src="chat.photo" styles="w-8 h-8" />
 		<AvatarGroup v-else :avatars="avatars" width="w-8" />
 
@@ -45,5 +48,5 @@ const timestamp = computed(() => {
 				<Badge v-if="chat.unreadMessages > 0" :content="chat.unreadMessages" />
 			</div>
 		</div>
-	</a>
+	</div>
 </template>

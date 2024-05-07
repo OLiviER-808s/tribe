@@ -17,7 +17,7 @@ const { formatDate } = useDates()
 
 const join = () => {
     router.post(route('conversation.join', {
-        uuid: conversation.uuid
+        uuid: props.conversation.uuid
     }))
 }
 </script>

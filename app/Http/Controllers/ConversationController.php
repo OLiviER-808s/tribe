@@ -87,6 +87,7 @@ class ConversationController extends Controller
             ChatMember::create([
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
+                'last_read_message_id' => $chat->latestMessage?->id ?? null,
                 'admin' => false
             ]);
 

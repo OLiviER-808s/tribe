@@ -6,6 +6,7 @@ use App\Constants\ConstMedia;
 use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreChat;
 use App\Http\Resources\MessageResource;
+use App\Jobs\ReadMessage;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Message;
@@ -37,7 +38,7 @@ class ChatController extends Controller
             return MessageResource::collection($messages);
         }
 
-        $this->readMessages($chat);
+        ReadMessage::dispatch($messages->first(), [ $chat->members->where('user_id', Auth::user()->id)->first()->uuid ]);
 
         return Inertia::render('Chats/Chat', [
             'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel()),
@@ -191,13 +192,5 @@ class ChatController extends Controller
         ])
         ->orderBy('latest_message_created_at', 'desc')
         ->with(['members', 'latestMessage']);
-    }
-
-    private function readMessages($chat)
-    {
-        $authMember = $chat->members->where('user_id', Auth::user()->id)->first();
-
-        $authMember->last_read_message_id = $chat->latestMessage?->id;
-        $authMember->save();
     }
 }

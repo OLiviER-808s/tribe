@@ -25,7 +25,7 @@ const showTimestamp = (message1, message2) => {
 
             <SentToMessage v-else-if="message.sent_by.uuid === $page.props.profile.uuid" :message="message" />
 
-            <SentFromMessage v-else :message="message" :show-user-info="idx < messages.length - 1 ? messages[idx + 1].sent_by?.uuid !== message.sent_by?.uuid : false" />
+            <SentFromMessage v-else :message="message" :show-user-info="idx < messages.length - 1 ? (messages[idx + 1].sent_by?.uuid !== message.sent_by?.uuid) || (messages[idx + 1].type !== 'message') : false" />
         </div>
     </div>
 </template>
