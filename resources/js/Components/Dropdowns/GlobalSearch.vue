@@ -18,6 +18,9 @@ const selectResult = (result) => {
         case 'user':
             router.visit(route('profile', { username: result.username }))
             break
+        case 'conversation':
+            router.visit(router.visit(route('conversation', { uuid: result.uuid })))
+            break
         default:
             break
     }

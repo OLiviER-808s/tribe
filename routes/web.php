@@ -44,12 +44,13 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     Route::get('/search', [SearchController::class, 'index'])->name('search');
 
     // PROFILES
-    Route::get('/profile/{username}', [ProfileController::class, 'show'])->name('profile');
+    Route::get('/profiles/{username}', [ProfileController::class, 'show'])->name('profile');
 
     // CONVERSATIONS
-    Route::get('/conversation/create', [ConversationController::class, 'create'])->name('conversation.create');
-    Route::post('/conversation/create', [ConversationController::class, 'store'])->name('conversation.store');
-    Route::post('/conversation/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
+    Route::post('/conversations', [ConversationController::class, 'store'])->name('conversation.store');
+    Route::get('/conversations/create', [ConversationController::class, 'create'])->name('conversation.create');
+    Route::get('/conversations/{uuid}', [ConversationController::class, 'show'])->name('conversation');
+    Route::post('/conversations/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
 
     // CHATS
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');

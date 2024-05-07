@@ -16,8 +16,6 @@ const join = () => {
         uuid: conversation.uuid
     }))
 }
-
-
 </script>
 
 <template>

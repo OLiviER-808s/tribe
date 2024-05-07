@@ -7,7 +7,6 @@ use App\Traits\UsesTopic;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Conversation extends Model
 {
@@ -19,6 +18,10 @@ class Conversation extends Model
         'topic_id',
         'limit',
         'active',
+    ];
+
+    public $casts = [
+        'active' => 'boolean'
     ];
 
     public function chat()
@@ -33,7 +36,9 @@ class Conversation extends Model
             'title' => $this->title,
             'description' => $this->description,
             'created_by' => $this->createdByUser->username,
-            'members' => $this->chat->members->count(),
+            'created_at' => $this->created_at,
+            'active' => $this->active,
+            'members' => $this->active ? $this->chat->members->count() : $this->limit,
             'limit' => $this->limit,
             'topic' => $this->topic->viewModel()
         ];

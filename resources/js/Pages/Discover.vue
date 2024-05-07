@@ -1,6 +1,6 @@
 <script setup>
 import AuthLayout from '@/Layouts/AuthLayout.vue'
-import Conversation from '@/Components/Display/Conversation.vue'
+import ConversationCard from '@/Components/Display/ConversationCard.vue'
 import QuickFilters from '@/Components/Discover/QuickFilters.vue'
 import GlobalSearch from '@/Components/Dropdowns/GlobalSearch.vue'
 import { provide, ref } from 'vue'
@@ -39,7 +39,7 @@ useInfiniteScroll(conversationContainer, async () => {
 
                     <div class="flex flex-col gap-4">
                         <div v-for="conversation in conversations.data" :key="conversation.uuid">
-                            <Conversation :conversation="conversation" />
+                            <ConversationCard :conversation="conversation" />
                         </div>
                     </div>
                 </div>

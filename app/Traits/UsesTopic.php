@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Models\Topic;
-use Illuminate\Support\Facades\Auth;
 
 trait UsesTopic
 {

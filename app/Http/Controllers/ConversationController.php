@@ -15,6 +15,15 @@ use Inertia\Inertia;
 
 class ConversationController extends Controller
 {
+    public function show($uuid)
+    {
+        $conversation = Conversation::where('uuid', $uuid)->firstOrFail();
+
+        return Inertia::render('Conversations/Conversation', [
+            'conversation' => $conversation->viewModel()
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('Conversations/ConversationCreate');
