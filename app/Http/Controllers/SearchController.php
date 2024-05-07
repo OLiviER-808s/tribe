@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SearchController extends Controller
 {
@@ -31,5 +32,10 @@ class SearchController extends Controller
                 'results' => $results
             ];
         }
+
+        return Inertia::render('Search', [
+            'searchQuery' => $request->input('query'),
+            'results' => $results,
+        ]);
     }
 }
