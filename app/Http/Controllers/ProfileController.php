@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Constants\ConstMedia;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\StoreProfileInterests;
+use App\Jobs\AddSearchRecord;
 use App\Models\Topic;
 use App\Models\TopicCategory;
 use App\Models\User;
@@ -21,6 +22,8 @@ class ProfileController extends Controller
     public function show($username)
     {
         $user = User::where('username', $username)->firstOrFail();
+
+        AddSearchRecord::dispatch($user, Auth::user()->id);
 
         return Inertia::render('Profile/Profile', [
             'profile' => $user->viewModel()
