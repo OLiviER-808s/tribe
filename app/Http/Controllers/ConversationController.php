@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreConversation;
+use App\Jobs\AddSearchRecord;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Conversation;
@@ -18,6 +19,8 @@ class ConversationController extends Controller
     public function show($uuid)
     {
         $conversation = Conversation::where('uuid', $uuid)->firstOrFail();
+
+        AddSearchRecord::dispatch($conversation, Auth::user()->id);
 
         return Inertia::render('Conversations/Conversation', [
             'conversation' => $conversation->viewModel()

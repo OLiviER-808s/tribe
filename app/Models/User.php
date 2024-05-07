@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Constants\ConstMedia;
+use App\Traits\IsSearchable;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, UsesUuid, InteractsWithMedia;
+    use HasFactory, Notifiable, UsesUuid, InteractsWithMedia, IsSearchable;
 
     protected $fillable = [
         'name',

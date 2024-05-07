@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\IsSearchable;
 use App\Traits\UsesCreatedBy;
 use App\Traits\UsesTopic;
 use App\Traits\UsesUuid;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conversation extends Model
 {
-    use HasFactory, UsesUuid, UsesCreatedBy, UsesTopic;
+    use HasFactory, UsesUuid, UsesCreatedBy, UsesTopic, IsSearchable;
 
     protected $fillable = [
         'title',
@@ -27,6 +28,11 @@ class Conversation extends Model
     public function chat()
     {
         return $this->hasOne(Chat::class);
+    }
+
+    public function userSearches()
+    {
+        return $this->morphToMany(User::class, 'searchable');
     }
 
     public function viewModel()
