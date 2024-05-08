@@ -62,8 +62,8 @@ const join = () => {
                     </div>
 
                     <div v-if="conversation.active" class="flex justify-end items-center gap-2">
-                        <IconButton :icon="faEllipsisVertical" variant="light" color="base" />
                         <Button styles="text-sm" @click="join">Join</Button>
+                        <IconButton :icon="faEllipsisVertical" variant="light" color="base" />
                     </div>
                 </div>
             </section>
