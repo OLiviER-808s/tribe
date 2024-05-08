@@ -62,7 +62,7 @@ watchDebounced(searchValue, async () => {
                                 <p class="text-sm">Conversation by @{{ result.created_by }}</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-4" v-if="result.resultType === 'user'">
+                        <div class="flex items-center gap-4" v-else-if="result.resultType === 'user'">
                             <Avatar :src="result.photo" styles="w-8" />
                             <div>
                                 <p cla>{{ result.name }}</p>

@@ -4,8 +4,8 @@ import ConversationCard from '@/Components/Display/ConversationCard.vue'
 import QuickFilters from '@/Components/Discover/QuickFilters.vue'
 import GlobalSearch from '@/Components/Dropdowns/GlobalSearch.vue'
 import { provide, ref } from 'vue'
-import { useInfiniteScroll } from '@vueuse/core/index.cjs'
 import axios from 'axios'
+import { useInfiniteScroll } from '@vueuse/core'
 
 const props = defineProps({
     conversations: Object
