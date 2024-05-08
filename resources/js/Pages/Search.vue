@@ -4,7 +4,7 @@ import GlobalSearch from '@/Components/Dropdowns/GlobalSearch.vue'
 import ConversationCard from '@/Components/Display/ConversationCard.vue'
 import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import { useInfiniteScroll } from '@vueuse/core'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
     results: Object,
@@ -12,6 +12,7 @@ const props = defineProps({
 })
 
 const resultsContainer = ref('')
+const feedResults = computed(() => props.results.data.filter(({ resultType }) => resultType !== 'search_term'))
 
 useInfiniteScroll(resultsContainer, async () => {
     if (!props.results.next_page_url) return
@@ -35,9 +36,9 @@ useInfiniteScroll(resultsContainer, async () => {
                     <h3 class="mb-6 font-medium text-lg">Search results for "{{ searchQuery }}"...</h3>
 
                     <div class="flex flex-col gap-4">
-                        <div v-for="result in results.data" :key="result.uuid">
+                        <div v-for="result in feedResults" :key="result.uuid">
                             <ConversationCard v-if="result.resultType === 'conversation'" :conversation="result" />
-                            <ProfileCard v-if="result.resultType === 'user'" :profile="result" />
+                            <ProfileCard v-else-if="result.resultType === 'user'" :profile="result" />
                         </div>
                     </div>
                 </div>

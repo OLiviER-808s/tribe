@@ -21,6 +21,9 @@ const selectResult = (result = null) => {
     if (!searchValue || !focused) return
 
     switch (result?.resultType) {
+        case 'search_result':
+            router.visit(`/search?query=${result.term}`)
+            break
         case 'user':
             router.visit(route('profile', { username: result.username }))
             break
@@ -55,9 +58,6 @@ watchDebounced(searchValue, async () => {
             
             <template #body>
                 <div class="overflow-auto max-h-64 flex flex-col" v-if="searchValue.length > 0 && searchResults?.data.length > 0">
-                    <button type="submit" class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md flex items-center gap-4">
-                        <FontAwesomeIcon :icon="faSearch" /> Results for "{{ searchValue }}"
-                    </button>
                     <button v-for="result in searchResults.data" @click="selectResult(result)" :key="result.uuid" type="button" class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md text-left">
                         <div class="flex items-center gap-4" v-if="result.resultType === 'conversation'">
                             <FontAwesomeIcon :icon="faUsers" />
@@ -72,6 +72,9 @@ watchDebounced(searchValue, async () => {
                                 <p cla>{{ result.name }}</p>
                                 <p class="text-sm">@{{ result.username }}</p>
                             </div>
+                        </div>
+                        <div class="flex items-center gap-4" v-else-if="result.resultType === 'search_term'">
+                            <FontAwesomeIcon :icon="faSearch" /> {{ result.term }}
                         </div>
                     </button>
                 </div>

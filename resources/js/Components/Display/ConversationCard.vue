@@ -11,6 +11,8 @@ const { conversation } = defineProps({
     conversation: Object
 })
 
+const inspect = () => router.visit(route('conversation', { uuid: conversation.uuid }))
+
 const join = () => {
     router.post(route('conversation.join', {
         uuid: conversation.uuid
@@ -20,8 +22,8 @@ const join = () => {
 
 <template>
     <Card>
-        <h1 class="font-bold text-xl mb-1">{{ conversation.title }}</h1>
-        <p class="mb-3 whitespace-pre-line">{{ conversation.description }}</p>
+        <h1 class="font-bold text-xl mb-1 cursor-pointer" @click="inspect">{{ conversation.title }}</h1>
+        <p class="mb-3 whitespace-pre-line cursor-pointer" @click="inspect">{{ conversation.description }}</p>
 
         <div class="flex items-center justify-between mb-6">
             <Tag size="sm">{{ conversation.topic.label }}</Tag>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\NewSearchTerm;
 use App\Models\CommonSearch;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -40,6 +42,8 @@ class SearchController extends Controller
                 'results' => $results
             ];
         }
+
+        NewSearchTerm::dispatch($request->input('query'), Auth::user()->id);
 
         return Inertia::render('Search', [
             'searchQuery' => $request->input('query'),
