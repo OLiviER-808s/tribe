@@ -26,12 +26,13 @@ useInfiniteScroll(resultsContainer, async () => {
 <template>
     <AuthLayout>
         <template #header-right-section>
-            <GlobalSearch />
+            <GlobalSearch :default-search-value="searchQuery" />
         </template>
 
         <div class="overflow-auto h-full">
             <section class="flex justify-center overflow-auto h-full" ref="resultsContainer">
-                <div class="px-1 py-6 w-full max-w-2xl flex flex-col gap-4">
+                <div class="px-1 py-6 w-full max-w-2xl">
+                    <h3 class="mb-6 font-medium text-lg">Search results for "{{ searchQuery }}"...</h3>
 
                     <div class="flex flex-col gap-4">
                         <div v-for="result in results.data" :key="result.uuid">

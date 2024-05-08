@@ -9,8 +9,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Avatar from '../Generic/Avatar.vue'
 import { router } from '@inertiajs/vue3'
 
+const props = defineProps({
+    defaultSearchValue: String
+})
+
 const focused = ref(false)
-const searchValue = ref('')
+const searchValue = ref(props.defaultSearchValue ?? '')
 const searchResults = ref(null)
 
 const selectResult = (result = null) => {
