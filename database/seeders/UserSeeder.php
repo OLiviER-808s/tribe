@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants\ConstStatus;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +16,15 @@ class UserSeeder extends Seeder
 
     public function run(): void
     {
+        User::factory()->create([
+            'email' => 'tribe.placeholder@tribe.com',
+            'name' => 'Tribe User',
+            'username' => 'tribe_user',
+            'bio' => null,
+            'password' => null,
+            'status' => ConstStatus::USER_INACTIVE
+        ]);
+
         $users = User::factory()->createMany([
             [
                 'email' => 'test1@test.com',

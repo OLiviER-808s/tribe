@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_interests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('topic_id')->constrained('topics');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('topic_id')->constrained('topics')->cascadeOnDelete();
         });
     }
 

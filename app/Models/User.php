@@ -47,6 +47,21 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(UserSettings::class);
     }
 
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class, 'created_by_id');
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'created_by_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();

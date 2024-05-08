@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('searchable_type');
             $table->unsignedBigInteger('searchable_id');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

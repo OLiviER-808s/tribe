@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstStatus;
 use App\Jobs\NewSearchTerm;
 use App\Models\CommonSearch;
 use App\Models\Conversation;
@@ -21,7 +22,8 @@ class SearchController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $users = User::where('name', 'LIKE', $request->input('query') . '%')
+        $users = User::where('status', ConstStatus::USER_ACTIVE)
+            ->where('name', 'LIKE', $request->input('query') . '%')
             ->orWhere('username', 'LIKE', $request->input('query') . '%')
             ->orderBy('created_at', 'desc')
             ->get();

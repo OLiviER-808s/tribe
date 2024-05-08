@@ -24,7 +24,7 @@ return new class extends Migration
             $table->id();
             $table->uuid();
             $table->foreignId('chat_id')->constrained('chats');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->boolean('admin');
             $table->timestamps();
         });

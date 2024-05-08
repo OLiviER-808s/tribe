@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -79,12 +80,26 @@ class ProfileController extends Controller
 
         Auth::logout();
 
-        $user->delete();
+        DB::transaction(function () use ($user) {
+            $placeholderUserId = User::where('username', 'tribe_user')->first()->id;
+
+            $user->conversations()->update([
+                'created_by_id' => $placeholderUserId
+            ]);
+            $user->chats()->update([
+                'created_by_id' => $placeholderUserId
+            ]);
+            $user->messages()->update([
+                'user_id' => $placeholderUserId
+            ]);
+
+            $user->delete();
+        });
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/register');
     }
 
     public function updateInterests(StoreProfileInterests $request)
