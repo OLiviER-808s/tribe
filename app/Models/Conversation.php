@@ -25,6 +25,8 @@ class Conversation extends Model
         'active' => 'boolean'
     ];
 
+    public $searchResultType = 'conversation';
+
     public function chat()
     {
         return $this->hasOne(Chat::class);

@@ -35,6 +35,8 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
+    public $searchResultType = 'user';
+
     public function interests()
     {
         return $this->belongsToMany(Topic::class, 'user_interests');

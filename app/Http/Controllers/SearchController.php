@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommonSearch;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,17 +16,24 @@ class SearchController extends Controller
         $conversations = Conversation::where('active', true)
             ->where('title', 'LIKE', '%' . $request->input('query') . '%')
             ->orWhere('description', 'LIKE', '%' . $request->input('query') . '%')
-            ->get()
-            ->map(fn ($conversation) => [...$conversation->viewModel(), 'resultType' => 'conversation'])
-            ->toArray();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $users = User::where('name', 'LIKE', $request->input('query') . '%')
             ->orWhere('username', 'LIKE', $request->input('query') . '%')
-            ->get()
-            ->map(fn ($user) => [...$user->viewModel(), 'resultType' => 'user'])
-            ->toArray();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        $results = collect(array_merge($conversations, $users))->paginate(10);
+        $terms = CommonSearch::where('search_term', 'LIKE', $request->input('query') . '%')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $results = $terms
+            ->merge($users)
+            ->merge($conversations)
+            ->sortByDesc('search_count')
+            ->map(fn ($model) => [ ...$model->viewModel(), 'resultType' => $model->searchResultType ])
+            ->paginate(15);
 
         if ($request->wantsJson()) {
             return [

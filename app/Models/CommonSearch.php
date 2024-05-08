@@ -15,6 +15,8 @@ class CommonSearch extends Model
         'search_term',
     ];
 
+    public $searchResultType = 'search_term';
+
     public function viewModel()
     {
         return [
