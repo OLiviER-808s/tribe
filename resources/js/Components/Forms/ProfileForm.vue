@@ -28,8 +28,6 @@ const page = usePage()
 const cropping = ref(false)
 const src = ref(props.existingProfile?.photo ?? DEFAULT_PROFILE_PIC)
 
-const errors = ref({})
-
 const form = useForm({
     _method: 'PATCH',
     name: page.props.auth.user.name,
@@ -41,9 +39,6 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('profile.update'), {
-        onError: (errs) => {
-            errors.value = errs
-        },
         onSuccess: () => {
             props.onSuccess()
         }
@@ -58,13 +53,13 @@ const submit = () => {
         </div>
 
         <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
-            <UsernameInput v-model:username="form.username" :error="errors.username" :existing-username="existingProfile?.username" />
+            <UsernameInput v-model:username="form.username" :error="form.errors.username" :existing-username="existingProfile?.username" />
 
             <Textarea
             v-model="form.bio"
             label="Bio"
             placeholder="Write your bio..."
-            :error="errors.bio"
+            :error="form.errors.bio"
             />
 
             <Button type="submit">{{ submitButtonText }}</Button>

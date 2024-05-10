@@ -22,6 +22,7 @@ const submit = () => {
     <form class="flex flex-col gap-4" @submit.prevent="submit">
         <Textbox 
         v-model="form.email"
+        :error="form.errors.email"
         name="email"
         label="Email"
         placeholder="Your email..."
@@ -29,6 +30,7 @@ const submit = () => {
 
         <Textbox 
         v-model="form.password"
+        :error="form.errors.password"
         name="password"
         label="Password"
         type="password"

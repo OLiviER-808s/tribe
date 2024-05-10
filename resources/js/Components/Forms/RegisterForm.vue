@@ -2,7 +2,6 @@
 import { useForm } from '@inertiajs/vue3'
 import Button from '../../Components/Generic/Button.vue'
 import Textbox from '../../Components/Generic/Textbox.vue'
-import { ref } from 'vue'
 
 const form = useForm({
     name: '',
@@ -10,15 +9,10 @@ const form = useForm({
     password: '',
 })
 
-const errors = ref({})
-
 const submit = () => {
     form.post(route('register'), {
         onFinish: () => {
             form.reset('password')
-        },
-        onError: (errs) => {
-            errors.value = errs
         }
     })
 }
@@ -31,7 +25,7 @@ const submit = () => {
         name="name"
         label="Full Name"
         placeholder="Your name..."
-        :error="errors.name"
+        :error="form.errors.name"
         />
 
         <Textbox 
@@ -39,7 +33,7 @@ const submit = () => {
         name="email"
         label="Email"
         placeholder="Your email..."
-        :error="errors.email"
+        :error="form.errors.email"
         />
 
         <Textbox 
@@ -48,7 +42,7 @@ const submit = () => {
         label="Password"
         type="password"
         placeholder="Your password..."
-        :error="errors.password"
+        :error="form.errors.password"
         />
 
         <Button type="submit">Continue</Button>
