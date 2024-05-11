@@ -27,12 +27,28 @@ class Topic extends Model
         return $this->belongsTo(Topic::class, 'parent_id');
     }
 
-    public function viewModel()
+    public function viewModel($withCategory = false, $withParent = false)
     {
-        return [
+        $model = [
             'uuid' => $this->uuid,
             'label' => $this->label,
-            'emoji' => $this->emoji
+            'emoji' => $this->emoji,
         ];
+
+        if ($withCategory && $this->category) {
+            $model['category'] = [
+                'uuid' => $this->category->uuid,
+                'name' => $this->category->name
+            ];
+        }
+
+        if ($withParent && $this->parent) {
+            $model['parent'] = [
+                'uuid' => $this->parent->uuid,
+                'label' => $this->parent->label
+            ];
+        }
+
+        return $model;
     }
 }

@@ -32,13 +32,12 @@ const handleTopicSelect = (topic) => {
             v-model="searchValue" 
             :icon="faSearch"
             placeholder="Search for topics..."
-            :error="error"
             />
         </template>
         
         <template #body v-if="searchValue.length > 0">
             <div class="overflow-auto max-h-64 flex flex-col">
-                <button @click="handleTopicSelect" v-for="topic in suggestedTopics" :key="topic.uuid" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md text-left">
+                <button @click="handleTopicSelect(topic)" v-for="topic in suggestedTopics" :key="topic.uuid" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md text-left">
                     {{ topic.label }}
                 </button>
             </div>

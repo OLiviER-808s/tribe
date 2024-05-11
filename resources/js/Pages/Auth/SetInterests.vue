@@ -6,22 +6,23 @@ import { REGISTER_STEPS } from '@/lib/constants'
 import Button from '@/Components/Generic/Button.vue'
 import ClickableTag from '../../Components/Generic/ClickableTag.vue'
 import TopicSearch from '@/Components/Dropdowns/TopicSearch.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { insertToIndex } from '@/lib/utils'
 
 const props = defineProps({
     categories: Array
 })
+
+const categoriesState = ref(props.categories)
 
 const form = useForm({
     next_route: 'discover',
     interests: []
 })
 
-const allTopics = computed(() => props.categories.flatMap(category => category.topics))
+const allTopics = computed(() => categoriesState.value.flatMap(category => category.topics))
 
-const tagIsSelected = (topic) => {
-    return form.interests.includes(topic.uuid)
-}
+const tagIsSelected = (topic) => form.interests.includes(topic.uuid)
 
 const handleTagSelect = (topic) => {
     if (tagIsSelected(topic)) {
@@ -31,9 +32,16 @@ const handleTagSelect = (topic) => {
     }
 }
 
-const submit = () => {
-    form.patch(route('profile.interests.update'))
+const selectTagFromSearch = (topic) => {
+    form.interests.push(topic.uuid)
+
+    const categoryIdx = categoriesState.value.findIndex(({ uuid }) => uuid === topic.category.uuid)
+    const parentIdx = categoriesState.value[categoryIdx].topics.findIndex(({ uuid }) => uuid === topic.parent.uuid)
+
+    insertToIndex(categoriesState.value[categoryIdx].topics, parentIdx + 1, topic)
 }
+
+const submit = () => form.patch(route('profile.interests.update'))
 </script>
 
 <template>
@@ -43,12 +51,12 @@ const submit = () => {
         </div>
 
         <div class="mb-4 w-full">
-            <TopicSearch :filtered-out-topics="allTopics" />
+            <TopicSearch :filtered-out-topics="allTopics" @on-topic-select="selectTagFromSearch" />
         </div>
 
         <div class="flex flex-col flex-1 h-0 overflow-auto px-2 mb-2">
             <div class="flex-grow flex flex-col gap-4">
-                <div v-for="category in categories" :key="category.uuid">
+                <div v-for="category in categoriesState" :key="category.uuid">
                     <h2 class="text-xl mb-2">{{ category.name }}</h2>
 
                     <div class="flex gap-y-4 gap-x-2 flex-wrap items-center">

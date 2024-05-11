@@ -11,7 +11,7 @@ class TopicController extends Controller
     {
         $topics = Topic::where('label', 'LIKE', '%' . $request->input('search') . '%')
             ->get()
-            ->map(fn ($topic) => $topic->viewModel());
+            ->map(fn ($topic) => $topic->viewModel(true, true));
 
         return [
             'topics' => $topics
