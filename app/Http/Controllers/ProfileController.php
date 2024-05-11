@@ -38,7 +38,9 @@ class ProfileController extends Controller
 
     public function interests()
     {
-        $categories = TopicCategory::all();
+        $categories = TopicCategory::with('topics')->with('topics', function ($query) {
+            return $query->whereNull('parent_id');
+        })->get();
 
         return Inertia::render('Auth/SetInterests', [
             'categories' => $categories->map(fn ($category) => $category->viewModel())
