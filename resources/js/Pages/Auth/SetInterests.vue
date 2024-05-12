@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <EntryLayout>
+    <EntryLayout title="Select Your Intersts">
         <div class="mt-4 mb-4">
             <Stepper :steps="REGISTER_STEPS" selected-step-value="interests" />
         </div>

@@ -10,7 +10,7 @@ const { isHandheld } = useIsHandheld()
 </script>
 
 <template>
-    <EntryLayout>
+    <EntryLayout title="Create Your Profile">
         <div class="mt-4 mb-8">
             <Stepper :steps="REGISTER_STEPS" selected-step-value="profile" />
         </div>
