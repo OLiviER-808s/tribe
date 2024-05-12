@@ -42,7 +42,7 @@ class ConversationController extends Controller
                 'title' => $request['title'],
                 'description' => $request['description'],
                 'topic_id' => $topic->id,
-                'limit' => $request['limit'] + 1,
+                'limit' => $request['limit'],
                 'active' => true
             ]);
 

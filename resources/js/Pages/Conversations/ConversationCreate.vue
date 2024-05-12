@@ -16,7 +16,7 @@ const { categories } = defineProps({
 const form = useForm({
     title: '',
     description: '',
-    limit: 2,
+    limit: 4,
     category: ''
 })
 const errors = ref({})
@@ -53,7 +53,7 @@ const submit = () => {
                     <NumberInput 
                     v-model="form.limit"
                     label="Member Limit"
-                    :min="1"
+                    :min="2"
                     :max="10"
                     :error="errors?.limit"
                     />

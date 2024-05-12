@@ -16,7 +16,7 @@ class StoreConversation extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'limit' => 'required|numeric|max:10|min:1',
+            'limit' => 'required|numeric|max:10|min:2',
             'category' => 'required|string'
         ];
     }
