@@ -5,6 +5,7 @@ import { REGISTER_STEPS } from '@/lib/constants'
 import RegisterForm from '@/Components/Forms/RegisterForm.vue'
 import Card from '@/Components/Generic/Card.vue'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
+import GoogleOAuthButton from '@/Components/Auth/GoogleOAuthButton.vue'
 
 const { isHandheld } = useIsHandheld()
 </script>
@@ -17,6 +18,12 @@ const { isHandheld } = useIsHandheld()
 
         <section class="flex justify-center flex-1 overflow-auto h-0">
             <div class="max-w-sm flex-grow">
+                <div class="mb-6">
+                    <GoogleOAuthButton />
+                </div>
+
+                <h3 class="mb-6 text-center font-medium text-secondary-text">OR</h3>
+
                 <Card v-if="isHandheld">
                     <RegisterForm />
                 </Card>

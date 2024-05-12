@@ -24,19 +24,17 @@ const submit = () => {
         v-model="form.email"
         :error="form.errors.email"
         name="email"
-        label="Email"
-        placeholder="Your email..."
+        placeholder="Email"
         />
 
         <Textbox 
         v-model="form.password"
         :error="form.errors.password"
         name="password"
-        label="Password"
         type="password"
-        placeholder="Your password..."
+        placeholder="Password"
         />
 
-        <Button type="submit">Continue</Button>
+        <Button type="submit">Sign In</Button>
     </form>
 </template>

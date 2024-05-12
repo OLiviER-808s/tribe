@@ -9,13 +9,7 @@ const form = useForm({
     password: '',
 })
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => {
-            form.reset('password')
-        }
-    })
-}
+const submit = () => form.post(route('register'))
 </script>
 
 <template>
@@ -23,25 +17,22 @@ const submit = () => {
         <Textbox 
         v-model="form.name"
         name="name"
-        label="Full Name"
-        placeholder="Your name..."
+        placeholder="Full Name"
         :error="form.errors.name"
         />
 
         <Textbox 
         v-model="form.email"
         name="email"
-        label="Email"
-        placeholder="Your email..."
+        placeholder="Email"
         :error="form.errors.email"
         />
 
         <Textbox 
         v-model="form.password"
         name="password"
-        label="Password"
         type="password"
-        placeholder="Your password..."
+        placeholder="Password"
         :error="form.errors.password"
         />
 
