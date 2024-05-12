@@ -5,7 +5,7 @@
 <template>
     <a class="google-btn" :href="route('google.redirect')">
         <img src="google.svg" />
-        Continue With Google
+        Continue with Google
     </a>
 </template>
 
