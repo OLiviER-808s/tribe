@@ -8,6 +8,7 @@ import ClickableTag from '../../Components/Generic/ClickableTag.vue'
 import TopicSearch from '@/Components/Dropdowns/TopicSearch.vue'
 import { computed, ref } from 'vue'
 import { insertToIndex } from '@/lib/utils'
+import axios from 'axios'
 
 const props = defineProps({
     categories: Array
@@ -24,11 +25,16 @@ const allTopics = computed(() => categoriesState.value.flatMap(category => categ
 
 const tagIsSelected = (topic) => form.interests.includes(topic.uuid)
 
-const handleTagSelect = (topic) => {
+const handleTagSelect = async (topic, idx, categoryIdx) => {
     if (tagIsSelected(topic)) {
         form.interests = form.interests.filter(uuid => uuid !== topic.uuid)
     } else {
         form.interests.push(topic.uuid)
+
+        const response = await axios.get(route('topic.children', { uuid: topic.uuid }))
+        const childTopics = response.data.topics.filter(child => !allTopics.value.find(({ uuid }) => uuid === child.uuid)) ?? []
+
+        insertToIndex(categoriesState.value[categoryIdx].topics, idx + 1, ...childTopics)
     }
 }
 
@@ -56,12 +62,12 @@ const submit = () => form.patch(route('profile.interests.update'))
 
         <div class="flex flex-col flex-1 h-0 overflow-auto px-2 mb-2">
             <div class="flex-grow flex flex-col gap-4">
-                <div v-for="category in categoriesState" :key="category.uuid">
+                <div v-for="(category, categoryIdx) in categoriesState" :key="category.uuid">
                     <h2 class="text-xl mb-2">{{ category.name }}</h2>
 
                     <div class="flex gap-y-4 gap-x-2 flex-wrap items-center">
-                        <div v-for="topic in category.topics" :key="topic.uuid">
-                            <ClickableTag :selected="tagIsSelected(topic)" :on-select="() => handleTagSelect(topic)">
+                        <div v-for="(topic, topicIdx) in category.topics" :key="topic.uuid">
+                            <ClickableTag :selected="tagIsSelected(topic)" :on-select="() => handleTagSelect(topic, topicIdx, categoryIdx)">
                                 {{ topic.label }}
                             </ClickableTag>
                         </div>

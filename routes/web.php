@@ -13,18 +13,19 @@ use App\Http\Controllers\UsernameController;
 use App\Http\Middleware\RequiresInterests;
 use App\Http\Middleware\RequiresUsername;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
+// GOOGLE OAUTH
 Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
 Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
 
+// USERNAME
 Route::get('/check-username/{username}', [UsernameController::class, 'check'])->name('username.check');
+
+// TOPICS
 Route::get('/topics', [TopicController::class, 'index'])->name('topics');
+Route::get('/topics/{uuid}/children', [TopicController::class, 'getChildren'])->name('topic.children');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+// PROFILE
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
