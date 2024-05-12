@@ -38,12 +38,13 @@ const getStepStyles = (step) => {
 <template>
     <div class="w-full">
         <div class="flex justify-between items-center gap-2 px-4">
-            <div
-                v-for="step in stepsWithStatus"
-                :key="step.value"
-                :class="['w-10 h-10 rounded-full flex items-center justify-center', getStepStyles(step)]">
-                <font-awesome-icon :icon="step.status === 'completed' ? faCheck : step.icon" />
-            </div>
+            <template v-for="(step, idx) in stepsWithStatus" :key="step.value">
+                <div :class="['w-10 h-10 rounded-full flex items-center justify-center', getStepStyles(step)]">
+                    <FontAwesomeIcon :icon="step.status === 'completed' ? faCheck : step.icon" />
+                </div>
+
+                <div v-if="idx < steps.length - 1" :class="`flex-grow bg-${stepsWithStatus[idx + 1].status === 'uncompleted' ? 'secondary-text' : color} h-0.5`"></div>
+            </template>
         </div>
         <div class="flex justify-between items-center mt-1 px-3">
             <p
