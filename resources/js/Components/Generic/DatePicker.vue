@@ -7,6 +7,8 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons'
 import { useDates } from '@/Composables/useDates'
 import { watch } from 'vue'
 
+const today = new Date()
+
 const props = defineProps({
     modelValue: Date,
     error: String
@@ -22,15 +24,19 @@ watch(date, () => emit('update:modelValue', date.value))
 </script>
 
 <template>
-    <VueDatePicker v-model="date" ref="dp" :format="formatDate" auto-apply :enable-time-picker="false">
-        <template #dp-input="{ value, onInput, onEnter, onTab, onClear, onBlur, onKeypress, onPaste, isMenuOpen }">
-            <Textbox
-            placeholder="Date of Birth"
-            :value="value"
-            :icon="faCalendar"
-            :error="error"
-            />
-        </template>
-    </VueDatePicker>
+    <div>
+        <VueDatePicker v-model="date" ref="dp" :format="formatDate" auto-apply :enable-time-picker="false" :max-date="today">
+            <template #dp-input="{ value }">
+                <Textbox
+                placeholder="Date of Birth"
+                :value="value"
+                :icon="faCalendar"
+                :error="!!error"
+                />
+            </template>
+        </VueDatePicker>
+
+        <p v-if="error" class="text-error text-sm">{{ error }}</p>
+    </div>
 </template>
 
