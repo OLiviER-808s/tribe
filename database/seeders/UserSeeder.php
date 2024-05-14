@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'username' => 'tribe_user',
             'bio' => null,
             'password' => null,
+            'location' => null,
             'status' => ConstStatus::USER_INACTIVE
         ]);
 
