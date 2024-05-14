@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps({
     name: String,
-    defaultValue: String,
+    value: String,
     type: {
         type: String,
         default: 'text',
@@ -28,7 +28,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
-const internalValue = ref(props.defaultValue)
+const internalValue = ref(props.value)
 
 const focused = ref(false)
 
@@ -81,7 +81,7 @@ watch(() => props.modelValue, (newVal) => {
                 :name="name"
                 :type="type"
                 :placeholder="placeholder"
-                :value="modelValue"
+                :value="modelValue ?? value"
                 :disabled="disabled"
                 @input="handleInput"
                 @focus="handleFocus"

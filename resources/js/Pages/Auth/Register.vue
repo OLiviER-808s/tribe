@@ -16,7 +16,7 @@ const { isHandheld } = useIsHandheld()
             <Stepper :steps="REGISTER_STEPS" selected-step-value="account" />
         </div>
 
-        <section class="flex justify-center flex-1 overflow-auto h-0">
+        <section class="flex justify-center flex-1">
             <div class="max-w-sm flex-grow">
                 <div class="mb-6">
                     <GoogleOAuthButton />

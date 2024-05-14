@@ -2,11 +2,13 @@
 import { useForm } from '@inertiajs/vue3'
 import Button from '../../Components/Generic/Button.vue'
 import Textbox from '../../Components/Generic/Textbox.vue'
+import DatePicker from '../../Components/Generic/DatePicker.vue'
 
 const form = useForm({
     name: '',
     email: '',
     password: '',
+    dob: ''
 })
 
 const submit = () => form.post(route('register'))
@@ -35,6 +37,8 @@ const submit = () => form.post(route('register'))
         placeholder="Password"
         :error="form.errors.password"
         />
+
+        <DatePicker />
 
         <Button type="submit">Continue</Button>
     </form>
