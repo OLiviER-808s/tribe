@@ -8,7 +8,7 @@ const form = useForm({
     name: '',
     email: '',
     password: '',
-    dob: ''
+    dob: null
 })
 
 const submit = () => form.post(route('register'))
@@ -38,7 +38,7 @@ const submit = () => form.post(route('register'))
         :error="form.errors.password"
         />
 
-        <DatePicker />
+        <DatePicker v-model="form.dob" :error="form.errors.dob" />
 
         <Button type="submit">Continue</Button>
     </form>
