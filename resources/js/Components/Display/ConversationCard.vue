@@ -12,6 +12,7 @@ const { conversation } = defineProps({
 })
 
 const inspect = () => router.visit(route('conversation', { uuid: conversation.uuid }))
+const inspectUser = () => router.visit(route('profile', { username: conversation.created_by }))
 
 const join = () => {
     router.post(route('conversation.join', {
@@ -29,7 +30,7 @@ const join = () => {
             <Tag size="sm">{{ conversation.topic.label }}</Tag>
 
             <!-- TODO: make this a link to profile page -->
-            <p class="text-sm text-secondary-text">by <span class="font-semibold">@{{ conversation.created_by }}</span></p>
+            <p class="text-sm text-secondary-text">by <span class="font-semibold cursor-pointer" @click="inspectUser">@{{ conversation.created_by }}</span></p>
         </div>
 
         <div class="flex gap-2">
