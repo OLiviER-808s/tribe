@@ -69,9 +69,9 @@ class User extends Authenticatable implements HasMedia
         $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();
     }
 
-    public function viewModel()
+    public function viewModel($withLocation = false, $withDateOfBirth = false)
     {
-        return [
+        $model = [
             'uuid' => $this->uuid,
             'name' => $this->name,
             'username' => $this->username,
@@ -79,5 +79,15 @@ class User extends Authenticatable implements HasMedia
             'photo' => $this->getFirstMedia(ConstMedia::PROFILE_PHOTO)?->getFullUrl() ?? ConstMedia::DEFAULT_PROFILE_PHOTO_PATH,
             'interests' => $this->interests->map(fn ($topic) => $topic->viewModel())
         ];
+
+        if ($withLocation) {
+            $model['location'] = $this->location;
+        }
+
+        if ($withDateOfBirth) {
+            $model['date_of_birth'] = $this->date_of_birth;
+        }
+
+        return $model;
     }
 }

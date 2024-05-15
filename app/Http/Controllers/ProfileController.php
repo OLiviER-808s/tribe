@@ -61,7 +61,8 @@ class ProfileController extends Controller
 
         $user->update([
             'username' => $request['username'],
-            'bio' => $request['bio']
+            'bio' => $request['bio'],
+            'location' => $request['location']
         ]);
         $user->save();
 

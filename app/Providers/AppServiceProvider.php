@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Http::macro('apiNinjas', function () {
+            return Http::withHeaders([
+                'X-Api-Key' => config('services.api_ninjas.key'),
+            ])->baseUrl('https://api.api-ninjas.com/v1');
+        });
     }
 }

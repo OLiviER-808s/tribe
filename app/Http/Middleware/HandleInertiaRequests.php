@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
                 'isOAuthUser' => ! $user?->password
             ],
-            'profile' => $user?->viewModel(),
+            'profile' => $user?->viewModel(true, true),
             'theme' => $user?->settings?->theme ?? 'light'
         ];
     }

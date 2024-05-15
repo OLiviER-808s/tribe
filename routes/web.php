@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\GoogleOAuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\MessageController;
@@ -18,8 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
 Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
 
-// USERNAME
+// USERNAMES
 Route::get('/check-username/{username}', [UsernameController::class, 'check'])->name('username.check');
+
+// CITIES
+Route::get('/cities', [CityController::class, 'index'])->name('cities');
 
 // TOPICS
 Route::get('/topics', [TopicController::class, 'index'])->name('topics');

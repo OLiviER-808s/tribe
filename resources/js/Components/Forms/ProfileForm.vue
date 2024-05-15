@@ -6,6 +6,7 @@ import Textarea from '@/Components/Generic/Textarea.vue'
 import Button from '@/Components/Generic/Button.vue'
 import UsernameInput from '@/Components/Auth/UsernameInput.vue'
 import { ref } from 'vue'
+import CityDropdown from '../Dropdowns/CityDropdown.vue'
 
 const props = defineProps({
     nextRoute: String,
@@ -33,6 +34,7 @@ const form = useForm({
     name: page.props.auth.user.name,
     username: props.existingProfile?.username,
     bio: props.existingProfile?.bio,
+    location: props.existingProfile?.location,
     photo: null,
     next_route: props.nextRoute
 })
@@ -61,6 +63,8 @@ const submit = () => {
             placeholder="Write your bio..."
             :error="form.errors.bio"
             />
+
+            <CityDropdown v-model="form.location" :default-search-value="form.location" />
 
             <Button type="submit">{{ submitButtonText }}</Button>
         </form>
