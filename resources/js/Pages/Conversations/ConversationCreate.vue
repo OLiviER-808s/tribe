@@ -2,31 +2,20 @@
 import Card from '@/Components/Generic/Card.vue'
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import Textbox from '@/Components/Generic/Textbox.vue'
-import { ref } from 'vue'
 import Textarea from '@/Components/Generic/Textarea.vue'
 import NumberInput from '@/Components/Generic/NumberInput.vue'
 import Button from '@/Components/Generic/Button.vue'
 import { useForm } from '@inertiajs/vue3'
-import ConversationCategoryDropdown from '@/Components/Dropdowns/ConversationCategoryDropdown.vue'
-
-const { categories } = defineProps({
-    categories: Array
-})
+import ConversationTopicDropdown from '@/Components/Dropdowns/ConversationTopicDropdown.vue'
 
 const form = useForm({
     title: '',
     description: '',
     limit: 4,
-    category: ''
+    topic: ''
 })
-const errors = ref({})
 
-const submit = () => {
-    form.post(route('conversation.store'), {
-        preserveScroll: true,
-        onError: (errs) => errors.value = errs
-    })
-}
+const submit = () => form.post(route('conversation.store'))
 </script>
 
 <template>
@@ -38,24 +27,24 @@ const submit = () => {
                     v-model="form.title" 
                     label="Title"
                     placeholder="Write a title..."
-                    :error="errors?.title"
+                    :error="form.errors?.title"
                     />
 
                     <Textarea 
                     v-model="form.description"
                     label="Description"
                     placeholder="Write a description..."
-                    :error="errors?.description"
+                    :error="form.errors?.description"
                     />
 
-                    <ConversationCategoryDropdown v-model="form.category" :categories="categories" :error="errors?.category" />
+                    <ConversationTopicDropdown v-model="form.topic" :error="form.errors?.topic" />
 
                     <NumberInput 
                     v-model="form.limit"
                     label="Member Limit"
                     :min="2"
                     :max="10"
-                    :error="errors?.limit"
+                    :error="form.errors?.limit"
                     />
 
                     <Button styles="w-full" :on-click="submit">Post</Button>

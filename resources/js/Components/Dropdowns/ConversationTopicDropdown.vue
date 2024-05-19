@@ -36,8 +36,8 @@ watch(searchValue, () => {
         <template #trigger>
             <Textbox 
             v-model="searchValue" 
-            label="Category"
-            placeholder="Pick a category..."
+            label="Topic"
+            placeholder="Pick a topic..."
             :error="error"
             />
         </template>

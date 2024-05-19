@@ -35,7 +35,7 @@ class ConversationController extends Controller
     public function store(StoreConversation $request)
     {
         $user = Auth::user();
-        $topic = Topic::where('uuid', $request['category'])->firstOrFail();
+        $topic = Topic::where('uuid', $request['topic'])->firstOrFail();
 
         DB::transaction(function () use ($request, $user, $topic) {
             $conversation = Conversation::create([
