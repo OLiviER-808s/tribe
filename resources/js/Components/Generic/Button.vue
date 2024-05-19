@@ -82,6 +82,6 @@ const classes = computed(() => {
 	}
 
 	.disabled-btn {
-		@apply rounded-lg font-semibold bg-base;
+		@apply opacity-50;
 	}
 </style>

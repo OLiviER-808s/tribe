@@ -23,7 +23,8 @@ class ConversationController extends Controller
         AddSearchRecord::dispatch($conversation, Auth::user()->id);
 
         return Inertia::render('Conversations/Conversation', [
-            'conversation' => $conversation->viewModel()
+            'conversation' => $conversation->viewModel(),
+            'canJoin' => !$conversation->chat->members->where('user_id', Auth::user()->id)->first()
         ]);
     }
 

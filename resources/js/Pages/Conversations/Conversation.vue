@@ -10,7 +10,8 @@ import Button from '@/Components/Generic/Button.vue';
 import IconButton from '@/Components/Generic/IconButton.vue';
 
 const props = defineProps({
-    conversation: Object
+    conversation: Object,
+    canJoin: Boolean
 })
 
 const { formatDate } = useDates()
@@ -62,7 +63,7 @@ const join = () => {
                     </div>
 
                     <div v-if="conversation.active" class="flex justify-end items-center gap-2">
-                        <Button styles="text-sm" @click="join">Join</Button>
+                        <Button styles="text-sm" @click="join" :disabled="!canJoin">Join</Button>
                         <IconButton :icon="faEllipsisVertical" variant="light" color="base" />
                     </div>
                 </div>
