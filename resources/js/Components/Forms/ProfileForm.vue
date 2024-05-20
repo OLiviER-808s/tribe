@@ -55,7 +55,7 @@ const submit = () => {
         </div>
 
         <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
-            <UsernameInput v-model:username="form.username" :error="form.errors.username" :existing-username="existingProfile?.username" />
+            <UsernameInput v-model="form.username" :error="form.errors.username" :existing-username="existingProfile?.username" />
 
             <Textarea
             v-model="form.bio"
