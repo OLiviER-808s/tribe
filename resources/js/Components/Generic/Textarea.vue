@@ -8,7 +8,8 @@ const props = defineProps({
     error: [String, Boolean],
     label: String,
     placeholder: String,
-    modelValue: String
+    modelValue: String,
+    maxlength: Number
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -27,7 +28,11 @@ watch(() => props.modelValue, (newVal) => {
 
 <template>
     <div>
-        <label :for="name" class="font-medium">{{ label }}</label>
+        <div class="flex items-center justify-between">
+            <label :for="name" class="font-medium">{{ label }}</label>
+
+            <p v-if="maxlength" class="text-xs text-secondary-text mr-1">{{ modelValue?.length ?? 0 }} / {{ maxlength }}</p>
+        </div>
 
         <textarea
             :class="[{ error: error && typeof error !== 'boolean' }, 'rounded-lg p-2 bg-base outline-none w-full h-24 placeholder:text-secondary-text border-none']"
@@ -36,6 +41,7 @@ watch(() => props.modelValue, (newVal) => {
             :value="modelValue"
             :disabled="disabled"
             @input="handleInput"
+            :maxlength="maxlength"
         ></textarea>
 
         <p v-if="error && typeof error !== 'boolean'" class="text-error text-sm">{{ error }}</p>

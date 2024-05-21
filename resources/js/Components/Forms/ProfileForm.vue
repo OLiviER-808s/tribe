@@ -61,6 +61,7 @@ const submit = () => {
             v-model="form.bio"
             label="Bio"
             placeholder="Write your bio..."
+            :maxlength="250"
             :error="form.errors.bio"
             />
 

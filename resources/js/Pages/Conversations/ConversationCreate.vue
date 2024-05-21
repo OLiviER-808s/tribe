@@ -35,6 +35,7 @@ const submit = () => form.post(route('conversation.store'))
                     label="Description"
                     placeholder="Write a description..."
                     :error="form.errors?.description"
+                    :maxlength="300"
                     />
 
                     <ConversationTopicDropdown v-model="form.topic" :error="form.errors?.topic" />
