@@ -2,23 +2,27 @@
 
 namespace Tests\Traits;
 
-use App\Constants\ConstStatus;
+use App\Models\Topic;
 use App\Models\User;
+use Database\Seeders\TopicCategorySeeder;
+use Database\Seeders\TopicSeeder;
 
 trait UsesBasicTestSetup
 {
+    private User $testUser;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        User::factory()->create([
-            'email' => 'tribe.placeholder@tribe.com',
-            'name' => 'Tribe User',
-            'username' => 'tribe_user',
-            'bio' => null,
-            'password' => null,
-            'location' => null,
-            'status' => ConstStatus::USER_INACTIVE
-        ]);
+        $this->seed(TopicCategorySeeder::class);
+        $this->seed(TopicSeeder::class);
+
+        $this->testUser = User::factory()->create();
+        $this->testUser->interests()->saveMany(Topic::inRandomOrder()->take(5)->get());
+
+        $this->extraSetup();
     }
+
+    protected function extraSetup() {}
 }
