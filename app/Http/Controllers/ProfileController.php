@@ -60,6 +60,7 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $user->update([
+            'name' => $request['name'],
             'username' => $request['username'],
             'bio' => $request['bio'],
             'location' => $request['location']
@@ -84,7 +85,7 @@ class ProfileController extends Controller
         Auth::logout();
 
         DB::transaction(function () use ($user) {
-            $placeholderUserId = User::where('username', 'tribe_user')->first()->id;
+            $placeholderUserId = User::where('username', 'tribe_user')->firstOrFail()->id;
 
             $user->conversations()->update([
                 'created_by_id' => $placeholderUserId
