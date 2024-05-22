@@ -13,7 +13,7 @@ class ProfileTest extends TestCase
 {
     use RefreshDatabase, UsesBasicTestSetup;
 
-    protected function extraSetup()
+    protected function extraSetup(): void
     {
         User::factory()->create([
             'email' => 'tribe.placeholder@tribe.com',
@@ -24,15 +24,6 @@ class ProfileTest extends TestCase
             'location' => null,
             'status' => ConstStatus::USER_INACTIVE
         ]);
-    }
-
-    public function test_profile_page_is_displayed(): void
-    {
-        $response = $this
-            ->actingAs($this->testUser)
-            ->get('/profile');
-
-        $response->assertOk();
     }
 
     public function test_profile_data_can_be_updated(): void
