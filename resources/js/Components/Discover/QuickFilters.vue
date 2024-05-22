@@ -57,11 +57,11 @@ const select = (topic) => {
 
 <style>
     .filter {
-        @apply rounded-md duration-300 text-sm font-medium py-1 px-4 bg-neutral-400 text-nowrap;
+        @apply rounded-md duration-300 text-sm font-medium py-1 px-4 bg-quick-filter text-nowrap;
     }
 
     .selected-filter {
-        @apply bg-neutral-800 text-dropdown-text;
+        @apply bg-quick-filter-selected text-dropdown-text;
     }
 
     .filter-container {

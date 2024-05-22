@@ -18,6 +18,8 @@
 		--message-color: 188, 188, 188;
 		--dropdown-color: 16, 16, 16;
 		--dropdown-select-color: 40, 40, 40;
+		--quick-filter-bg-color: 163, 163, 163;
+		--quick-filter-selected-bg-color: 38, 38, 38;
 	
 		--base-text-color: 0, 0, 0;
 		--secondary-text-color: 105, 105, 105;
@@ -38,6 +40,8 @@
 		--message-color: 66, 66, 66;
 		--dropdown-color: 252, 252, 252;
 		--dropdown-select-color: 237, 237, 237;
+		--quick-filter-bg-color: 64, 64, 64;
+		--quick-filter-selected-bg-color: 212, 212, 212;
 	
 		--base-text-color: 255, 255, 255;
 		--secondary-text-color: 144, 144, 144;

@@ -29,6 +29,8 @@ export default {
 				'message': 'rgba(var(--message-color), 1)',
 				'dropdown': 'rgba(var(--dropdown-color), 1)',
 				'dropdown-select': 'rgba(var(--dropdown-select-color), 1)',
+				'quick-filter': 'rgba(var(--quick-filter-bg-color), 1)',
+				'quick-filter-selected': 'rgba(var(--quick-filter-selected-bg-color), 1)',
 				
 				'base-text': 'rgba(var(--base-text-color), 1)',
 				'secondary-text': 'rgba(var(--secondary-text-color), 1)',
