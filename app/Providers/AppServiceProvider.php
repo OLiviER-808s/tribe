@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         Http::macro('apiNinjas', function () {
             return Http::withHeaders([
                 'X-Api-Key' => config('services.api_ninjas.key'),
-            ])->baseUrl('https://api.api-ninjas.com/v1');
+            ])->baseUrl(config('services.api_ninjas.url'));
         });
     }
 }

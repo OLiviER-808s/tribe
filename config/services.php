@@ -38,6 +38,7 @@ return [
     ],
 
     'api_ninjas' => [
+        'url' => env('API_NINJAS_URL'),
         'key' => env('API_NINJAS_KEY')
     ],
 ];
