@@ -51,6 +51,53 @@ class ProfileTest extends TestCase
         ]);
     }
 
+    public function test_user_cannot_update_username_to_one_that_already_exists(): void
+    {
+        User::factory()->create([
+           'username' => 'test_username',
+        ]);
+
+        $response = $this
+            ->actingAs($this->testUser)
+            ->from(route('settings.profile'))
+            ->patch('/profile', [
+                'name' => 'test name',
+                'username' => 'test_username',
+                'bio' => 'test bio',
+                'location' => 'test location',
+                'next_route' => 'settings.profile'
+            ]);
+
+        $response->assertSessionHasErrors('username');
+        $response->assertRedirect(route('settings.profile'));
+    }
+
+    public function test_user_can_update_profile_with_the_same_username(): void
+    {
+        $response = $this
+            ->actingAs($this->testUser)
+            ->patch('/profile', [
+                'name' => 'test name',
+                'username' => $this->testUser->username,
+                'bio' => 'test bio',
+                'location' => 'test location',
+                'next_route' => 'settings.profile'
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect(route('settings.profile'));
+
+        $this->assertDatabaseHas('users', [
+            'id' => $this->testUser->id,
+            'name' => 'test name',
+            'username' => $this->testUser->username,
+            'bio' => 'test bio',
+            'location' => 'test location',
+            'email_verified_at' => $this->testUser->email_verified_at
+        ]);
+    }
+
+
     public function test_user_can_update_their_interests()
     {
         $newInterests = Topic::inRandomOrder()->take(6)->pluck('uuid')->toArray();
