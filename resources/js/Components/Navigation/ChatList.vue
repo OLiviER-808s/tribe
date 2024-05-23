@@ -19,11 +19,11 @@ const displayChats = computed(() => chats.filter(chat => archiveMode.value ? cha
 
         <div class="flex-grow h-0 overflow-auto">
             <ChatTab v-for="chat in displayChats" :chat="chat" />
-
-            <button v-if="!archiveMode" @click="archiveMode = true" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-3">
-                <FontAwesomeIcon :icon="faBoxArchive" />
-                Archive
-            </button>
         </div>
+
+        <button v-if="!archiveMode" @click="archiveMode = true" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-3">
+            <FontAwesomeIcon :icon="faBoxArchive" />
+            Archive
+        </button>
     </div>
 </template>
