@@ -51,6 +51,8 @@ trait UsesBasicTestSetup
             'user_id' => $this->otherUser->id,
         ]);
 
+        $conversation->refresh();
+
         return $conversation;
     }
 }

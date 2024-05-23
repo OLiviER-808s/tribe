@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\Assert;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 
@@ -22,15 +23,27 @@ class DiscoverTest extends TestCase
 
         $this->testUser->interests()->sync([$popTopic->id, $musicTopic->id, $basketballTopic->id]);
 
-        $popConversation = $this->setupConversation($popTopic);
-        $musicConversation = $this->setupConversation($musicTopic);
-        $basketballConversation = $this->setupConversation($basketballTopic);
-        $moviesConversation = $this->setupConversation($moviesTopic);
+        $expectedConversations = [
+            $this->setupConversation($popTopic)->viewModel(),
+            $this->setupConversation($musicTopic)->viewModel(),
+            $this->setupConversation($basketballTopic)->viewModel(),
+            $this->setupConversation($moviesTopic)->viewModel(),
+        ];
 
         $this->be($this->testUser);
         $response = $this->get(route('discover'));
 
         $response->assertSessionHasNoErrors();
         $response->assertOk();
+
+        $response->assertInertia(
+            fn ($page) => $page
+                ->component('Discover')
+                ->has('conversations.data', 4)
+                ->where('conversations.data.0.uuid', $expectedConversations[0]['uuid'])
+                ->where('conversations.data.1.uuid', $expectedConversations[1]['uuid'])
+                ->where('conversations.data.2.uuid', $expectedConversations[2]['uuid'])
+                ->where('conversations.data.3.uuid', $expectedConversations[3]['uuid'])
+        );
     }
 }
