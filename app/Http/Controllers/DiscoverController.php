@@ -28,7 +28,7 @@ class DiscoverController extends Controller
             $topics = Topic::whereIn('label', explode(',', $request->input('topics')))->get()->pluck('id')->toArray();
             $conversations = $conversations->whereIn('topic_id', $topics);
         }
-        
+
         $conversations = $conversations->get()
             ->sortByDesc(fn ($conversation) => $conversation->calculateRelavance($userInterests))
             ->paginate(15);
