@@ -17,12 +17,20 @@ use Inertia\Inertia;
 
 class ChatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $chats = $this->getUserChats()->get()->map(fn ($chat) => $chat->viewModel());
+        $chats = $this->getUserChats();
+
+        if ($request->wantsJson()) {
+            $chats = $chats->where('name', 'LIKE', '%' . $request->input('search') . '%');
+
+            return [
+                'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel())
+            ];
+        }
 
         return Inertia::render('Chats/ChatsIndex', [
-            'chats' => $chats
+            'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel())
         ]);
     }
 

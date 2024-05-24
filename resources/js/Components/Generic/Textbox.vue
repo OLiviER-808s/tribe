@@ -17,6 +17,9 @@ const props = defineProps({
         type: String,
         default: 'filled',
     },
+    size: {
+        type: String as PropType<'lg' | 'sm' | undefined>,
+    },
     styles: String,
     label: String,
     icon: Object as PropType<IconDefinition | null>,
@@ -63,18 +66,20 @@ watch(() => props.modelValue, (newVal) => {
 
         <div
             :class="[
-                'rounded-lg flex h-10 duration-300',
+                'rounded-lg flex duration-300',
                 variantStyles,
                 styles,
                 {
                     error: error,
                     success: success,
-                    selected: focused
+                    selected: focused,
+                    'h-10': size !== 'sm',
+                    'h-8': size === 'sm'
                 }
             ]"
         >
             <div v-if="icon" class="flex justify-center items-center w-10 rounded-l-md">
-                <FontAwesomeIcon :icon="icon" class="text-secondary-text" />
+                <FontAwesomeIcon :icon="icon" :size="size" class="text-secondary-text" />
             </div>
 
             <input
@@ -86,7 +91,7 @@ watch(() => props.modelValue, (newVal) => {
                 @input="handleInput"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                :class="{ 'pl-0': icon }"
+                :class="{ 'pl-0': icon, 'placeholder:text-sm': size === 'sm' }"
                 class="flex-grow w-full p-2 border-none outline-none rounded-lg bg-transparent placeholder:text-secondary-text"
             />
 
