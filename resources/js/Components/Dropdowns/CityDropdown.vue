@@ -50,7 +50,4 @@ watchDebounced(searchValue, async () => {
 .v-dropdown-menu__container {
     @apply !w-full rounded-md bg-dropdown text-dropdown-text !border-none;
 }
-.v-dropdown-menu {
-    @apply !w-full;
-}
 </style>

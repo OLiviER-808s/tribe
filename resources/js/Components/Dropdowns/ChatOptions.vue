@@ -23,7 +23,7 @@ const inspectInfo = inject('inspectInfo')
         </template>
 
         <template #body>
-            <div>
+            <div class="max-w-64">
                 <div dropdown-closer @click="viewChat()" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md cursor-pointer">
                     View
                 </div>
@@ -38,7 +38,7 @@ const inspectInfo = inject('inspectInfo')
     </DropdownMenu>
 </template>
 
-<style>
+<style scoped>
 .v-dropdown-menu__container {
     @apply rounded-md bg-dropdown text-dropdown-text !border-none;
 }

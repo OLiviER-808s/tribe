@@ -85,6 +85,6 @@ watchDebounced(searchValue, async () => {
 
 <style>
 .v-dropdown-menu__container {
-    @apply !w-full rounded-md bg-dropdown text-dropdown-text !border-none;
+    @apply rounded-md bg-dropdown text-dropdown-text !border-none;
 }
 </style>

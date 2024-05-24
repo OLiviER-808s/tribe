@@ -23,7 +23,7 @@ const handleChatSelect = (chat) => router.visit(route('chat.show', { uuid: chat.
 </script>
 
 <template>
-    <DropdownMenu :overlay="false" :dropup="false">
+    <DropdownMenu :overlay="false" :dropup="false" class="w-full">
         <template #trigger>
             <Textbox 
             v-model="searchValue" 
@@ -46,8 +46,5 @@ const handleChatSelect = (chat) => router.visit(route('chat.show', { uuid: chat.
 <style>
 .v-dropdown-menu__container {
     @apply !w-full rounded-md bg-dropdown text-dropdown-text !border-none;
-}
-.v-dropdown-menu {
-    @apply !w-full;
 }
 </style>

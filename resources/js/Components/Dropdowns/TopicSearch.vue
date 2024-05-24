@@ -47,9 +47,6 @@ const handleTopicSelect = (topic) => {
 
 <style>
 .v-dropdown-menu__container {
-    @apply !w-full rounded-md bg-dropdown text-dropdown-text !border-none;
-}
-.v-dropdown-menu {
-    @apply !w-full;
+    @apply rounded-md bg-dropdown text-dropdown-text !border-none;
 }
 </style>
