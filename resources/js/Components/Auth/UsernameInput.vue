@@ -25,7 +25,7 @@ const loading = ref(false)
 const isAvailable = ref('')
 const isValid = computed(() => {
     const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/
-    return username.value.length > 2 && username.value.length < 16 && re.test(username.value)
+    return username.value?.length > 2 && username.value?.length < 16 && re.test(username.value)
 })
 const isTaken = computed(() => isValid.value && !isAvailable.value && !loading.value && !(username.value === props.existingUsername))
 
@@ -60,7 +60,7 @@ watchDebounced(username, async () => {
             :icon="faAt"
             placeholder="Your username..."
             name="username"
-            label="Username*"
+            label="Username"
             v-model="username"
             :disabled="disabled"
             :error="((!isValid || isTaken) && isTouched && !loading) || !!error"
