@@ -42,6 +42,7 @@ class Message extends Model implements HasMedia
     {
         return [
             'uuid' => $this->uuid,
+            'chat_uuid' => $this->chat->uuid,
             'content' => $this->content,
             'status' => $this->status,
             'type' => $this->type,

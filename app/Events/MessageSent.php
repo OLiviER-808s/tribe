@@ -27,7 +27,14 @@ class MessageSent implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        return new PresenceChannel('chat.' . $this->message->chat->uuid);
+        $userChannels = $this->message->chat->members->map(function ($member) {
+            return new PrivateChannel('user.' . $member->user->uuid);
+        })->toArray();
+
+        return [
+            ...$userChannels,
+            new PresenceChannel('chat.' . $this->message->chat->uuid)
+        ];
     }
 
     public function broadcastAs()

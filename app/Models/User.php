@@ -69,7 +69,7 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Chat::class, 'created_by_id');
     }
 
-    public function getUnreadMessagesAttribute()
+    public function getUnreadChatsAttribute()
     {
         return $this->chatMemberships->where('unread_messages', '>', 0)
             ->map(fn ($member) => [

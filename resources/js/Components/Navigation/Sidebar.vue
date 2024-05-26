@@ -5,8 +5,9 @@ import Card from '../Generic/Card.vue'
 import Avatar from '../Generic/Avatar.vue'
 import { router } from '@inertiajs/vue3'
 import Badge from "@/Components/Generic/Badge.vue";
+import {inject} from "vue";
 
-
+const unreadChats = inject('unreadChats')
 </script>
 
 <template>
@@ -21,8 +22,8 @@ import Badge from "@/Components/Generic/Badge.vue";
             />
 
             <div class="relative">
-                <div v-if="$page.props.unreadMessages.length > 0" class="absolute top-0 right-0">
-                    <Badge :content="$page.props.unreadMessages.length" />
+                <div v-if="unreadChats?.length > 0" class="absolute top-0 right-0">
+                    <Badge :content="unreadChats.length" />
                 </div>
 
                 <IconButton

@@ -5,6 +5,7 @@ import GlobalLayout from './GlobalLayout.vue'
 import MobileHeader from '@/Components/Navigation/MobileHeader.vue'
 import MobileFooter from '@/Components/Navigation/MobileFooter.vue'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
+import { useMessages } from "@/Composables/useMessages"
 
 const props = defineProps({
 	showMobileHeader: {
@@ -18,6 +19,8 @@ const props = defineProps({
 })
 
 const { isHandheld } = useIsHandheld()
+
+useMessages()
 </script>
 
 <template>
@@ -44,7 +47,7 @@ const { isHandheld } = useIsHandheld()
 				<Sidebar />
 
 				<slot name="additional-sidebar" />
-		
+
 				<div class="flex-1 flex flex-col">
 					<div class="flex-grow h-0 overflow-auto" id="scrollable-content">
 						<slot />

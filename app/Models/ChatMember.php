@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\ConstMedia;
+use App\Constants\ConstMessageTypes;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +42,8 @@ class ChatMember extends Model
 
     public function getUnreadMessagesAttribute()
     {
-        return Message::where('chat_id', $this->chat->id)
+        return Message::where('type', ConstMessageTypes::MESSAGE)
+            ->where('chat_id', $this->chat->id)
             ->whereNot('user_id', $this->user->id)
             ->where('created_at', '>', $this->lastReadMessage?->created_at ?? $this->chat->created_at)
             ->count();

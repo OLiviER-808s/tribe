@@ -2,7 +2,10 @@
 import { faComments, faIcons, faMapLocationDot, faPlus } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../Generic/IconButton.vue'
 import Avatar from '../Generic/Avatar.vue'
+import Badge from "@/Components/Generic/Badge.vue"
+import {inject} from "vue";
 
+const unreadChats = inject('unreadChats')
 </script>
 
 <template>
@@ -15,13 +18,19 @@ import Avatar from '../Generic/Avatar.vue'
             :href="route('discover')"
         />
 
-        <IconButton
-            :icon="faComments"
-            variant="subtle"
-            :color="$page.url.startsWith('/chats') ? 'secondary' : 'base'"
-            size="xl"
-            :href="route('chats')"
-        />
+        <div class="relative">
+            <div v-if="unreadChats?.length > 0" class="absolute top-0 right-0">
+                <Badge :content="unreadChats.length" />
+            </div>
+
+            <IconButton
+                :icon="faComments"
+                variant="subtle"
+                :color="$page.url.startsWith('/chats') ? 'secondary' : 'base'"
+                size="xl"
+                :href="route('chats')"
+            />
+        </div>
 
         <IconButton
             :icon="faPlus"

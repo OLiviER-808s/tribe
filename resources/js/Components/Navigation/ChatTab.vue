@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import {computed, inject} from 'vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { useDates } from '@/Composables/useDates'
 import Badge from '../Generic/Badge.vue';
@@ -9,6 +9,8 @@ import { router } from '@inertiajs/vue3';
 const { chat } = defineProps({
     chat: Object
 })
+
+const unreadChats = inject('unreadChats')
 
 const { formatTimestamp24Hour, formatDate, differentDay } = useDates()
 
@@ -22,6 +24,8 @@ const timestamp = computed(() => {
 
 	return differentDay(messageSentAt, now) ? formatDate(messageSentAt) : formatTimestamp24Hour(messageSentAt)
 })
+
+const unreadMessages = computed(() => unreadChats.value.find(({ uuid }) => uuid === chat.uuid)?.unreadMessages)
 
 const selectTab = () => router.visit(route('chat.show', { uuid: chat.uuid }))
 </script>
@@ -45,7 +49,7 @@ const selectTab = () => router.visit(route('chat.show', { uuid: chat.uuid }))
 					{{ chat.latestMessage.content }}
 				</p>
 
-				<Badge v-if="chat.unreadMessages > 0" :content="chat.unreadMessages" />
+				<Badge v-if="unreadMessages" :content="unreadMessages" />
 			</div>
 		</div>
 	</div>
