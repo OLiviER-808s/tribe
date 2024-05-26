@@ -19,15 +19,17 @@ class DiscoverTest extends TestCase
         $popTopic = Topic::where('label', 'Pop')->first();
         $musicTopic = Topic::where('label', 'Music')->first();
         $basketballTopic = Topic::where('label', 'Basketball')->first();
+        $rockTopic = Topic::where('label', 'Rock')->first();
         $moviesTopic = Topic::where('label', 'Movies')->first();
 
-        $this->testUser->interests()->sync([$popTopic->id, $musicTopic->id, $basketballTopic->id]);
+        $this->testUser->interests()->sync([$popTopic->id, $basketballTopic->id]);
 
         $expectedConversations = [
-            $this->setupConversation($popTopic)->viewModel(),
-            $this->setupConversation($musicTopic)->viewModel(),
-            $this->setupConversation($basketballTopic)->viewModel(),
-            $this->setupConversation($moviesTopic)->viewModel(),
+            $this->setupConversation($popTopic)->viewModel(), // Level 2 Direct Match
+            $this->setupConversation($basketballTopic)->viewModel(), // Level 1 Direct Match
+            $this->setupConversation($musicTopic)->viewModel(), // Parent Match
+            $this->setupConversation($rockTopic)->viewModel(), // Adjacent Match
+            $this->setupConversation($moviesTopic)->viewModel(), // No Match
         ];
 
         $response = $this->get(route('discover'));
@@ -38,11 +40,12 @@ class DiscoverTest extends TestCase
         $response->assertInertia(
             fn ($page) => $page
                 ->component('Discover')
-                ->has('conversations.data', 4)
+                ->has('conversations.data', 5)
                 ->where('conversations.data.0.uuid', $expectedConversations[0]['uuid'])
                 ->where('conversations.data.1.uuid', $expectedConversations[1]['uuid'])
                 ->where('conversations.data.2.uuid', $expectedConversations[2]['uuid'])
                 ->where('conversations.data.3.uuid', $expectedConversations[3]['uuid'])
+                ->where('conversations.data.4.uuid', $expectedConversations[4]['uuid'])
         );
     }
 }
