@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ConstMedia;
+use App\Constants\ConstMessageTypes;
 use App\Events\MessageSent;
 use App\Events\UserTyping;
 use App\Http\Requests\StoreMessage;
@@ -28,7 +29,8 @@ class MessageController extends Controller
                 'uuid' => $request['uuid'],
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
-                'content' => $request['content']
+                'content' => $request['content'],
+                'type' => ConstMessageTypes::MESSAGE
             ]);
 
             if ($request['files']) {
@@ -36,7 +38,7 @@ class MessageController extends Controller
                     $message->addMedia($file)->toMediaCollection(ConstMedia::MESSAGE_ATTACHMENTS);
                 }
             }
-    
+
             ChatMember::whereIn('uuid', $request['active_uuids'])->update([
                 'last_read_message_id' => $message->id
             ]);

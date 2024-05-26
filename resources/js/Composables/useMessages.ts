@@ -13,11 +13,8 @@ export const useMessages = () => {
 
     window.Echo.private(`user.${page.props.profile.uuid}`)
         .listen('.message-sent', (message) => {
-            console.log(message)
-
             if (page.url !== `/chats/${message.chat_uuid}`) {
                 const index = unreadChats.value.findIndex(chat => chat.uuid === message.chat_uuid)
-                console.log(index)
 
                 if (index >= 0) {
                     unreadChats.value[index].unreadMessages += 1

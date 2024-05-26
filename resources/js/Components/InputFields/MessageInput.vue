@@ -43,6 +43,7 @@ const send = () => {
 				uuid: uuid,
 				content: message,
 				status: 'sending',
+                type: 'message',
 				sent_by: page.props.profile,
 				sent_at: new Date().toISOString(),
 				files: formatFiles(files)

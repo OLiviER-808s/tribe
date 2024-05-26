@@ -115,7 +115,7 @@ onUnmounted(() => window.Echo.leave(`presence-chat.${props.chat.uuid}`))
                     </div>
                 </template>
             </ProfileCard>
-            
+
             <ChatCard v-else-if="inspectInfo?.type === 'chat'" styles="h-full w-80" :chat="chat">
                 <template #before>
                     <div class="flex justify-end">
