@@ -2,9 +2,10 @@
 import {computed, inject} from 'vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { useDates } from '@/Composables/useDates'
-import Badge from '../Generic/Badge.vue';
-import Avatar from '../Generic/Avatar.vue';
-import { router } from '@inertiajs/vue3';
+import Badge from '../Generic/Badge.vue'
+import Avatar from '../Generic/Avatar.vue'
+import { router } from '@inertiajs/vue3'
+import {removeItemFromIndex} from "@/lib/utils"
 
 const { chat } = defineProps({
     chat: Object
@@ -37,7 +38,7 @@ const selectTab = () => router.visit(route('chat.show', { uuid: chat.uuid }))
 
 		<div class="flex-1 overflow-hidden">
 			<div class="flex justify-between items-center gap-2">
-				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5" :class="{ 'font-semibold': chat.unreadMessages > 0 }">
+				<h4 class="whitespace-nowrap flex-1 overflow-hidden w-4/5" :class="{ 'font-semibold': unreadMessages > 0 }">
 					{{ chat.name }}
 				</h4>
 
@@ -45,7 +46,7 @@ const selectTab = () => router.visit(route('chat.show', { uuid: chat.uuid }))
 			</div>
 
 			<div v-if="chat.latestMessage" class="flex items-center justify-between gap-1">
-				<p class="text-xs whitespace-nowrap w-4/5 overflow-hidden" :class="{ 'font-semibold': chat.unreadMessages > 0 }">
+				<p class="text-xs whitespace-nowrap w-4/5 overflow-hidden" :class="{ 'font-semibold': unreadMessages > 0 }">
 					{{ chat.latestMessage.content }}
 				</p>
 

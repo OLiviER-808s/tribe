@@ -4,7 +4,9 @@ import {provide, ref} from "vue";
 export const useMessages = () => {
     const page = usePage()
 
-    const unreadChats = ref(page.props.unreadChats)
+    const unreadChats = ref(page.props.unreadChats.filter(chat => {
+        return !page.url.includes(chat.uuid)
+    }))
 
     provide('unreadChats', unreadChats)
 
@@ -16,7 +18,7 @@ export const useMessages = () => {
                 const index = unreadChats.value.findIndex(chat => chat.uuid === message.chat_uuid)
                 console.log(index)
 
-                if (index !== null) {
+                if (index >= 0) {
                     unreadChats.value[index].unreadMessages += 1
                 } else {
                     unreadChats.value.push({

@@ -5,3 +5,7 @@ export const removeDuplicates = (array: any[]) => {
 export const insertToIndex = (array: any[], index: number, ...items: any) => {
     return array.splice(index, 0, ...items)
 }
+
+export const removeItemFromIndex = (array: any[], index: number) => {
+    return array.splice(index, 1)
+}

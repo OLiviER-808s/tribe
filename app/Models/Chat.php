@@ -33,7 +33,9 @@ class Chat extends Model implements HasMedia
 
     public function latestMessage()
     {
-        return $this->hasOne(Message::class)->where('type', ConstMessageTypes::MESSAGE)->orderBy('created_at', 'desc');
+        return $this->hasOne(Message::class)
+            ->where('type', ConstMessageTypes::MESSAGE)
+            ->orderBy('created_at', 'desc');
     }
 
     public function registerMediaCollections(): void
