@@ -9,7 +9,7 @@ const { color, variant, styles, disabled, type, href, onClick, icon, size } = de
     },
     size: {
         type: String,
-        default: 'md'
+        default: undefined
     },
     color: {
         type: String,
@@ -54,13 +54,13 @@ const { value: btnSize } = computed(() => {
 </script>
 
 <template>
-    <Button 
+    <Button
     :styles="`${styles} ${btnSize} flex justify-center items-center !px-0 !py-0`"
-    :href="href" 
-    :type="type" 
-    :color="color" 
-    :on-click="onClick" 
-    :disabled="disabled" 
+    :href="href"
+    :type="type"
+    :color="color"
+    :on-click="onClick"
+    :disabled="disabled"
     :variant="variant">
         <FontAwesomeIcon :size="size" :icon="icon" />
     </Button>

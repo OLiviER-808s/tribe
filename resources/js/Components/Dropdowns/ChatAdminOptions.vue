@@ -23,7 +23,7 @@ const assignAdmin = () => router.patch(route('chat.assign-admin', {
 <template>
     <DropdownMenu :overlay="false" :dropup="false" direction="right" withDropdownCloser>
         <template #trigger>
-            <IconButton variant="subtle" color="base" :icon="faEllipsisVertical" size="md" />
+            <IconButton variant="subtle" color="base" :icon="faEllipsisVertical" />
         </template>
 
         <template #body>
