@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TagCategory;
 use App\Models\Topic;
 use App\Models\TopicCategory;
-use App\Models\UserSettings;
+use App\Models\UserSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -40,7 +40,7 @@ class SettingsController extends Controller
     {
         $user = Auth::user();
 
-        UserSettings::updateOrCreate([
+        UserSetting::updateOrCreate([
             'user_id' => $user->id
         ], [
             'user_id' => $user->id,

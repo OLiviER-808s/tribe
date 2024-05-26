@@ -46,7 +46,7 @@ class User extends Authenticatable implements HasMedia
 
     public function settings()
     {
-        return $this->hasOne(UserSettings::class);
+        return $this->hasOne(UserSetting::class);
     }
 
     public function conversations()
