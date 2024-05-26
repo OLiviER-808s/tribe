@@ -30,7 +30,7 @@ class DiscoverController extends Controller
         }
 
         $conversations = $conversations->get()
-            ->sortByDesc(fn ($conversation) => $conversation->calculateRelavance($userInterests))
+            ->sortByDesc(fn ($conversation) => $conversation->calculateRelevance($userInterests))
             ->paginate(15);
 
         if ($request->wantsJson()) {

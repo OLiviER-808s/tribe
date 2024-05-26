@@ -28,9 +28,7 @@ class ProfileTest extends TestCase
 
     public function test_profile_data_can_be_updated(): void
     {
-        $response = $this
-            ->actingAs($this->testUser)
-            ->patch('/profile', [
+        $response = $this->patch('/profile', [
                 'name' => 'test name',
                 'username' => 'test_username',
                 'bio' => 'test bio',
@@ -57,9 +55,7 @@ class ProfileTest extends TestCase
            'username' => 'test_username',
         ]);
 
-        $response = $this
-            ->actingAs($this->testUser)
-            ->from(route('settings.profile'))
+        $response = $this->from(route('settings.profile'))
             ->patch('/profile', [
                 'name' => 'test name',
                 'username' => 'test_username',
@@ -74,9 +70,7 @@ class ProfileTest extends TestCase
 
     public function test_user_can_update_profile_with_the_same_username(): void
     {
-        $response = $this
-            ->actingAs($this->testUser)
-            ->patch('/profile', [
+        $response = $this->patch('/profile', [
                 'name' => 'test name',
                 'username' => $this->testUser->username,
                 'bio' => 'test bio',
@@ -102,9 +96,7 @@ class ProfileTest extends TestCase
     {
         $newInterests = Topic::inRandomOrder()->take(6)->pluck('uuid')->toArray();
 
-        $response = $this
-            ->actingAs($this->testUser)
-            ->patch(route('profile.interests.update'), [
+        $response = $this->patch(route('profile.interests.update'), [
                 'interests' => $newInterests,
                 'next_route' => 'settings.profile'
             ]);
@@ -122,9 +114,7 @@ class ProfileTest extends TestCase
 
     public function test_user_can_delete_their_account(): void
     {
-        $response = $this
-            ->actingAs($this->testUser)
-            ->delete(route('profile.destroy'), [
+        $response = $this->delete(route('profile.destroy'), [
                 'password' => 'password',
             ]);
 
@@ -138,9 +128,7 @@ class ProfileTest extends TestCase
 
     public function test_correct_password_must_be_provided_to_delete_account(): void
     {
-        $response = $this
-            ->actingAs($this->testUser)
-            ->from(route('settings.account'))
+        $response = $this->from(route('settings.account'))
             ->delete(route('profile.destroy'), [
                 'password' => 'wrong-password',
             ]);

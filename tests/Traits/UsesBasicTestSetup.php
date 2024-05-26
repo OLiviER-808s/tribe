@@ -28,6 +28,8 @@ trait UsesBasicTestSetup
         $this->otherUser = User::factory()->create();
         $this->otherUser->interests()->saveMany(Topic::inRandomOrder()->take(5)->get());
 
+        $this->be($this->testUser);
+
         $this->extraSetup();
     }
 

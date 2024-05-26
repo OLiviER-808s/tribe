@@ -30,7 +30,6 @@ class DiscoverTest extends TestCase
             $this->setupConversation($moviesTopic)->viewModel(),
         ];
 
-        $this->be($this->testUser);
         $response = $this->get(route('discover'));
 
         $response->assertSessionHasNoErrors();

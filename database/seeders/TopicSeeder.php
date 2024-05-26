@@ -77,32 +77,38 @@ class TopicSeeder extends Seeder
             [
                 'label' => 'Bodybuilding',
                 'category_id' => TopicCategory::where('name', 'Hobbies')->first()->id,
-                'parent_id' => Topic::where('label', 'Fitness')->first()->id
+                'parent_id' => Topic::where('label', 'Fitness')->first()->id,
+                'level' => 2
             ],
             [
                 'label' => 'Sneakers',
                 'category_id' => TopicCategory::where('name', 'Hobbies')->first()->id,
-                'parent_id' => Topic::where('label', 'Fashion')->first()->id
+                'parent_id' => Topic::where('label', 'Fashion')->first()->id,
+                'level' => 2
             ],
             [
                 'label' => 'NBA',
                 'category_id' => TopicCategory::where('name', 'Sport')->first()->id,
-                'parent_id' => Topic::where('label', 'Basketball')->first()->id
+                'parent_id' => Topic::where('label', 'Basketball')->first()->id,
+                'level' => 2
             ],
             [
                 'label' => 'Hip-Hop',
                 'category_id' => TopicCategory::where('name', 'Entertainment')->first()->id,
-                'parent_id' => Topic::where('label', 'Music')->first()->id
+                'parent_id' => Topic::where('label', 'Music')->first()->id,
+                'level' => 2
             ],
             [
                 'label' => 'Rock',
                 'category_id' => TopicCategory::where('name', 'Entertainment')->first()->id,
-                'parent_id' => Topic::where('label', 'Music')->first()->id
+                'parent_id' => Topic::where('label', 'Music')->first()->id,
+                'level' => 2
             ],
             [
                 'label' => 'Pop',
                 'category_id' => TopicCategory::where('name', 'Entertainment')->first()->id,
-                'parent_id' => Topic::where('label', 'Music')->first()->id
+                'parent_id' => Topic::where('label', 'Music')->first()->id,
+                'level' => 2
             ],
         ]);
     }

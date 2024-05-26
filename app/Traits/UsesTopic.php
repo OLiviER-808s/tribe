@@ -11,25 +11,31 @@ trait UsesTopic
         return $this->belongsTo(Topic::class);
     }
 
-    public function calculateRelavance($userInterests)
+    public function calculateRelevance($userInterests)
     {
-        $relavenceScore = 0;
+        $relevanceScore = 0;
 
-        $parentTopic = $this->topic;
-        while ($parentTopic->parent_id !== null) {
-            if (in_array($parentTopic->id, $userInterests)) {
-                $relavenceScore += 2; // Assign higher score for direct match
-            } elseif (in_array($parentTopic->parent_id, $userInterests)) {
-                $relavenceScore += 1; // Assign lower score for indirect match
-            }
-
-            $parentTopic = $parentTopic->parent;
+        // Direct Match
+        if (in_array($this->topic->id, $userInterests)) {
+            $relevanceScore += $this->topic->level + 4;
         }
 
-        if (! $this->topic->parent_id && in_array($parentTopic->id, $userInterests)) {
-            $relavenceScore += 2;
+        // Parent Match
+        $parents = $this->topic->parents;
+        $linkedParent = $parents?->whereIn('id', $userInterests)->first();
+
+        if ($linkedParent) {
+            $relevanceScore += $linkedParent->level + 2;
         }
 
-        return $relavenceScore;
+        // Adjacent Match
+        $lastParent = $parents?->last();
+        $linkedChild = $lastParent?->allChildren()->whereIn('id', $userInterests)->first();
+
+        if ($linkedChild) {
+            $relevanceScore += $linkedChild->level;
+        }
+
+        return $relevanceScore;
     }
 }
