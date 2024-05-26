@@ -1,5 +1,5 @@
 import {usePage} from "@inertiajs/vue3";
-import {provide, ref} from "vue";
+import {inject, provide, ref} from "vue";
 
 export const useMessages = () => {
     const page = usePage()
@@ -7,8 +7,9 @@ export const useMessages = () => {
     const unreadChats = ref(page.props.unreadChats.filter(chat => {
         return !page.url.includes(chat.uuid)
     }))
-
     provide('unreadChats', unreadChats)
+
+    const chats = inject('chats')
 
     window.Echo.private(`user.${page.props.profile.uuid}`)
         .listen('.message-sent', (message) => {
@@ -25,6 +26,17 @@ export const useMessages = () => {
                         uuid: message.chat_uuid,
                         unreadMessages: 1
                     })
+                }
+            }
+
+            if (chats) {
+                const index = chats.findIndex(chat => chat.uuid === message.chat_uuid)
+
+                if (index >= 0) {
+                    chats[index].latestMessage = {
+                        content: message.content,
+                        sent_at: message.sent_at
+                    }
                 }
             }
         })
