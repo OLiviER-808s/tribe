@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
                 'isOAuthUser' => ! $user?->password
             ],
             'profile' => $user?->viewModel(true, true),
+            'unreadMessages' => $user?->unread_messages,
             'theme' => $user?->settings?->theme ?? 'light'
         ];
     }

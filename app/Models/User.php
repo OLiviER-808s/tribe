@@ -54,14 +54,30 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Conversation::class, 'created_by_id');
     }
 
-    public function chats()
+    public function chatMemberships()
     {
-        return $this->hasMany(Chat::class, 'created_by_id');
+        return $this->hasMany(ChatMember::class);
     }
 
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'created_by_id');
+    }
+
+    public function getUnreadMessagesAttribute()
+    {
+        return $this->chatMemberships->where('unread_messages', '>', 0)
+            ->map(fn ($member) => [
+                'uuid' => $member->chat->uuid,
+                'unreadMessages' => $member->unread_messages
+            ])
+            ->values()
+            ->all();
     }
 
     public function registerMediaCollections(): void

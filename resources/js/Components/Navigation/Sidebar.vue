@@ -3,7 +3,10 @@ import { faIcons, faMapLocationDot, faPlus, faComments } from '@fortawesome/free
 import IconButton from '../Generic/IconButton.vue'
 import Card from '../Generic/Card.vue'
 import Avatar from '../Generic/Avatar.vue'
-import { router } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3'
+import Badge from "@/Components/Generic/Badge.vue";
+
+
 </script>
 
 <template>
@@ -17,13 +20,19 @@ import { router } from '@inertiajs/vue3';
             :href="route('discover')"
             />
 
-            <IconButton
-            :icon="faComments"
-            variant="subtle"
-            :color="$page.url.startsWith('/chats') ? 'secondary' : 'base'"
-            size="xl"
-            :href="route('chats')"
-            />
+            <div class="relative">
+                <div v-if="$page.props.unreadMessages.length > 0" class="absolute top-0 right-0">
+                    <Badge :content="$page.props.unreadMessages.length" />
+                </div>
+
+                <IconButton
+                    :icon="faComments"
+                    variant="subtle"
+                    :color="$page.url.startsWith('/chats') ? 'secondary' : 'base'"
+                    size="xl"
+                    :href="route('chats')"
+                />
+            </div>
 
             <IconButton
             :icon="faMapLocationDot"
@@ -33,10 +42,10 @@ import { router } from '@inertiajs/vue3';
             :href="route('chats')"
             />
 
-            <IconButton 
-            :icon="faPlus" 
-            size="xl" 
-            variant="light" 
+            <IconButton
+            :icon="faPlus"
+            size="xl"
+            variant="light"
             :href="route('conversation.create')"
             />
 
