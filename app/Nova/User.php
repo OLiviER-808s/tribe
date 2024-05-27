@@ -26,6 +26,9 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
+            Text::make('Uuid')
+                ->onlyOnDetail(),
+
             Text::make('Name')
                 ->sortable(),
 

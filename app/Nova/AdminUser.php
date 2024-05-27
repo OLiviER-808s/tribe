@@ -23,6 +23,9 @@ class AdminUser extends Resource
         return [
             ID::make()->sortable(),
 
+            Text::make('Uuid')
+                ->onlyOnDetail(),
+
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
