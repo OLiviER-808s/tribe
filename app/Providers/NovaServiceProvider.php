@@ -3,7 +3,12 @@
 namespace App\Providers;
 
 use App\Models\AdminUser;
+use App\Nova\AdminUser as AdminUserResource;
+use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -17,6 +22,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::mainMenu(function () {
+            return [
+                MenuSection::make('Dashboard')->path('/dashboards/main')->icon('chart-bar'),
+                MenuSection::make('Users')->path('/resources/users')->icon('user'),
+                MenuSection::make('Config', [
+                    MenuItem::resource(AdminUserResource::class)
+                ])->collapsedByDefault()->icon('cog')
+            ];
+        });
     }
 
     /**

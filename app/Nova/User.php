@@ -27,18 +27,13 @@ class User extends Resource
             ID::make()->sortable(),
 
             Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+                ->sortable(),
 
             Text::make('Username')
-                ->sortable()
-                ->rules('required', 'max:255'),
+                ->sortable(),
 
             Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->sortable(),
 
             Text::make('Status'),
 
@@ -50,5 +45,20 @@ class User extends Resource
             Text::make('Location')
                 ->onlyOnDetail()
         ];
+    }
+
+    public static function authorizedToCreate(Request $request): false
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request): false
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request): false
+    {
+        return false;
     }
 }
