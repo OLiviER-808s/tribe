@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -31,15 +32,22 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        return [
+        $result =  [
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
                 'isOAuthUser' => ! $user?->password
             ],
-            'profile' => $user?->viewModel(true, true),
-            'unreadChats' => $user?->unread_chats,
-            'theme' => $user?->settings?->theme ?? 'light'
         ];
+
+        if ($user instanceof User) {
+            $result = array_merge($result, [
+                'profile' => $user?->viewModel(true, true),
+                'unreadChats' => $user?->unread_chats,
+                'theme' => $user?->settings?->theme ?? 'light'
+            ]);
+        }
+
+        return $result;
     }
 }

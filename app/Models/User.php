@@ -35,6 +35,7 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'date_of_birth' => 'datetime'
     ];
 
     public $searchResultType = 'user';
