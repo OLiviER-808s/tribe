@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
@@ -46,7 +47,9 @@ class User extends Resource
                 ->onlyOnDetail(),
 
             Text::make('Location')
-                ->onlyOnDetail()
+                ->onlyOnDetail(),
+
+            BelongsToMany::make('Interests', 'interests', Topic::class)
         ];
     }
 

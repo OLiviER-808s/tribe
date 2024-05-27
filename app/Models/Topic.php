@@ -61,6 +61,12 @@ class Topic extends Model
         return $children->sortDesc('level');
     }
 
+    public function refreshLevel()
+    {
+        $this->level = $this->parent ? $this->parent->level + 1 : 1;
+        $this->save();
+    }
+
     public function viewModel($withCategory = false, $withParent = false): array
     {
         $model = [

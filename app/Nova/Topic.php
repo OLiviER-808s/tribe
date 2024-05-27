@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
@@ -43,5 +44,15 @@ class Topic extends Resource
 
             HasMany::make('Children', 'children', Topic::class)
         ];
+    }
+
+    public static function afterCreate(NovaRequest $request, Model $model)
+    {
+        $model->refreshLevel();
+    }
+
+    public static function afterUpdate(NovaRequest $request, Model $model)
+    {
+        $model->refreshLevel();
     }
 }
