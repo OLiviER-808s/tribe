@@ -18,7 +18,9 @@ class Topic extends Model
         'label',
         'category_id',
         'parent_id',
-        'level'
+        'level',
+        'active',
+        'requested_by_id'
     ];
 
     public function category(): BelongsTo
@@ -34,6 +36,11 @@ class Topic extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Topic::class, 'parent_id');
+    }
+
+    public function requestedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'requested_by_id');
     }
 
     public function allParents(): Collection
@@ -72,7 +79,6 @@ class Topic extends Model
         $model = [
             'uuid' => $this->uuid,
             'label' => $this->label,
-            'emoji' => $this->emoji,
         ];
 
         if ($withCategory && $this->category) {
