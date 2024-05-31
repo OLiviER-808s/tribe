@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstChatActions;
 use App\Constants\ConstMedia;
 use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreChat;
@@ -10,6 +11,7 @@ use App\Jobs\ReadMessage;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Message;
+use App\Traits\UsesChatActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +19,8 @@ use Inertia\Inertia;
 
 class ChatController extends Controller
 {
+    use UsesChatActions;
+
     public function index(Request $request)
     {
         $chats = $this->getUserChats();
@@ -66,26 +70,15 @@ class ChatController extends Controller
 
         DB::transaction(function () use ($chat, $user, $request) {
             if ($request['name'] != $chat->name) {
-                Message::create([
-                    'user_id' => $user->id,
-                    'chat_id' => $chat->id,
-                    'content' => 'changed the chat name to "' . $request['name'] . '"',
-                    'type' => ConstMessageTypes::ACTION
-                ]);
-
                 $chat->name = $request['name'];
                 $chat->save();
+
+                $this->newChatAction($chat->id, 'changed the chat name to "' . $request['name'] . '"');
             }
 
             if ($request['photo']) {
-                Message::create([
-                    'user_id' => $user->id,
-                    'chat_id' => $chat->id,
-                    'content' => 'changed the chat photo',
-                    'type' => ConstMessageTypes::ACTION
-                ]);
-
                 $chat->addMedia($request['photo'])->toMediaCollection(ConstMedia::CHAT_PHOTO);
+                $this->newChatAction($chat->id, ConstChatActions::PHOTO_CHANGED);
             }
         });
 
@@ -105,14 +98,8 @@ class ChatController extends Controller
             ->firstOrFail();
 
         DB::transaction(function () use ($member, $user) {
-            Message::create([
-                'user_id' => $user->id,
-                'chat_id' => $member->chat->id,
-                'content' => 'left the chat',
-                'type' => ConstMessageTypes::ACTION
-            ]);
-
             $member->delete();
+            $this->newChatAction($member->chat->id, ConstChatActions::USER_LEFT);
         });
 
         return to_route('chats');
@@ -157,18 +144,12 @@ class ChatController extends Controller
             })
             ->with('members.user')
             ->firstOrFail();
-        
-        $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
-        
-        DB::transaction(function () use ($chat, $member, $user) {
-            Message::create([
-                'user_id' => $user->id,
-                'chat_id' => $chat->id,
-                'content' => 'removed ' . $member->user->name . ' from the chat',
-                'type' => ConstMessageTypes::ACTION
-            ]);
 
+        $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
+
+        DB::transaction(function () use ($chat, $member, $user) {
             $member->delete();
+            $this->newChatAction($chat->id, 'removed ' . $member->user->name . ' from the chat');
         });
     }
 
@@ -181,9 +162,9 @@ class ChatController extends Controller
             })
             ->with('members.user')
             ->firstOrFail();
-        
+
         $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
-        
+
         $member->admin = true;
         $member->save();
     }

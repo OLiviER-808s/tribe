@@ -56,7 +56,7 @@ window.Echo.join(`chat.${props.chat.uuid}`)
         activeMembers.value.splice(idx, 1)
     })
     .listen('.message-sent', (message) => {
-        if (message.sent_by.uuid === page.props.profile.uuid) {
+        if (message.sent_by.uuid === page.props.profile.uuid && message.type === 'message') {
             const idx = messagesState.value.findIndex(item => item.uuid === message.uuid)
             messagesState.value[idx].status = 'sent'
         } else {

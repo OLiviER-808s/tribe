@@ -22,7 +22,9 @@ const displayChats = computed(() => chats.filter(chat => archiveMode.value ? cha
         </div>
 
         <div class="flex-grow h-0 overflow-auto">
-            <ChatTab v-for="chat in displayChats" :chat="chat" />
+            <div v-for="chat in displayChats" :key="chat.uuid">
+                <ChatTab :chat="chat" />
+            </div>
         </div>
 
         <button v-if="!archiveMode" @click="archiveMode = true" class="w-full rounded-lg hover:bg-base p-2 text-left flex items-center gap-3">

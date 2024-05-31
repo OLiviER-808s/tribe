@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstChatActions;
 use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreConversation;
 use App\Jobs\AddSearchRecord;
@@ -10,12 +11,15 @@ use App\Models\ChatMember;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Topic;
+use App\Traits\UsesChatActions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ConversationController extends Controller
 {
+    use UsesChatActions;
+
     public function show($uuid)
     {
         $conversation = Conversation::where('uuid', $uuid)->firstOrFail();
@@ -58,12 +62,7 @@ class ConversationController extends Controller
                 'admin' => true
             ]);
 
-            Message::create([
-                'user_id' => $user->id,
-                'chat_id' => $chat->id,
-                'content' => 'created the chat',
-                'type' => ConstMessageTypes::ACTION
-            ]);
+            $this->newChatAction($chat->id, ConstChatActions::CHAT_CREATED);
         });
 
         return to_route('discover');
@@ -95,12 +94,7 @@ class ConversationController extends Controller
                 'admin' => false
             ]);
 
-            Message::create([
-                'user_id' => $user->id,
-                'chat_id' => $chat->id,
-                'content' => 'joined the chat',
-                'type' => ConstMessageTypes::ACTION
-            ]);
+            $this->newChatAction($chat->id, ConstChatActions::USER_JOINED);
         });
 
         return to_route('chat.show', [
