@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Actionable;
 
 class Topic extends Model
 {
-    use HasFactory, UsesUuid;
+    use HasFactory, UsesUuid, Actionable;
 
     protected $fillable = [
         'emoji',

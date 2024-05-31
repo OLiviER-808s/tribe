@@ -2,9 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Lenses\TopicsToReview;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -20,7 +22,7 @@ class Topic extends Resource
         'id', 'label'
     ];
 
-    public function fields(NovaRequest $request)
+    public function fields(NovaRequest $request): array
     {
         return [
             ID::make()->sortable(),
@@ -42,17 +44,29 @@ class Topic extends Resource
                 ->exceptOnForms()
                 ->rules('required'),
 
+            Boolean::make('Active'),
+
+            BelongsTo::make('Requested by', 'requestedBy', User::class)
+                ->onlyOnDetail(),
+
             HasMany::make('Children', 'children', Topic::class)
         ];
     }
 
-    public static function afterCreate(NovaRequest $request, Model $model)
+    public static function afterCreate(NovaRequest $request, Model $model): void
     {
         $model->refreshLevel();
     }
 
-    public static function afterUpdate(NovaRequest $request, Model $model)
+    public static function afterUpdate(NovaRequest $request, Model $model): void
     {
         $model->refreshLevel();
+    }
+
+    public function lenses(NovaRequest $request): array
+    {
+        return [
+            new TopicsToReview()
+        ];
     }
 }

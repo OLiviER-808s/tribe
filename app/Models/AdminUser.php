@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Nova\Actions\Actionable;
 
 class AdminUser extends Authenticatable
 {
-    use HasFactory, UsesUuid, Notifiable;
+    use HasFactory, UsesUuid, Notifiable, Actionable;
 
     protected $fillable = [
         'name',
