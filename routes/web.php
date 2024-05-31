@@ -19,16 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/google/redirect', [GoogleOAuthController::class, 'redirect'])->name('google.redirect');
 Route::get('/google/callback', [GoogleOAuthController::class, 'callback'])->name('google.callback');
 
-// USERNAMES
-Route::get('/check-username/{username}', [UsernameController::class, 'check'])->name('username.check');
-
-// CITIES
-Route::get('/cities', [CityController::class, 'index'])->name('cities');
-
-// TOPICS
-Route::get('/topics', [TopicController::class, 'index'])->name('topics');
-Route::get('/topics/{uuid}/children', [TopicController::class, 'getChildren'])->name('topic.children');
-
 // PROFILE
 Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -38,6 +28,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/set-profile', [ProfileController::class, 'create'])->name('profile.create');
     Route::get('/set-interests', [ProfileController::class, 'interests'])->middleware(RequiresUsername::class)->name('profile.interests');
+
+    // USERNAMES
+    Route::get('/check-username/{username}', [UsernameController::class, 'check'])->name('username.check');
+
+    // CITIES
+    Route::get('/cities', [CityController::class, 'index'])->name('cities');
+
+    // TOPICS
+    Route::get('/topics', [TopicController::class, 'index'])->name('topics');
+    Route::post('/topics', [TopicController::class, 'store'])->name('topic.store');
+    Route::get('/topics/{uuid}/children', [TopicController::class, 'getChildren'])->name('topic.children');
 });
 
 Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterests::class])->group(function () {

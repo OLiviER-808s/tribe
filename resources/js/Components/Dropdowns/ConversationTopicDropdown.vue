@@ -32,19 +32,19 @@ watch(searchValue, () => {
 </script>
 
 <template>
-    <DropdownMenu :overlay="false" :dropup="false">
+    <DropdownMenu :overlay="false" :dropup="false" withDropdownCloser>
         <template #trigger>
-            <Textbox 
-            v-model="searchValue" 
+            <Textbox
+            v-model="searchValue"
             label="Topic"
             placeholder="Pick a topic..."
             :error="error"
             />
         </template>
-        
+
         <template #body>
             <div class="overflow-auto max-h-64 flex flex-col">
-                <button @click="searchValue = topic.label" v-for="topic in suggestedTopics" :key="topic.uuid" class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md text-left">
+                <button @click="searchValue = topic.label" v-for="topic in suggestedTopics" :key="topic.uuid" dropdown-closer class="text-md py-2 px-6 hover:bg-dropdown-select rounded-md text-left">
                     {{ topic.label }}
                 </button>
             </div>

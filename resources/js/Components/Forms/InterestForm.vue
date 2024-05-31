@@ -14,13 +14,14 @@ const props = defineProps({
         type: Array,
         default: []
     },
-    onSubmited: {
+    onSubmitted: {
         type: Function,
         default: () => null
     }
 })
 
 const categories = ref(props.defaultCategories)
+const uncategorizedTopics = ref([])
 
 const form = useForm({
     next_route: props.nextRoute,
@@ -47,14 +48,18 @@ const handleTagSelect = async (topic, idx, categoryIdx) => {
 const selectTagFromSearch = (topic) => {
     form.interests.push(topic.uuid)
 
-    const categoryIdx = categories.value.findIndex(({ uuid }) => uuid === topic.category.uuid)
-    const parentIdx = categories.value[categoryIdx].topics.findIndex(({ uuid }) => uuid === topic.parent.uuid)
+    if (allTopics.value.some(({ uuid }) => topic.uuid === uuid)) {
+        const categoryIdx = categories.value.findIndex(({ uuid }) => uuid === topic.category.uuid)
+        const parentIdx = categories.value[categoryIdx].topics.findIndex(({ uuid }) => uuid === topic.parent.uuid)
 
-    insertToIndex(categories.value[categoryIdx].topics, parentIdx + 1, topic)
+        insertToIndex(categories.value[categoryIdx].topics, parentIdx + 1, topic)
+    } else {
+        uncategorizedTopics.value.push(topic)
+    }
 }
 
 const submit = () => form.patch(route('profile.interests.update'), {
-    onSuccess: () => props.onSubmited()
+    onSuccess: () => props.onSubmitted()
 })
 </script>
 
@@ -65,6 +70,18 @@ const submit = () => form.patch(route('profile.interests.update'), {
 
     <div v-bind="$attrs" class="flex flex-col flex-1 h-0 overflow-auto px-2 mb-2">
         <div class="flex-grow flex flex-col gap-4">
+            <div v-if="uncategorizedTopics.length > 0">
+                <h2 class="text-xl mb-2">Uncategorized</h2>
+
+                <div class="flex gap-y-4 gap-x-2 flex-wrap items-center">
+                    <div v-for="(topic, topicIdx) in uncategorizedTopics" :key="topic.uuid">
+                        <ClickableTag :selected="tagIsSelected(topic)" :on-select="() => handleTagSelect(topic, topicIdx, categoryIdx)">
+                            {{ topic.label }}
+                        </ClickableTag>
+                    </div>
+                </div>
+            </div>
+
             <div v-for="(category, categoryIdx) in categories" :key="category.uuid">
                 <h2 class="text-xl mb-2">{{ category.name }}</h2>
 

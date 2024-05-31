@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Actionable;
 
 class Topic extends Model
 {
-    use HasFactory, UsesUuid;
+    use HasFactory, UsesUuid, Actionable;
 
     protected $fillable = [
         'emoji',
         'label',
         'category_id',
         'parent_id',
-        'level'
+        'level',
+        'active',
+        'requested_by_id'
     ];
 
     public function category(): BelongsTo
@@ -34,6 +37,11 @@ class Topic extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Topic::class, 'parent_id');
+    }
+
+    public function requestedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'requested_by_id');
     }
 
     public function allParents(): Collection
@@ -61,12 +69,17 @@ class Topic extends Model
         return $children->sortDesc('level');
     }
 
+    public function refreshLevel()
+    {
+        $this->level = $this->parent ? $this->parent->level + 1 : 1;
+        $this->save();
+    }
+
     public function viewModel($withCategory = false, $withParent = false): array
     {
         $model = [
             'uuid' => $this->uuid,
             'label' => $this->label,
-            'emoji' => $this->emoji,
         ];
 
         if ($withCategory && $this->category) {

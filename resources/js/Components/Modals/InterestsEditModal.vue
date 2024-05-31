@@ -14,11 +14,11 @@ const close = () => emit('close')
 <template>
     <VueFinalModal overlay-transition="vfm-fade" content-transition="vfm-fade" class="flex justify-center items-center" content-class="w-full max-w-xl p-2">
         <Card styles="w-full flex flex-col max-h-[90vh]">
-            <InterestForm 
+            <InterestForm
             next-route="settings.profile"
-            :default-categories="categories" 
-            :default-selected-interests="$page.props.profile.interests.map(topic => topic.uuid)" 
-            :on-submited="close" 
+            :default-categories="categories"
+            :default-selected-interests="$page.props.profile.interests.map(topic => topic.uuid)"
+            :on-submitted="close"
             />
         </Card>
     </VueFinalModal>
