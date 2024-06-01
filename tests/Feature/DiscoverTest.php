@@ -9,10 +9,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Assert;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
+use Tests\Traits\UsesTestHelpers;
 
 class DiscoverTest extends TestCase
 {
-    use RefreshDatabase, UsesBasicTestSetup;
+    use RefreshDatabase, UsesBasicTestSetup, UsesTestHelpers;
 
     public function test_discover_page_returns_conversations_in_the_correct_order(): void
     {
@@ -34,18 +35,18 @@ class DiscoverTest extends TestCase
 
         $response = $this->get(route('discover'));
 
-        $response->assertSessionHasNoErrors();
-        $response->assertOk();
-
-        $response->assertInertia(
-            fn ($page) => $page
-                ->component('Discover')
-                ->has('conversations.data', 5)
-                ->where('conversations.data.0.uuid', $expectedConversations[0]['uuid'])
-                ->where('conversations.data.1.uuid', $expectedConversations[1]['uuid'])
-                ->where('conversations.data.2.uuid', $expectedConversations[2]['uuid'])
-                ->where('conversations.data.3.uuid', $expectedConversations[3]['uuid'])
-                ->where('conversations.data.4.uuid', $expectedConversations[4]['uuid'])
-        );
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertOk()
+            ->assertInertia(
+                fn ($page) => $page
+                    ->component('Discover')
+                    ->has('conversations.data', 5)
+                    ->where('conversations.data.0.uuid', $expectedConversations[0]['uuid'])
+                    ->where('conversations.data.1.uuid', $expectedConversations[1]['uuid'])
+                    ->where('conversations.data.2.uuid', $expectedConversations[2]['uuid'])
+                    ->where('conversations.data.3.uuid', $expectedConversations[3]['uuid'])
+                    ->where('conversations.data.4.uuid', $expectedConversations[4]['uuid'])
+            );
     }
 }

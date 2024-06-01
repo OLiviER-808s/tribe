@@ -34,27 +34,4 @@ trait UsesBasicTestSetup
     }
 
     protected function extraSetup() {}
-
-    private function setupConversation($topic)
-    {
-        $conversation = Conversation::factory()->create([
-            'topic_id' => $topic->id,
-            'created_by_id' => $this->otherUser->id,
-            'active' => true
-        ]);
-
-        $chat = Chat::factory()->create([
-            'conversation_id' => $conversation->id,
-            'created_by_id' => $this->otherUser->id,
-        ]);
-
-        ChatMember::factory()->create([
-            'chat_id' => $chat->id,
-            'user_id' => $this->otherUser->id,
-        ]);
-
-        $conversation->refresh();
-
-        return $conversation;
-    }
 }
