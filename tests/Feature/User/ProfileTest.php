@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Constants\ConstStatus;
 use App\Models\Topic;
