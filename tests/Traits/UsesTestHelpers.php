@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 trait UsesTestHelpers
 {
-    private function setupConversation($topic)
+    private function setupConversation($topic, $active = true)
     {
         $user = User::factory()->create();
 
         $conversation = Conversation::factory()->create([
             'topic_id' => $topic->id,
             'created_by_id' => $user->id,
-            'active' => true
+            'active' => $active
         ]);
 
         $chat = Chat::factory()->create([
@@ -36,5 +36,29 @@ trait UsesTestHelpers
         $conversation->refresh();
 
         return $conversation;
+    }
+
+    public function setupChat($creator, ...$users)
+    {
+        $chat = Chat::factory()->create([
+            'created_by_id' => $creator->id,
+        ]);
+
+        ChatMember::factory()->create([
+            'chat_id' => $chat->id,
+            'user_id' => $creator->id,
+            'admin' => true
+        ]);
+
+        foreach ($users as $user) {
+            ChatMember::factory()->create([
+                'chat_id' => $chat->id,
+                'user_id' => $user->id,
+            ]);
+        }
+
+        $chat->refresh();
+
+        return $chat;
     }
 }

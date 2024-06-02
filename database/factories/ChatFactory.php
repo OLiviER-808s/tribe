@@ -21,7 +21,6 @@ class ChatFactory extends Factory
     {
         return [
             'name' => fake()->sentence(),
-            'conversation_id' => Conversation::all()->random()->id,
             'created_by_id' => User::all()->random()->id,
             'created_at' => Carbon::now()
         ];
