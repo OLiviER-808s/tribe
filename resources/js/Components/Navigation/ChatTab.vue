@@ -5,7 +5,6 @@ import { useDates } from '@/Composables/useDates'
 import Badge from '../Generic/Badge.vue'
 import Avatar from '../Generic/Avatar.vue'
 import { router } from '@inertiajs/vue3'
-import {removeItemFromIndex} from "@/lib/utils"
 
 const { chat } = defineProps({
     chat: Object

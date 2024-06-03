@@ -29,12 +29,12 @@ class ChatController extends Controller
             $chats = $chats->where('name', 'LIKE', '%' . $request->input('search') . '%');
 
             return [
-                'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel())
+                'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel())
             ];
         }
 
         return Inertia::render('Chats/ChatsIndex', [
-            'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel())
+            'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel())
         ]);
     }
 
@@ -53,7 +53,7 @@ class ChatController extends Controller
         ReadMessage::dispatch($messages->first(), [ $chat->members->where('user_id', Auth::user()->id)->first()->uuid ]);
 
         return Inertia::render('Chats/Chat', [
-            'chats' => $chats->get()->map(fn ($chat) => $chat->viewModel()),
+            'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel()),
             'chat' => $chat->viewModel(false),
             'messages' => MessageResource::collection($messages),
         ]);

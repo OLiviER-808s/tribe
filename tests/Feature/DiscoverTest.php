@@ -49,4 +49,23 @@ class DiscoverTest extends TestCase
                     ->where('conversations.data.4.uuid', $expectedConversations[4]['uuid'])
             );
     }
+
+    public function test_inactive_conversations_are_not_shown_in_discover()
+    {
+        $musicTopic = Topic::where('label', 'Music')->first();
+
+        $this->setupConversation($musicTopic);
+        $this->setupConversation($musicTopic, false);
+
+        $response = $this->get(route('discover'));
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertOk()
+            ->assertInertia(
+                fn ($page) => $page
+                    ->component('Discover')
+                    ->has('conversations.data', 1)
+            );
+    }
 }
