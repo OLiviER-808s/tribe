@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 use Tests\Traits\UsesTestHelpers;
 
-class ChatTest extends TestCase
+class ChatViewTest extends TestCase
 {
     use RefreshDatabase, UsesBasicTestSetup, UsesTestHelpers;
 
@@ -51,5 +51,18 @@ class ChatTest extends TestCase
                     ->has('messages', 3)
                     ->where('chat', $chat->viewModel())
             );
+    }
+
+    public function test_user_cannot_view_chat_they_are_not_a_part_of()
+    {
+        $chat = $this->setupChat($this->otherUser);
+
+        $response = $this->get(route('chat.show', [
+            'uuid' => $chat->uuid
+        ]));
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertNotFound();
     }
 }
