@@ -5,7 +5,7 @@ import AuthLayout from './AuthLayout.vue'
 import { provide, computed } from 'vue'
 import IconButton from '@/Components/Generic/IconButton.vue'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { usePage } from '@inertiajs/vue3'
+import {Head, usePage} from '@inertiajs/vue3'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
 
 provide('headerTitle', 'Settings')
@@ -18,6 +18,8 @@ const { isHandheld } = useIsHandheld()
 
 <template>
     <AuthLayout :show-mobile-header="isIndexPage">
+        <Head title="Settings" />
+
         <template #additional-sidebar>
             <Card styles="w-72 h-full" padding="p-0">
                 <SettingsList />

@@ -33,6 +33,8 @@ const submit = () => {
 
 <template>
     <GlobalLayout>
+        <Head title="Reset Password" />
+
         <div class="h-full p-1 flex flex-col items-center">
             <div class="flex justify-center my-2">
                 <img src="/logo.svg" alt="logo" class="w-10" />

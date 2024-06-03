@@ -5,12 +5,15 @@ import ProfileForm from '@/Components/Forms/ProfileForm.vue'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
 import Card from '@/Components/Generic/Card.vue'
 import { REGISTER_STEPS } from '@/lib/constants'
+import {Head} from "@inertiajs/vue3";
 
 const { isHandheld } = useIsHandheld()
 </script>
 
 <template>
     <EntryLayout title="Create Your Profile">
+        <Head title="Register" />
+
         <div class="mt-4 mb-8">
             <Stepper :steps="REGISTER_STEPS" selected-step-value="profile" />
         </div>

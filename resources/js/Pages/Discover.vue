@@ -6,6 +6,7 @@ import GlobalSearch from '@/Components/Dropdowns/GlobalSearch.vue'
 import { provide, ref } from 'vue'
 import axios from 'axios'
 import { useInfiniteScroll } from '@vueuse/core'
+import {Head} from "@inertiajs/vue3";
 
 const props = defineProps({
     conversations: Object
@@ -28,6 +29,8 @@ useInfiniteScroll(conversationContainer, async () => {
 
 <template>
     <AuthLayout>
+        <Head title="Discover" />
+
         <template #header-right-section>
             <GlobalSearch />
         </template>

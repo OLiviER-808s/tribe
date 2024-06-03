@@ -5,7 +5,7 @@ import Tag from '@/Components/Generic/Tag.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCalendar, faEllipsisVertical, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { useDates } from '@/Composables/useDates';
-import { router } from '@inertiajs/vue3';
+import {Head, router} from '@inertiajs/vue3';
 import Button from '@/Components/Generic/Button.vue';
 import IconButton from '@/Components/Generic/IconButton.vue';
 
@@ -25,6 +25,8 @@ const join = () => {
 
 <template>
     <AuthLayout>
+        <Head :title="conversation.title" />
+
         <template #header-right-section>
             <GlobalSearch />
         </template>

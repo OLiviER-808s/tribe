@@ -2,6 +2,7 @@
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import GlobalSearch from '@/Components/Dropdowns/GlobalSearch.vue'
 import ProfileCard from '@/Components/Profile/ProfileCard.vue'
+import {Head} from "@inertiajs/vue3";
 
 const props = defineProps({
     profile: Object
@@ -10,6 +11,8 @@ const props = defineProps({
 
 <template>
     <AuthLayout>
+        <Head :title="profile.username" />
+
         <template #header-right-section>
             <GlobalSearch />
         </template>

@@ -6,11 +6,14 @@ import RegisterForm from '@/Components/Forms/RegisterForm.vue'
 import Card from '@/Components/Generic/Card.vue'
 import { useIsHandheld } from '@/Composables/useIsHandheld'
 import GoogleOAuthButton from '@/Components/Auth/GoogleOAuthButton.vue'
+import {Head} from "@inertiajs/vue3";
 
 const { isHandheld } = useIsHandheld()
 </script>
 
 <template>
+    <Head title="Register" />
+
     <EntryLayout title="Create Your Account">
         <div class="mt-4 mb-8">
             <Stepper :steps="REGISTER_STEPS" selected-step-value="account" />

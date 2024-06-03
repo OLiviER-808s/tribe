@@ -5,7 +5,7 @@ import Textbox from '@/Components/Generic/Textbox.vue'
 import Textarea from '@/Components/Generic/Textarea.vue'
 import NumberInput from '@/Components/Generic/NumberInput.vue'
 import Button from '@/Components/Generic/Button.vue'
-import { useForm } from '@inertiajs/vue3'
+import {Head, useForm} from '@inertiajs/vue3'
 import ConversationTopicDropdown from '@/Components/Dropdowns/ConversationTopicDropdown.vue'
 
 const form = useForm({
@@ -20,17 +20,19 @@ const submit = () => form.post(route('conversation.store'))
 
 <template>
     <AuthLayout>
+        <Head title="New Conversation" />
+
         <section class="flex justify-center">
             <div class="px-1 py-6 w-full max-w-2xl">
                 <Card styles="flex flex-col gap-4">
-                    <Textbox 
-                    v-model="form.title" 
+                    <Textbox
+                    v-model="form.title"
                     label="Title"
                     placeholder="Write a title..."
                     :error="form.errors?.title"
                     />
 
-                    <Textarea 
+                    <Textarea
                     v-model="form.description"
                     label="Description"
                     placeholder="Write a description..."
@@ -40,7 +42,7 @@ const submit = () => form.post(route('conversation.store'))
 
                     <ConversationTopicDropdown v-model="form.topic" :error="form.errors?.topic" />
 
-                    <NumberInput 
+                    <NumberInput
                     v-model="form.limit"
                     label="Member Limit"
                     :min="2"

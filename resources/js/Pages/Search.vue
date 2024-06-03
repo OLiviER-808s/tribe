@@ -5,6 +5,7 @@ import ConversationCard from '@/Components/Display/ConversationCard.vue'
 import ProfileCard from '@/Components/Profile/ProfileCard.vue'
 import { useInfiniteScroll } from '@vueuse/core'
 import { ref, computed } from 'vue'
+import {Head} from "@inertiajs/vue3";
 
 const props = defineProps({
     results: Object,
@@ -26,6 +27,8 @@ useInfiniteScroll(resultsContainer, async () => {
 
 <template>
     <AuthLayout>
+        <Head title="Search" />
+
         <template #header-right-section>
             <GlobalSearch :default-search-value="searchQuery" />
         </template>
