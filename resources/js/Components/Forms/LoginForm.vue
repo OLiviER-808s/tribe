@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import {Link, useForm} from '@inertiajs/vue3'
 import Button from '../../Components/Generic/Button.vue'
 import Textbox from '../../Components/Generic/Textbox.vue'
 
@@ -20,14 +20,14 @@ const submit = () => {
 
 <template>
     <form class="flex flex-col gap-4" @submit.prevent="submit">
-        <Textbox 
+        <Textbox
         v-model="form.email"
         :error="form.errors.email"
         name="email"
         placeholder="Email"
         />
 
-        <Textbox 
+        <Textbox
         v-model="form.password"
         :error="form.errors.password"
         name="password"
@@ -35,6 +35,10 @@ const submit = () => {
         placeholder="Password"
         />
 
-        <Button type="submit">Sign In</Button>
+        <Button type="submit">Login</Button>
+
+        <div class="text-secondary text-sm text-center">
+            <Link href="/forgot-password">Forgot Password</Link>
+        </div>
     </form>
 </template>
