@@ -54,6 +54,7 @@ trait UsesTestHelpers
             ChatMember::factory()->create([
                 'chat_id' => $chat->id,
                 'user_id' => $user->id,
+                'admin' => false
             ]);
         }
 

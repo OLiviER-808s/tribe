@@ -12,16 +12,19 @@ use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Message;
 use App\Traits\UsesChatActions;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ChatController extends Controller
 {
     use UsesChatActions;
 
-    public function index(Request $request)
+    public function index(Request $request): array|Response
     {
         $chats = $this->getUserChats();
 
@@ -38,7 +41,7 @@ class ChatController extends Controller
         ]);
     }
 
-    public function show($chatUuid, Request $request)
+    public function show($chatUuid, Request $request): AnonymousResourceCollection|Response
     {
         $chatsQuery = $this->getUserChats();
         $chats = clone $chatsQuery;
@@ -59,7 +62,7 @@ class ChatController extends Controller
         ]);
     }
 
-    public function update($chatUuid, StoreChat $request)
+    public function update($chatUuid, StoreChat $request): RedirectResponse
     {
         $user = Auth::user();
         $chat = Chat::where('uuid', $chatUuid)
@@ -87,7 +90,7 @@ class ChatController extends Controller
         ]);
     }
 
-    public function leave($chatUuid)
+    public function leave($chatUuid): RedirectResponse
     {
         $user = Auth::user();
         $member = ChatMember::where('user_id', $user->id)
@@ -105,7 +108,7 @@ class ChatController extends Controller
         return to_route('chats');
     }
 
-    public function archive($chatUuid)
+    public function archive($chatUuid): RedirectResponse
     {
         $member = ChatMember::where('user_id', Auth::user()->id)
             ->whereHas('chat', function ($query) use ($chatUuid) {
@@ -119,7 +122,7 @@ class ChatController extends Controller
         return to_route('chats');
     }
 
-    public function unarchive($chatUuid)
+    public function unarchive($chatUuid): RedirectResponse
     {
         $member = ChatMember::where('user_id', Auth::user()->id)
             ->whereHas('chat', function ($query) use ($chatUuid) {
@@ -135,35 +138,19 @@ class ChatController extends Controller
         ]);
     }
 
-    public function removeMember($chatUuid, $memberUuid)
+    public function removeMember($chatUuid, $memberUuid): void
     {
-        $user = Auth::user();
-        $chat = Chat::where('uuid', $chatUuid)
-            ->whereHas('members', function ($query) use ($user) {
-                $query->where('user_id', $user->id)->where('admin', true);
-            })
-            ->with('members.user')
-            ->firstOrFail();
+        $member = $this->adminGetMember($chatUuid, $memberUuid);
 
-        $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
-
-        DB::transaction(function () use ($chat, $member, $user) {
+        DB::transaction(function () use ($member) {
             $member->delete();
-            $this->newChatAction($chat->id, 'removed ' . $member->user->name . ' from the chat');
+            $this->newChatAction($member->chat->id, 'removed ' . $member->user->name . ' from the chat');
         });
     }
 
-    public function assignAdmin($chatUuid, $memberUuid)
+    public function assignAdmin($chatUuid, $memberUuid): void
     {
-        $user = Auth::user();
-        $chat = Chat::where('uuid', $chatUuid)
-            ->whereHas('members', function ($query) use ($user) {
-                $query->where('user_id', $user->id)->where('admin', true);
-            })
-            ->with('members.user')
-            ->firstOrFail();
-
-        $member = $chat->members->where('uuid', $memberUuid)->firstOrFail();
+        $member = $this->adminGetMember($chatUuid, $memberUuid);
 
         $member->admin = true;
         $member->save();
@@ -181,5 +168,20 @@ class ChatController extends Controller
         ])
         ->orderBy('latest_message_created_at', 'desc')
         ->with(['members', 'latestMessage']);
+    }
+
+    private function adminGetMember($chatUuid, $memberUuid)
+    {
+        $user = Auth::user();
+        $chat = Chat::where('uuid', $chatUuid)
+            ->whereHas('members', function ($query) use ($user) {
+                $query->where('user_id', $user->id)->where('admin', true);
+            })
+            ->firstOrFail();
+
+        return ChatMember::where('uuid', $memberUuid)
+            ->where('chat_id', $chat->id)
+            ->where('admin', false)
+            ->firstOrFail();
     }
 }
