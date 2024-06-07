@@ -23,7 +23,7 @@ class ConversationFactory extends Factory
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'topic_id' => Topic::all()->random()->id,
-            'limit' => fake()->numberBetween(1, 10),
+            'limit' => fake()->numberBetween(2, 10),
             'active' => fake()->boolean(),
             'created_by_id' => User::all()->random()->id,
             'created_at' => Carbon::now()
