@@ -13,9 +13,15 @@ use Illuminate\Support\Facades\Auth;
 
 trait UsesTestHelpers
 {
-    private function setupConversation($topic, $active = true)
+    private function setupConversation($active = true, $topic = null, $user = null)
     {
-        $user = User::factory()->create();
+        if (!$topic) {
+            $topic = Topic::all()->random();
+        }
+
+        if (!$user) {
+            $user = User::factory()->create();
+        }
 
         $conversation = Conversation::factory()->create([
             'topic_id' => $topic->id,

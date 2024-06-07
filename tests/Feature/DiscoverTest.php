@@ -26,11 +26,11 @@ class DiscoverTest extends TestCase
         $this->testUser->interests()->sync([$popTopic->id, $basketballTopic->id]);
 
         $expectedConversations = [
-            $this->setupConversation($popTopic)->viewModel(), // Level 2 Direct Match
-            $this->setupConversation($basketballTopic)->viewModel(), // Level 1 Direct Match
-            $this->setupConversation($musicTopic)->viewModel(), // Parent Match
-            $this->setupConversation($rockTopic)->viewModel(), // Adjacent Match
-            $this->setupConversation($moviesTopic)->viewModel(), // No Match
+            $this->setupConversation(true, $popTopic)->viewModel(), // Level 2 Direct Match
+            $this->setupConversation(true, $basketballTopic)->viewModel(), // Level 1 Direct Match
+            $this->setupConversation(true, $musicTopic)->viewModel(), // Parent Match
+            $this->setupConversation(true, $rockTopic)->viewModel(), // Adjacent Match
+            $this->setupConversation(true, $moviesTopic)->viewModel(), // No Match
         ];
 
         $response = $this->get(route('discover'));
@@ -52,10 +52,25 @@ class DiscoverTest extends TestCase
 
     public function test_inactive_conversations_are_not_shown_in_discover()
     {
-        $musicTopic = Topic::where('label', 'Music')->first();
+        $this->setupConversation();
+        $this->setupConversation(false);
 
-        $this->setupConversation($musicTopic);
-        $this->setupConversation($musicTopic, false);
+        $response = $this->get(route('discover'));
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertOk()
+            ->assertInertia(
+                fn ($page) => $page
+                    ->component('Discover')
+                    ->has('conversations.data', 1)
+            );
+    }
+
+    public function test_user_is_not_shown_conversations_they_have_joined()
+    {
+        $this->setupConversation();
+        $this->setupConversation(true, null, $this->testUser);
 
         $response = $this->get(route('discover'));
 
