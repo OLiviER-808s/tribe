@@ -63,7 +63,7 @@ class ChatUpdateTest extends TestCase
         Event::assertDispatched(MessageSent::class, 2);
     }
 
-    public function test_user_who_is_not_admin_cannot_update_chat_name_and_photo()
+    public function test_regular_user_cannot_update_chat_name_and_photo()
     {
         Storage::fake('s3');
         Event::fake([ MessageSent::class ]);
