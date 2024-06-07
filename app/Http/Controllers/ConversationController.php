@@ -42,7 +42,7 @@ class ConversationController extends Controller
         $user = Auth::user();
         $topic = Topic::where('uuid', $request['topic'])->firstOrFail();
 
-        DB::transaction(function () use ($request, $user, $topic) {
+        $chat = DB::transaction(function () use ($request, $user, $topic) {
             $conversation = Conversation::create([
                 'title' => $request['title'],
                 'description' => $request['description'],
@@ -59,13 +59,17 @@ class ConversationController extends Controller
             ChatMember::create([
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
-                'admin' => true
+                'admin' => true,
             ]);
 
             $this->newChatAction($chat->id, ConstChatActions::CHAT_CREATED);
+
+            return $chat;
         });
 
-        return to_route('discover');
+        return to_route('chat.show', [
+            'uuid' => $chat->uuid
+        ]);
     }
 
     public function join($conversationUuid)
