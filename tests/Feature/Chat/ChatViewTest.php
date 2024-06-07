@@ -65,4 +65,26 @@ class ChatViewTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertNotFound();
     }
+
+    public function test_last_read_message_is_updated_when_user_opens_chat()
+    {
+        $chat = $this->setupChat($this->testUser, $this->otherUser);
+        $latestMessage = $this->addMessages($chat, $this->otherUser)->last();
+
+        $response = $this->get(route('chat.show', [
+            'uuid' => $chat->uuid
+        ]));
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertOk();
+
+        $member = $chat->members->where('user_id', $this->testUser->id)->first();
+
+        $this->assertDatabaseHas('chat_members', [
+            'id' => $member->id,
+            'uuid' => $member->uuid,
+            'last_read_message_id' => $latestMessage->id
+        ]);
+    }
 }

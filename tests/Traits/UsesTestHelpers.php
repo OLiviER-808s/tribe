@@ -73,7 +73,7 @@ trait UsesTestHelpers
         return $chat;
     }
 
-    public function addMessages($chat, $count = 5)
+    public function addMessages($chat, $user = null, $count = 5)
     {
         return Message::factory()
             ->count($count)
@@ -82,7 +82,7 @@ trait UsesTestHelpers
             ]))
             ->create([
                 'chat_id' => $chat->id,
-                'user_id' => $chat->members->random()->user->id
+                'user_id' => $user->id ?? $chat->members->random()->user->id
             ]);
     }
 }

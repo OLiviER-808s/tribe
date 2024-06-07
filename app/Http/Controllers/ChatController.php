@@ -53,7 +53,8 @@ class ChatController extends Controller
             return MessageResource::collection($messages);
         }
 
-        ReadMessage::dispatch($messages->first(), [ $chat->members->where('user_id', Auth::user()->id)->first()->uuid ]);
+        $member = $chat->members->where('user_id', Auth::user()->id)->first();
+        ReadMessage::dispatch($messages->first(), [ $member->uuid ]);
 
         return Inertia::render('Chats/Chat', [
             'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel()),

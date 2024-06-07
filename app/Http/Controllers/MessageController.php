@@ -29,8 +29,7 @@ class MessageController extends Controller
                 'uuid' => $request['uuid'],
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
-                'content' => $request['content'],
-                'type' => ConstMessageTypes::MESSAGE
+                'content' => $request['content']
             ]);
 
             if ($request['files']) {
@@ -60,7 +59,7 @@ class MessageController extends Controller
         return $message->getMedia('*')->where('uuid', $fileUuid)->firstOrFail();
     }
 
-    public function toggleTyping($chatUuid, TypingRequest $request)
+    public function toggleTyping($chatUuid, TypingRequest $request): void
     {
         $chat = Chat::where('uuid', $chatUuid)->with('members')->firstOrFail();
         $member = $chat?->members->where('user_id', Auth::user()->id)->firstOrFail();
