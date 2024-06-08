@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Nova\Lenses\TopicsToReview;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -16,10 +15,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Topic extends Resource
 {
     public static $model = \App\Models\Topic::class;
+
     public static $title = 'label';
 
     public static $search = [
-        'id', 'label'
+        'id', 'label',
     ];
 
     public function fields(NovaRequest $request): array
@@ -49,7 +49,7 @@ class Topic extends Resource
             BelongsTo::make('Requested by', 'requestedBy', User::class)
                 ->onlyOnDetail(),
 
-            HasMany::make('Children', 'children', Topic::class)
+            HasMany::make('Children', 'children', Topic::class),
         ];
     }
 
@@ -66,7 +66,7 @@ class Topic extends Resource
     public function lenses(NovaRequest $request): array
     {
         return [
-            new TopicsToReview()
+            new TopicsToReview(),
         ];
     }
 }

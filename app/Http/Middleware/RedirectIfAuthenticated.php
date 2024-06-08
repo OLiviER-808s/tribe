@@ -15,9 +15,9 @@ class RedirectIfAuthenticated
 
         if (! $user) {
             return $next($request);
-        } else if (! $user->username) {
+        } elseif (! $user->username) {
             return Redirect::route('profile.create');
-        } else if ($user->interests->count() < 1) {
+        } elseif ($user->interests->count() < 1) {
             return Redirect::route('profile.interests');
         } else {
             return Redirect::route('discover');

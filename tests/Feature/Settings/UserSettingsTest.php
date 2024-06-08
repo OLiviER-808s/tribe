@@ -14,7 +14,7 @@ class UserSettingsTest extends TestCase
     public function test_user_can_enable_dark_mode()
     {
         $response = $this->patch(route('settings.theme', [
-            'theme' => 'dark'
+            'theme' => 'dark',
         ]));
 
         $response->assertSessionHasNoErrors();
@@ -22,7 +22,7 @@ class UserSettingsTest extends TestCase
 
         $this->assertDatabaseHas('user_settings', [
             'user_id' => $this->testUser->id,
-            'theme' => 'dark'
+            'theme' => 'dark',
         ]);
     }
 
@@ -30,11 +30,11 @@ class UserSettingsTest extends TestCase
     {
         UserSetting::factory()->create([
             'user_id' => $this->testUser->id,
-            'theme' => 'dark'
+            'theme' => 'dark',
         ]);
 
         $response = $this->patch(route('settings.theme', [
-            'theme' => 'light'
+            'theme' => 'light',
         ]));
 
         $response->assertSessionHasNoErrors();
@@ -42,7 +42,7 @@ class UserSettingsTest extends TestCase
 
         $this->assertDatabaseHas('user_settings', [
             'user_id' => $this->testUser->id,
-            'theme' => 'light'
+            'theme' => 'light',
         ]);
     }
 }

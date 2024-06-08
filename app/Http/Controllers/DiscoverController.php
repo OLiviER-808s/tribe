@@ -7,7 +7,6 @@ use App\Models\Conversation;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DiscoverController extends Controller
@@ -38,7 +37,7 @@ class DiscoverController extends Controller
         }
 
         return Inertia::render('Discover', [
-            'conversations' => ConversationResource::collection($conversations)
+            'conversations' => ConversationResource::collection($conversations),
         ]);
     }
 }

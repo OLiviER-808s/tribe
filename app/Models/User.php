@@ -16,7 +16,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, UsesUuid, InteractsWithMedia, IsSearchable, Actionable;
+    use Actionable, HasFactory, InteractsWithMedia, IsSearchable, Notifiable, UsesUuid;
 
     protected $fillable = [
         'name',
@@ -25,7 +25,7 @@ class User extends Authenticatable implements HasMedia
         'username',
         'bio',
         'date_of_birth',
-        'location'
+        'location',
     ];
 
     protected $hidden = [
@@ -36,7 +36,7 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'date_of_birth' => 'datetime'
+        'date_of_birth' => 'datetime',
     ];
 
     public $searchResultType = 'user';
@@ -76,7 +76,7 @@ class User extends Authenticatable implements HasMedia
         return $this->chatMemberships->where('unread_messages', '>', 0)
             ->map(fn ($member) => [
                 'uuid' => $member->chat->uuid,
-                'unreadMessages' => $member->unread_messages
+                'unreadMessages' => $member->unread_messages,
             ])
             ->values()
             ->all();
@@ -95,7 +95,7 @@ class User extends Authenticatable implements HasMedia
             'username' => $this->username,
             'bio' => $this->bio,
             'photo' => $this->getFirstMedia(ConstMedia::PROFILE_PHOTO)?->getFullUrl() ?? ConstMedia::DEFAULT_PROFILE_PHOTO_PATH,
-            'interests' => $this->interests->map(fn ($topic) => $topic->viewModel())
+            'interests' => $this->interests->map(fn ($topic) => $topic->viewModel()),
         ];
 
         if ($withLocation) {

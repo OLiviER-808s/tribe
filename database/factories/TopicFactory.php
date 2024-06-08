@@ -21,7 +21,7 @@ class TopicFactory extends Factory
             'label' => fake()->word(),
             'emoji' => fake()->emoji(),
             'category_id' => TopicCategory::all()->random()->id,
-            'parent_id' => null
+            'parent_id' => null,
         ];
     }
 }

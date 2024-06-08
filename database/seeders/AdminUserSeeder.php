@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\AdminUser;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AdminUserSeeder extends Seeder
@@ -15,7 +14,7 @@ class AdminUserSeeder extends Seeder
     {
         AdminUser::factory()->create([
             'name' => 'Test Admin',
-            'email' => 'test.admin@example.com'
+            'email' => 'test.admin@example.com',
         ]);
     }
 }

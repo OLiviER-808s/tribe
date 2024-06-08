@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TagCategory;
 use App\Models\Topic;
 use App\Models\TopicCategory;
 use App\Models\UserSetting;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -32,7 +30,7 @@ class SettingsController extends Controller
         })->get();
 
         return Inertia::render('Settings/Profile', [
-            'categories' => $categories->map(fn ($category) => $category->viewModel())
+            'categories' => $categories->map(fn ($category) => $category->viewModel()),
         ]);
     }
 
@@ -41,10 +39,10 @@ class SettingsController extends Controller
         $user = Auth::user();
 
         UserSetting::updateOrCreate([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ], [
             'user_id' => $user->id,
-            'theme' => $theme
+            'theme' => $theme,
         ]);
     }
 }

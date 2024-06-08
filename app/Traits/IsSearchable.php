@@ -18,6 +18,6 @@ trait IsSearchable
 
     public function addSearchRecord($user)
     {
-        $this->userSearches()->syncWithoutDetaching([ $user ]);
+        $this->userSearches()->syncWithoutDetaching([$user]);
     }
 }

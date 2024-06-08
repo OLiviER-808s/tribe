@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Constants\ConstChatActions;
 use App\Constants\ConstMedia;
-use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreChat;
 use App\Http\Resources\MessageResource;
 use App\Jobs\ReadMessage;
@@ -29,15 +28,15 @@ class ChatController extends Controller
         $chats = $this->getUserChats();
 
         if ($request->wantsJson()) {
-            $chats = $chats->where('name', 'LIKE', '%' . $request->input('search') . '%');
+            $chats = $chats->where('name', 'LIKE', '%'.$request->input('search').'%');
 
             return [
-                'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel())
+                'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel()),
             ];
         }
 
         return Inertia::render('Chats/ChatsIndex', [
-            'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel())
+            'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel()),
         ]);
     }
 
@@ -54,7 +53,7 @@ class ChatController extends Controller
         }
 
         $member = $chat->members->where('user_id', Auth::user()->id)->first();
-        ReadMessage::dispatch($messages->first(), [ $member->uuid ]);
+        ReadMessage::dispatch($messages->first(), [$member->uuid]);
 
         return Inertia::render('Chats/Chat', [
             'chats' => $chats->get()->map(fn ($chat) => $chat->listViewModel()),
@@ -72,12 +71,12 @@ class ChatController extends Controller
             })
             ->firstOrFail();
 
-        DB::transaction(function () use ($chat, $user, $request) {
+        DB::transaction(function () use ($chat, $request) {
             if ($request['name'] != $chat->name) {
                 $chat->name = $request['name'];
                 $chat->save();
 
-                $this->newChatAction($chat->id, 'changed the chat name to "' . $request['name'] . '"');
+                $this->newChatAction($chat->id, 'changed the chat name to "'.$request['name'].'"');
             }
 
             if ($request['photo']) {
@@ -87,7 +86,7 @@ class ChatController extends Controller
         });
 
         return to_route('chat.show', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]);
     }
 
@@ -101,7 +100,7 @@ class ChatController extends Controller
             ->with('chat')
             ->firstOrFail();
 
-        DB::transaction(function () use ($member, $user) {
+        DB::transaction(function () use ($member) {
             $member->delete();
             $this->newChatAction($member->chat->id, ConstChatActions::USER_LEFT);
         });
@@ -135,7 +134,7 @@ class ChatController extends Controller
         $member->save();
 
         return to_route('chat.show', [
-            'uuid' => $member->chat->uuid
+            'uuid' => $member->chat->uuid,
         ]);
     }
 
@@ -145,7 +144,7 @@ class ChatController extends Controller
 
         DB::transaction(function () use ($member) {
             $member->delete();
-            $this->newChatAction($member->chat->id, 'removed ' . $member->user->name . ' from the chat');
+            $this->newChatAction($member->chat->id, 'removed '.$member->user->name.' from the chat');
         });
     }
 
@@ -162,13 +161,13 @@ class ChatController extends Controller
         return Chat::whereHas('members', function ($query) {
             $query->where('user_id', Auth::user()->id);
         })
-        ->addSelect(['latest_message_created_at' => Message::select('created_at')
-            ->whereColumn('chat_id', 'chats.id')
-            ->latest()
-            ->take(1)
-        ])
-        ->orderBy('latest_message_created_at', 'desc')
-        ->with(['members', 'latestMessage']);
+            ->addSelect(['latest_message_created_at' => Message::select('created_at')
+                ->whereColumn('chat_id', 'chats.id')
+                ->latest()
+                ->take(1),
+            ])
+            ->orderBy('latest_message_created_at', 'desc')
+            ->with(['members', 'latestMessage']);
     }
 
     private function adminGetMember($chatUuid, $memberUuid)

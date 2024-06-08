@@ -20,11 +20,11 @@ class ChatMemberTest extends TestCase
 
     public function test_user_can_leave_chat()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
         $chat = $this->setupChat($this->otherUser, $this->testUser);
 
         $response = $this->delete(route('chat.leave', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]));
 
         $response
@@ -33,7 +33,7 @@ class ChatMemberTest extends TestCase
 
         $this->assertSoftDeleted('chat_members', [
             'chat_id' => $chat->id,
-            'user_id' => $this->testUser->id
+            'user_id' => $this->testUser->id,
         ]);
 
         $this->assertDatabaseHas('messages', [
@@ -41,7 +41,7 @@ class ChatMemberTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => ConstChatActions::USER_LEFT,
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class);
@@ -52,7 +52,7 @@ class ChatMemberTest extends TestCase
         $chat = $this->setupChat($this->otherUser, $this->testUser);
 
         $response = $this->patch(route('chat.archive', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]));
 
         $response
@@ -62,7 +62,7 @@ class ChatMemberTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'chat_id' => $chat->id,
             'user_id' => $this->testUser->id,
-            'archived' => true
+            'archived' => true,
         ]);
     }
 
@@ -71,7 +71,7 @@ class ChatMemberTest extends TestCase
         $chat = $this->setupChat($this->otherUser, $this->testUser);
 
         $response = $this->patch(route('chat.unarchive', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]));
 
         $response
@@ -81,20 +81,20 @@ class ChatMemberTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'chat_id' => $chat->id,
             'user_id' => $this->testUser->id,
-            'archived' => false
+            'archived' => false,
         ]);
     }
 
     public function test_admin_can_remove_regular_users_from_chat()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
 
         $chat = $this->setupChat($this->testUser, $this->otherUser);
         $member = $chat->members->where('user_id', $this->otherUser->id)->first();
 
         $response = $this->delete(route('chat.remove-member', [
             'chatUuid' => $chat->uuid,
-            'memberUuid' => $member->uuid
+            'memberUuid' => $member->uuid,
         ]));
 
         $response
@@ -103,15 +103,15 @@ class ChatMemberTest extends TestCase
 
         $this->assertSoftDeleted('chat_members', [
             'chat_id' => $chat->id,
-            'user_id' => $this->otherUser->id
+            'user_id' => $this->otherUser->id,
         ]);
 
         $this->assertDatabaseHas('messages', [
             'chat_id' => $chat->id,
             'user_id' => $this->testUser->id,
-            'content' => 'removed ' . $this->otherUser->name . ' from the chat',
+            'content' => 'removed '.$this->otherUser->name.' from the chat',
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class);
@@ -124,7 +124,7 @@ class ChatMemberTest extends TestCase
 
         $response = $this->delete(route('chat.remove-member', [
             'chatUuid' => $chat->uuid,
-            'memberUuid' => $member->uuid
+            'memberUuid' => $member->uuid,
         ]));
 
         $response
@@ -133,7 +133,7 @@ class ChatMemberTest extends TestCase
 
         $this->assertNotSoftDeleted('chat_members', [
             'chat_id' => $chat->id,
-            'user_id' => $this->otherUser->id
+            'user_id' => $this->otherUser->id,
         ]);
     }
 
@@ -144,12 +144,12 @@ class ChatMemberTest extends TestCase
         $member = ChatMember::factory()->create([
             'chat_id' => $chat->id,
             'user_id' => $this->otherUser->id,
-            'admin' => true
+            'admin' => true,
         ]);
 
         $response = $this->delete(route('chat.remove-member', [
             'chatUuid' => $chat->uuid,
-            'memberUuid' => $member->uuid
+            'memberUuid' => $member->uuid,
         ]));
 
         $response
@@ -158,7 +158,7 @@ class ChatMemberTest extends TestCase
 
         $this->assertNotSoftDeleted('chat_members', [
             'chat_id' => $chat->id,
-            'user_id' => $this->otherUser->id
+            'user_id' => $this->otherUser->id,
         ]);
     }
 
@@ -169,7 +169,7 @@ class ChatMemberTest extends TestCase
 
         $response = $this->patch(route('chat.assign-admin', [
             'chatUuid' => $chat->uuid,
-            'memberUuid' => $member->uuid
+            'memberUuid' => $member->uuid,
         ]));
 
         $response
@@ -179,7 +179,7 @@ class ChatMemberTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'chat_id' => $chat->id,
             'user_id' => $this->otherUser->id,
-            'admin' => true
+            'admin' => true,
         ]);
     }
 
@@ -192,7 +192,7 @@ class ChatMemberTest extends TestCase
 
         $response = $this->patch(route('chat.assign-admin', [
             'chatUuid' => $chat->uuid,
-            'memberUuid' => $member->uuid
+            'memberUuid' => $member->uuid,
         ]));
 
         $response
@@ -202,7 +202,7 @@ class ChatMemberTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'chat_id' => $chat->id,
             'user_id' => $userThree->id,
-            'admin' => false
+            'admin' => false,
         ]);
     }
 }

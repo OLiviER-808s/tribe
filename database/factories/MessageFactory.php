@@ -25,7 +25,7 @@ class MessageFactory extends Factory
             'user_id' => User::all()->random()->id,
             'content' => fake()->sentence(),
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::MESSAGE
+            'type' => ConstMessageTypes::MESSAGE,
         ];
     }
 }

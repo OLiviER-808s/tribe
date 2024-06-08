@@ -13,6 +13,7 @@ class AddSearchRecord implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $model;
+
     protected $user;
 
     /**

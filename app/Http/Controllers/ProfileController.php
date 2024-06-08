@@ -9,14 +9,12 @@ use App\Jobs\AddSearchRecord;
 use App\Models\Topic;
 use App\Models\TopicCategory;
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class ProfileController extends Controller
 {
@@ -27,7 +25,7 @@ class ProfileController extends Controller
         AddSearchRecord::dispatch($user, Auth::user()->id);
 
         return Inertia::render('Profile/Profile', [
-            'profile' => $user->viewModel()
+            'profile' => $user->viewModel(),
         ]);
     }
 
@@ -43,7 +41,7 @@ class ProfileController extends Controller
         })->get();
 
         return Inertia::render('Auth/SetInterests', [
-            'categories' => $categories->map(fn ($category) => $category->viewModel())
+            'categories' => $categories->map(fn ($category) => $category->viewModel()),
         ]);
     }
 
@@ -55,7 +53,7 @@ class ProfileController extends Controller
             'name' => $request['name'],
             'username' => $request['username'],
             'bio' => $request['bio'],
-            'location' => $request['location']
+            'location' => $request['location'],
         ]);
         $user->save();
 
@@ -80,13 +78,13 @@ class ProfileController extends Controller
             $placeholderUserId = User::where('username', 'tribe_user')->firstOrFail()->id;
 
             $user->conversations()->update([
-                'created_by_id' => $placeholderUserId
+                'created_by_id' => $placeholderUserId,
             ]);
             $user->chats()->update([
-                'created_by_id' => $placeholderUserId
+                'created_by_id' => $placeholderUserId,
             ]);
             $user->messages()->update([
-                'user_id' => $placeholderUserId
+                'user_id' => $placeholderUserId,
             ]);
 
             $user->delete();

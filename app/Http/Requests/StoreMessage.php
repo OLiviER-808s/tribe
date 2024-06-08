@@ -18,7 +18,7 @@ class StoreMessage extends FormRequest
             'content' => 'required|string',
             'files' => 'nullable|array',
             'files.*' => 'file',
-            'active_uuids' => 'nullable|array'
+            'active_uuids' => 'nullable|array',
         ];
     }
 }

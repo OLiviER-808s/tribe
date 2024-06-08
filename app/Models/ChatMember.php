@@ -11,18 +11,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ChatMember extends Model
 {
-    use HasFactory, UsesUuid, SoftDeletes;
+    use HasFactory, SoftDeletes, UsesUuid;
 
     protected $fillable = [
         'user_id',
         'chat_id',
         'admin',
-        'last_read_message_id'
+        'last_read_message_id',
     ];
 
     protected $casts = [
         'admin' => 'boolean',
-        'archived' => 'boolean'
+        'archived' => 'boolean',
     ];
 
     public function user()

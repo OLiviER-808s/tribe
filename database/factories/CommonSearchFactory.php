@@ -17,7 +17,7 @@ class CommonSearchFactory extends Factory
     public function definition(): array
     {
         return [
-            'search_term' => fake()->word()
+            'search_term' => fake()->word(),
         ];
     }
 }

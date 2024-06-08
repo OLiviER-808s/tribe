@@ -17,7 +17,7 @@ class StoreConversation extends FormRequest
             'title' => 'required|string|max:50',
             'description' => 'required|string|max:300',
             'limit' => 'required|numeric|max:10|min:2',
-            'topic' => 'required|string'
+            'topic' => 'required|string',
         ];
     }
 }

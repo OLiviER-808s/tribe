@@ -7,9 +7,7 @@ use App\Nova\AdminUser as AdminUserResource;
 use App\Nova\Lenses\TopicsToReview;
 use App\Nova\Topic;
 use App\Nova\TopicCategory;
-use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
@@ -31,13 +29,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Dashboard')->path('/dashboards/main')->icon('chart-bar'),
                 MenuSection::make('Users')->path('/resources/users')->icon('user'),
                 MenuSection::make('Admin', [
-                    MenuItem::lens(Topic::class, TopicsToReview::class)
+                    MenuItem::lens(Topic::class, TopicsToReview::class),
                 ])->collapsedByDefault(),
                 MenuSection::make('Config', [
                     MenuItem::resource(Topic::class),
                     MenuItem::resource(TopicCategory::class),
-                    MenuItem::resource(AdminUserResource::class)
-                ])->collapsedByDefault()->icon('cog')
+                    MenuItem::resource(AdminUserResource::class),
+                ])->collapsedByDefault()->icon('cog'),
             ];
         });
     }
@@ -50,9 +48,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function routes()
     {
         Nova::routes()
-                ->withAuthenticationRoutes()
-                ->withPasswordResetRoutes()
-                ->register();
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
     }
 
     /**

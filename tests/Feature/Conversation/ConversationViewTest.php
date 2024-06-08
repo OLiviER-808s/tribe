@@ -28,7 +28,7 @@ class ConversationViewTest extends TestCase
         $this->assertDatabaseHas('searchables', [
             'searchable_type' => 'App\Models\Conversation',
             'searchable_id' => $conversation->id,
-            'user_id' => $this->testUser->id
+            'user_id' => $this->testUser->id,
         ]);
     }
 }

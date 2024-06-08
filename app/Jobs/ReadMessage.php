@@ -14,8 +14,9 @@ class ReadMessage implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $message;
+
     protected $memberUuids;
-    
+
     public function __construct($message, $memberUuids)
     {
         $this->message = $message;

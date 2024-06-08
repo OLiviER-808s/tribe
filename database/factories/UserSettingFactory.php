@@ -19,7 +19,7 @@ class UserSettingFactory extends Factory
     {
         return [
             'user_id' => User::all()->random()->id,
-            'theme' => fake()->randomElement(['light', 'dark'])
+            'theme' => fake()->randomElement(['light', 'dark']),
         ];
     }
 }

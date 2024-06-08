@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommonSearch extends Model
 {
-    use HasFactory, UsesUuid, IsSearchable;
+    use HasFactory, IsSearchable, UsesUuid;
 
     protected $fillable = [
         'search_term',
@@ -21,7 +21,7 @@ class CommonSearch extends Model
     {
         return [
             'uuid' => $this->uuid,
-            'term' => $this->search_term
+            'term' => $this->search_term,
         ];
     }
 }

@@ -22,8 +22,8 @@ class TopicTest extends TestCase
             ->assertOk()
             ->assertJson([
                 'topics' => [
-                    $topic->viewModel()
-                ]
+                    $topic->viewModel(),
+                ],
             ]);
     }
 
@@ -31,7 +31,7 @@ class TopicTest extends TestCase
     {
         Topic::factory()->create([
             'label' => 'inactive',
-            'active' => false
+            'active' => false,
         ]);
 
         $response = $this->get('/topics?search=inactive');
@@ -40,7 +40,7 @@ class TopicTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJson([
-                'topics' => []
+                'topics' => [],
             ]);
     }
 
@@ -49,21 +49,21 @@ class TopicTest extends TestCase
         $topic = Topic::where('label', 'Music')->with('children')->first();
 
         $response = $this->get(route('topic.children', [
-            'uuid' => $topic->uuid
+            'uuid' => $topic->uuid,
         ]));
 
         $response
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJson([
-                'topics' => $topic->children?->map(fn ($topic) => $topic->viewModel())->toArray()
+                'topics' => $topic->children?->map(fn ($topic) => $topic->viewModel())->toArray(),
             ]);
     }
 
     public function test_user_can_add_topic()
     {
         $response = $this->post(route('topic.store'), [
-            'label' => 'test'
+            'label' => 'test',
         ]);
 
         $topic = Topic::where('label', 'test')->first();
@@ -72,7 +72,7 @@ class TopicTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJson([
-                'topic' => $topic->viewModel()
+                'topic' => $topic->viewModel(),
             ]);
 
         $this->assertDatabaseHas('topics', [
@@ -82,14 +82,14 @@ class TopicTest extends TestCase
             'active' => false,
             'requested_by_id' => $this->testUser->id,
             'category_id' => null,
-            'parent_id' => null
+            'parent_id' => null,
         ]);
     }
 
     public function test_user_cannot_add_topic_without_label()
     {
         $response = $this->post(route('topic.store'), [
-            'label' => ''
+            'label' => '',
         ]);
 
         $response

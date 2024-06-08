@@ -26,7 +26,7 @@ class ProfileViewTest extends TestCase
         $this->assertDatabaseHas('searchables', [
             'searchable_type' => 'App\Models\User',
             'searchable_id' => $this->otherUser->id,
-            'user_id' => $this->testUser->id
+            'user_id' => $this->testUser->id,
         ]);
     }
 }

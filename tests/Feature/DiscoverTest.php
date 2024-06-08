@@ -2,11 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Conversation;
 use App\Models\Topic;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\Assert;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 use Tests\Traits\UsesTestHelpers;

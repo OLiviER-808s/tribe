@@ -35,11 +35,11 @@ class ChatViewTest extends TestCase
         $chat = $this->setupChat($this->testUser);
         Message::factory()->count(3)->create([
             'chat_id' => $chat->id,
-            'user_id' => $this->testUser->id
+            'user_id' => $this->testUser->id,
         ]);
 
         $response = $this->get(route('chat.show', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]));
 
         $response
@@ -58,7 +58,7 @@ class ChatViewTest extends TestCase
         $chat = $this->setupChat($this->otherUser);
 
         $response = $this->get(route('chat.show', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]));
 
         $response
@@ -72,7 +72,7 @@ class ChatViewTest extends TestCase
         $latestMessage = $this->addMessages($chat, $this->otherUser)->last();
 
         $response = $this->get(route('chat.show', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]));
 
         $response
@@ -84,7 +84,7 @@ class ChatViewTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'id' => $member->id,
             'uuid' => $member->uuid,
-            'last_read_message_id' => $latestMessage->id
+            'last_read_message_id' => $latestMessage->id,
         ]);
     }
 }

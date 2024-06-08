@@ -26,7 +26,7 @@ class ConversationFactory extends Factory
             'limit' => fake()->numberBetween(2, 10),
             'active' => fake()->boolean(),
             'created_by_id' => User::all()->random()->id,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ];
     }
 }

@@ -6,10 +6,7 @@ use App\Constants\ConstChatActions;
 use App\Constants\ConstMessageTypes;
 use App\Constants\ConstStatus;
 use App\Events\MessageSent;
-use App\Models\Chat;
 use App\Models\ChatMember;
-use App\Models\Conversation;
-use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -23,13 +20,13 @@ class ConversationJoinTest extends TestCase
 
     public function test_user_can_join_conversation()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
 
         $conversation = $this->setupConversation();
         $latestMessage = $this->addMessages($conversation->chat)->last();
 
         $response = $this->post(route('conversation.join', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]));
 
         $response
@@ -42,7 +39,7 @@ class ConversationJoinTest extends TestCase
             'admin' => false,
             'archived' => false,
             'last_read_message_id' => $latestMessage->id,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         $this->assertDatabaseHas('messages', [
@@ -50,7 +47,7 @@ class ConversationJoinTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => ConstChatActions::USER_JOINED,
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class);
@@ -58,11 +55,11 @@ class ConversationJoinTest extends TestCase
 
     public function test_conversation_is_made_inactive_once_limit_is_reached()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
         $conversation = $this->setupConversation(true, null, $this->otherUser, 2);
 
         $response = $this->post(route('conversation.join', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]));
 
         $response
@@ -72,7 +69,7 @@ class ConversationJoinTest extends TestCase
         $this->assertDatabaseHas('conversations', [
             'id' => $conversation->id,
             'uuid' => $conversation->uuid,
-            'active' => false
+            'active' => false,
         ]);
     }
 
@@ -81,7 +78,7 @@ class ConversationJoinTest extends TestCase
         $conversation = $this->setupConversation(false);
 
         $response = $this->post(route('conversation.join', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]));
 
         $response
@@ -96,7 +93,7 @@ class ConversationJoinTest extends TestCase
         $conversation = $this->setupConversation(true, null, $this->testUser);
 
         $response = $this->post(route('conversation.join', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]));
 
         $response
@@ -113,11 +110,11 @@ class ConversationJoinTest extends TestCase
         ChatMember::factory()->create([
             'chat_id' => $conversation->chat->id,
             'user_id' => $this->testUser->id,
-            'deleted_at' => Carbon::now()
+            'deleted_at' => Carbon::now(),
         ]);
 
         $response = $this->post(route('conversation.join', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]));
 
         $response
@@ -129,7 +126,7 @@ class ConversationJoinTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'chat_id' => $conversation->chat->id,
             'user_id' => $this->testUser->id,
-            'deleted_at' => Carbon::now()
+            'deleted_at' => Carbon::now(),
         ]);
     }
 }

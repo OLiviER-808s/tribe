@@ -32,14 +32,14 @@ class ConversationCreateTest extends TestCase
 
     public function test_user_can_create_conversation()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
         $topic = Topic::all()->random();
 
         $response = $this->post(route('conversation.store'), [
             'title' => self::TEST_STRING,
             'description' => self::TEST_STRING,
             'limit' => 5,
-            'topic' => $topic->uuid
+            'topic' => $topic->uuid,
         ]);
 
         $response
@@ -53,7 +53,7 @@ class ConversationCreateTest extends TestCase
             'topic_id' => $topic->id,
             'active' => true,
             'created_by_id' => $this->testUser->id,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         $conversation = Conversation::first();
@@ -61,7 +61,7 @@ class ConversationCreateTest extends TestCase
         $this->assertDatabaseHas('chats', [
             'name' => self::TEST_STRING,
             'conversation_id' => $conversation->id,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         $chat = Chat::first();
@@ -72,7 +72,7 @@ class ConversationCreateTest extends TestCase
             'admin' => true,
             'archived' => false,
             'last_read_message_id' => null,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         $this->assertDatabaseHas('messages', [
@@ -80,7 +80,7 @@ class ConversationCreateTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => ConstChatActions::CHAT_CREATED,
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class);

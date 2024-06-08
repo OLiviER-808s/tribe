@@ -14,7 +14,7 @@ class TypingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'typing' => 'required|boolean'
+            'typing' => 'required|boolean',
         ];
     }
 }

@@ -21,7 +21,7 @@ class ProfileUpdateRequest extends FormRequest
             'username' => ['required', 'string', 'min:3', 'max:25', Rule::unique(User::class)->ignore($this->user()->id)],
             'photo' => 'nullable|file',
             'location' => 'nullable|string',
-            'next_route' => 'required|string'
+            'next_route' => 'required|string',
         ];
     }
 }

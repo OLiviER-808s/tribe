@@ -14,7 +14,7 @@ class StoreTopic extends FormRequest
     public function rules(): array
     {
         return [
-            'label' => 'required|string|max:50'
+            'label' => 'required|string|max:50',
         ];
     }
 }

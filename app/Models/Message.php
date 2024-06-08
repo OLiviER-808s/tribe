@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Message extends Model implements HasMedia
 {
-    use HasFactory, UsesUuid, InteractsWithMedia, UsesFiles;
+    use HasFactory, InteractsWithMedia, UsesFiles, UsesUuid;
 
     protected $fillable = [
         'uuid',
@@ -20,7 +20,7 @@ class Message extends Model implements HasMedia
         'chat_id',
         'content',
         'status',
-        'type'
+        'type',
     ];
 
     public function user()
@@ -48,7 +48,7 @@ class Message extends Model implements HasMedia
             'type' => $this->type,
             'sent_by' => $this->user->viewModel(),
             'sent_at' => $this->created_at,
-            'files' => $this->formatFiles($this->getMedia(ConstMedia::MESSAGE_ATTACHMENTS))
+            'files' => $this->formatFiles($this->getMedia(ConstMedia::MESSAGE_ATTACHMENTS)),
         ];
     }
 }

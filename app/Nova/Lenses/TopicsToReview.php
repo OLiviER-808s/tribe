@@ -14,7 +14,7 @@ use Laravel\Nova\Nova;
 class TopicsToReview extends Lens
 {
     public static $search = [
-        'id', 'label'
+        'id', 'label',
     ];
 
     public static function query(LensRequest $request, $query)
@@ -30,7 +30,7 @@ class TopicsToReview extends Lens
             Text::make('Label')
                 ->rules('required'),
 
-            BelongsTo::make('Requested by', 'requestedBy', User::class)
+            BelongsTo::make('Requested by', 'requestedBy', User::class),
         ];
     }
 

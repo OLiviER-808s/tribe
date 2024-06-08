@@ -15,7 +15,7 @@ class StoreChat extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:25',
-            'photo' => 'nullable|file'
+            'photo' => 'nullable|file',
         ];
     }
 }

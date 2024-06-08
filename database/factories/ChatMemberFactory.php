@@ -25,7 +25,7 @@ class ChatMemberFactory extends Factory
             'admin' => fake()->boolean(),
             'archived' => fake()->boolean(),
             'last_read_message_id' => null,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ];
     }
 }

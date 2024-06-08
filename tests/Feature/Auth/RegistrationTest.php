@@ -24,7 +24,7 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'dob' => Carbon::now()->subYears(20)
+            'dob' => Carbon::now()->subYears(20),
         ]);
 
         $this->assertAuthenticated();

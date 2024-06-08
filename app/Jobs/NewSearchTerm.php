@@ -14,6 +14,7 @@ class NewSearchTerm implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $term;
+
     protected $user;
 
     /**
@@ -30,7 +31,7 @@ class NewSearchTerm implements ShouldQueue
      */
     public function handle(): void
     {
-        $searchTerm = CommonSearch::firstOrCreate([ 'search_term' => $this->term ]);
+        $searchTerm = CommonSearch::firstOrCreate(['search_term' => $this->term]);
         $searchTerm->addSearchRecord($this->user);
     }
 }

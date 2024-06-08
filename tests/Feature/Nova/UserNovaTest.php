@@ -2,10 +2,7 @@
 
 namespace Tests\Feature\Nova;
 
-use App\Models\Topic;
-use App\Nova\Lenses\TopicsToReview;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Tests\TestCase;
 use Tests\Traits\UsesNovaTestSetup;
 

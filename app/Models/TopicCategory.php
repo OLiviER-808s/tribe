@@ -11,7 +11,7 @@ class TopicCategory extends Model
     use HasFactory, UsesUuid;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public $timestamps = false;
@@ -26,7 +26,7 @@ class TopicCategory extends Model
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'topics' => $this->topics->map(fn ($topic) => $topic->viewModel())
+            'topics' => $this->topics->map(fn ($topic) => $topic->viewModel()),
         ];
     }
 }

@@ -22,19 +22,19 @@ class ProfileTest extends TestCase
             'bio' => null,
             'password' => null,
             'location' => null,
-            'status' => ConstStatus::USER_INACTIVE
+            'status' => ConstStatus::USER_INACTIVE,
         ]);
     }
 
     public function test_profile_data_can_be_updated(): void
     {
         $response = $this->patch('/profile', [
-                'name' => 'test name',
-                'username' => 'test_username',
-                'bio' => 'test bio',
-                'location' => 'test location',
-                'next_route' => 'settings.profile'
-            ]);
+            'name' => 'test name',
+            'username' => 'test_username',
+            'bio' => 'test bio',
+            'location' => 'test location',
+            'next_route' => 'settings.profile',
+        ]);
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('settings.profile'));
@@ -45,14 +45,14 @@ class ProfileTest extends TestCase
             'username' => 'test_username',
             'bio' => 'test bio',
             'location' => 'test location',
-            'email_verified_at' => $this->testUser->email_verified_at
+            'email_verified_at' => $this->testUser->email_verified_at,
         ]);
     }
 
     public function test_user_cannot_update_username_to_one_that_already_exists(): void
     {
         User::factory()->create([
-           'username' => 'test_username',
+            'username' => 'test_username',
         ]);
 
         $response = $this->from(route('settings.profile'))
@@ -61,7 +61,7 @@ class ProfileTest extends TestCase
                 'username' => 'test_username',
                 'bio' => 'test bio',
                 'location' => 'test location',
-                'next_route' => 'settings.profile'
+                'next_route' => 'settings.profile',
             ]);
 
         $response->assertSessionHasErrors('username');
@@ -71,12 +71,12 @@ class ProfileTest extends TestCase
     public function test_user_can_update_profile_with_the_same_username(): void
     {
         $response = $this->patch('/profile', [
-                'name' => 'test name',
-                'username' => $this->testUser->username,
-                'bio' => 'test bio',
-                'location' => 'test location',
-                'next_route' => 'settings.profile'
-            ]);
+            'name' => 'test name',
+            'username' => $this->testUser->username,
+            'bio' => 'test bio',
+            'location' => 'test location',
+            'next_route' => 'settings.profile',
+        ]);
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('settings.profile'));
@@ -87,19 +87,18 @@ class ProfileTest extends TestCase
             'username' => $this->testUser->username,
             'bio' => 'test bio',
             'location' => 'test location',
-            'email_verified_at' => $this->testUser->email_verified_at
+            'email_verified_at' => $this->testUser->email_verified_at,
         ]);
     }
-
 
     public function test_user_can_update_their_interests()
     {
         $newInterests = Topic::inRandomOrder()->take(6)->pluck('uuid')->toArray();
 
         $response = $this->patch(route('profile.interests.update'), [
-                'interests' => $newInterests,
-                'next_route' => 'settings.profile'
-            ]);
+            'interests' => $newInterests,
+            'next_route' => 'settings.profile',
+        ]);
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('settings.profile'));
@@ -115,8 +114,8 @@ class ProfileTest extends TestCase
     public function test_user_can_delete_their_account(): void
     {
         $response = $this->delete(route('profile.destroy'), [
-                'password' => 'password',
-            ]);
+            'password' => 'password',
+        ]);
 
         $response
             ->assertSessionHasNoErrors()

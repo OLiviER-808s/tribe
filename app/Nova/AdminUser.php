@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -12,10 +11,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class AdminUser extends Resource
 {
     public static $model = \App\Models\AdminUser::class;
+
     public static $title = 'name';
 
     public static $search = [
-        'id', 'name', 'email'
+        'id', 'name', 'email',
     ];
 
     public function fields(NovaRequest $request)
@@ -38,7 +38,7 @@ class AdminUser extends Resource
 
             Password::make('Password')
                 ->onlyOnForms()
-                ->rules(['required', PasswordRule::defaults()])
+                ->rules(['required', PasswordRule::defaults()]),
         ];
     }
 }

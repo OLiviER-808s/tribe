@@ -5,7 +5,6 @@ namespace Tests\Feature\Search;
 use App\Models\CommonSearch;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 use Tests\Traits\UsesTestHelpers;
@@ -21,12 +20,12 @@ class GlobalSearchTest extends TestCase
         $conversation->save();
 
         $searchTerm = CommonSearch::factory()->create([
-            'search_term' => 'test2'
+            'search_term' => 'test2',
         ]);
         $this->addSearches($searchTerm, 1);
 
         $user = User::factory()->create([
-            'username' => 'test3'
+            'username' => 'test3',
         ]);
         $this->addSearches($user, 2);
 
@@ -52,7 +51,7 @@ class GlobalSearchTest extends TestCase
         $conversation->save();
 
         $user = User::factory()->create([
-            'username' => 'test3'
+            'username' => 'test3',
         ]);
         $this->addSearches($user, 1);
 
@@ -80,20 +79,20 @@ class GlobalSearchTest extends TestCase
             ->assertOk();
 
         $this->assertDatabaseHas('common_searches', [
-            'search_term' => 'test'
+            'search_term' => 'test',
         ]);
 
         $this->assertDatabaseHas('searchables', [
             'searchable_type' => 'App\Models\CommonSearch',
             'searchable_id' => 1,
-            'user_id' => $this->testUser->id
+            'user_id' => $this->testUser->id,
         ]);
     }
 
     public function test_visiting_search_term_is_not_added_twice()
     {
         $searchTerm = CommonSearch::factory()->create([
-            'search_term' => 'test'
+            'search_term' => 'test',
         ]);
         $searchTerm->addSearchRecord($this->testUser->id);
 

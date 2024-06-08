@@ -9,20 +9,17 @@ use App\Models\Message;
 use App\Models\Topic;
 use App\Models\User;
 use Carbon\Carbon;
-use Database\Seeders\TopicCategorySeeder;
-use Database\Seeders\TopicSeeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Support\Facades\Auth;
 
 trait UsesTestHelpers
 {
     private function setupConversation($active = true, $topic = null, $user = null, $limit = 4)
     {
-        if (!$topic) {
+        if (! $topic) {
             $topic = Topic::all()->random();
         }
 
-        if (!$user) {
+        if (! $user) {
             $user = User::factory()->create();
         }
 
@@ -30,7 +27,7 @@ trait UsesTestHelpers
             'topic_id' => $topic->id,
             'created_by_id' => $user->id,
             'limit' => $limit,
-            'active' => $active
+            'active' => $active,
         ]);
 
         $chat = Chat::factory()->create([
@@ -57,14 +54,14 @@ trait UsesTestHelpers
         ChatMember::factory()->create([
             'chat_id' => $chat->id,
             'user_id' => $creator->id,
-            'admin' => true
+            'admin' => true,
         ]);
 
         foreach ($users as $user) {
             ChatMember::factory()->create([
                 'chat_id' => $chat->id,
                 'user_id' => $user->id,
-                'admin' => false
+                'admin' => false,
             ]);
         }
 
@@ -78,11 +75,11 @@ trait UsesTestHelpers
         return Message::factory()
             ->count($count)
             ->state(new Sequence(fn (Sequence $sequence) => [
-                'created_at' => Carbon::now()->addMinutes($sequence->index)
+                'created_at' => Carbon::now()->addMinutes($sequence->index),
             ]))
             ->create([
                 'chat_id' => $chat->id,
-                'user_id' => $user->id ?? $chat->members->random()->user->id
+                'user_id' => $user->id ?? $chat->members->random()->user->id,
             ]);
     }
 

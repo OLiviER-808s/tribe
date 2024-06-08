@@ -12,7 +12,7 @@ use Laravel\Nova\Actions\Actionable;
 
 class Topic extends Model
 {
-    use HasFactory, UsesUuid, Actionable;
+    use Actionable, HasFactory, UsesUuid;
 
     protected $fillable = [
         'emoji',
@@ -21,7 +21,7 @@ class Topic extends Model
         'parent_id',
         'level',
         'active',
-        'requested_by_id'
+        'requested_by_id',
     ];
 
     public function category(): BelongsTo
@@ -85,14 +85,14 @@ class Topic extends Model
         if ($withCategory && $this->category) {
             $model['category'] = [
                 'uuid' => $this->category->uuid,
-                'name' => $this->category->name
+                'name' => $this->category->name,
             ];
         }
 
         if ($withParent && $this->parent) {
             $model['parent'] = [
                 'uuid' => $this->parent->uuid,
-                'label' => $this->parent->label
+                'label' => $this->parent->label,
             ];
         }
 

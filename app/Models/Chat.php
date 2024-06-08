@@ -16,7 +16,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Chat extends Model implements HasMedia
 {
-    use HasFactory, UsesUuid, UsesCreatedBy, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, UsesCreatedBy, UsesUuid;
 
     protected $fillable = [
         'name',
@@ -65,8 +65,8 @@ class Chat extends Model implements HasMedia
             'archived' => $authMember->archived ?? false,
             'latestMessage' => $this->latestMessage ? [
                 'content' => $this->latestMessage->content,
-                'sent_at' => $this->latestMessage->created_at
-            ] : null
+                'sent_at' => $this->latestMessage->created_at,
+            ] : null,
         ];
     }
 }

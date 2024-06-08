@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('status', [
                 ConstStatus::USER_ACTIVE,
                 ConstStatus::USER_BANNED,
-                ConstStatus::USER_INACTIVE
+                ConstStatus::USER_INACTIVE,
             ])->after('remember_token')->default(ConstStatus::USER_ACTIVE);
         });
     }

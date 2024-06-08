@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -18,18 +17,18 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $conversations = Conversation::where('active', true)
-            ->where('title', 'LIKE', '%' . $request->input('query') . '%')
-            ->orWhere('description', 'LIKE', '%' . $request->input('query') . '%')
+            ->where('title', 'LIKE', '%'.$request->input('query').'%')
+            ->orWhere('description', 'LIKE', '%'.$request->input('query').'%')
             ->orderBy('created_at', 'desc')
             ->get();
 
         $users = User::where('status', ConstStatus::USER_ACTIVE)
-            ->where('name', 'LIKE', $request->input('query') . '%')
-            ->orWhere('username', 'LIKE', $request->input('query') . '%')
+            ->where('name', 'LIKE', $request->input('query').'%')
+            ->orWhere('username', 'LIKE', $request->input('query').'%')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $terms = CommonSearch::where('search_term', 'LIKE', $request->input('query') . '%')
+        $terms = CommonSearch::where('search_term', 'LIKE', $request->input('query').'%')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -40,12 +39,12 @@ class SearchController extends Controller
             ->concat($conversations)
             ->concat($terms)
             ->sortByDesc('search_count')
-            ->map(fn ($model) => [ ...$model->viewModel(), 'resultType' => $model->searchResultType ])
+            ->map(fn ($model) => [...$model->viewModel(), 'resultType' => $model->searchResultType])
             ->paginate(15);
 
         if ($request->wantsJson()) {
             return [
-                'results' => $results
+                'results' => $results,
             ];
         }
 

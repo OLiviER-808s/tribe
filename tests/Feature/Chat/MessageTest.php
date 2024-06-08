@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 use Tests\Traits\UsesTestHelpers;
@@ -24,17 +23,17 @@ class MessageTest extends TestCase
 
     public function test_user_can_send_message()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
         $chat = $this->setupChat($this->testUser, $this->otherUser);
 
         $messageUuid = fake()->uuid();
 
         $response = $this->post(route('chat.send-message', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]), [
             'uuid' => $messageUuid,
             'content' => self::TEST_MESSAGE,
-            'active_uuids' => []
+            'active_uuids' => [],
         ]);
 
         $response
@@ -48,7 +47,7 @@ class MessageTest extends TestCase
             'content' => self::TEST_MESSAGE,
             'created_at' => Carbon::now(),
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::MESSAGE
+            'type' => ConstMessageTypes::MESSAGE,
         ]);
 
         Event::assertDispatched(MessageSent::class);
@@ -56,7 +55,7 @@ class MessageTest extends TestCase
 
     public function test_last_read_message_is_updated_for_active_users_when_message_is_sent()
     {
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
 
         $chat = $this->setupChat($this->testUser, $this->otherUser);
         $member = $chat->members->where('user_id', $this->otherUser->id)->first();
@@ -64,11 +63,11 @@ class MessageTest extends TestCase
         $messageUuid = fake()->uuid();
 
         $response = $this->post(route('chat.send-message', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]), [
             'uuid' => $messageUuid,
             'content' => self::TEST_MESSAGE,
-            'active_uuids' => [ $member->uuid ]
+            'active_uuids' => [$member->uuid],
         ]);
 
         $response
@@ -80,14 +79,14 @@ class MessageTest extends TestCase
         $this->assertDatabaseHas('chat_members', [
             'chat_id' => $chat->id,
             'user_id' => $this->otherUser->id,
-            'last_read_message_id' => $message->id
+            'last_read_message_id' => $message->id,
         ]);
     }
 
     public function test_user_can_send_message_with_files()
     {
         Storage::fake('s3');
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
 
         $chat = $this->setupChat($this->testUser, $this->otherUser);
 
@@ -95,12 +94,12 @@ class MessageTest extends TestCase
         $file = UploadedFile::fake()->create('file.pdf', 500);
 
         $response = $this->post(route('chat.send-message', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]), [
             'uuid' => $messageUuid,
             'content' => self::TEST_MESSAGE,
             'active_uuids' => [],
-            'files' => [ $file ]
+            'files' => [$file],
         ]);
 
         $response
@@ -124,7 +123,7 @@ class MessageTest extends TestCase
 
         $response = $this->get(route('message.download-attachment', [
             'messageUuid' => $message->uuid,
-            'fileUuid' => $media->uuid
+            'fileUuid' => $media->uuid,
         ]));
 
         $response

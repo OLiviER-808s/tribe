@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Conversation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,7 +21,7 @@ class ChatFactory extends Factory
         return [
             'name' => fake()->sentence(),
             'created_by_id' => User::all()->random()->id,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ];
     }
 }

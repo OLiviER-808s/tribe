@@ -12,7 +12,7 @@ trait UsesFiles
                 'name' => $file->name,
                 'size' => $file->size,
                 'type' => explode('/', $file->mime_type)[0],
-                'preview' => $file->getFullUrl() ?? null
+                'preview' => $file->getFullUrl() ?? null,
             ];
         })->toArray();
     }

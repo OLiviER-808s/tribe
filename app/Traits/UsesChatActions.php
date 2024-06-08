@@ -15,7 +15,7 @@ trait UsesChatActions
             'user_id' => Auth::user()->id,
             'chat_id' => $chatId,
             'content' => $content,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         broadcast(new MessageSent($action));

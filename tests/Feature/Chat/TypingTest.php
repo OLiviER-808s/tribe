@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Chat;
 
-use App\Events\MessageSent;
 use App\Events\UserTyping;
 use App\Models\Chat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,16 +18,16 @@ class TypingTest extends TestCase
 
     protected function extraSetup(): void
     {
-        Event::fake([ UserTyping::class ]);
+        Event::fake([UserTyping::class]);
         $this->chat = $this->setupChat($this->testUser, $this->otherUser);
     }
 
     public function test_user_can_start_typing_message()
     {
         $response = $this->post(route('chat.typing', [
-            'uuid' => $this->chat->uuid
+            'uuid' => $this->chat->uuid,
         ]), [
-            'typing' => true
+            'typing' => true,
         ]);
 
         $response
@@ -41,9 +40,9 @@ class TypingTest extends TestCase
     public function test_can_stop_typing_message()
     {
         $response = $this->post(route('chat.typing', [
-            'uuid' => $this->chat->uuid
+            'uuid' => $this->chat->uuid,
         ]), [
-            'typing' => false
+            'typing' => false,
         ]);
 
         $response

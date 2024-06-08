@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\TopicCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TopicCategorySeeder extends Seeder
@@ -15,16 +14,16 @@ class TopicCategorySeeder extends Seeder
     {
         TopicCategory::factory()->createMany([
             [
-                'name' => 'Hobbies'
+                'name' => 'Hobbies',
             ],
             [
-                'name' => 'Entertainment'
+                'name' => 'Entertainment',
             ],
             [
-                'name' => 'Sport'
+                'name' => 'Sport',
             ],
             [
-                'name' => 'News'
+                'name' => 'News',
             ],
         ]);
     }

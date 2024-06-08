@@ -18,7 +18,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      */
-    public function version(Request $request): string|null
+    public function version(Request $request): ?string
     {
         return parent::version($request);
     }
@@ -32,11 +32,11 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        $result =  [
+        $result = [
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
-                'isOAuthUser' => ! $user?->password
+                'isOAuthUser' => ! $user?->password,
             ],
         ];
 
@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
             $result = array_merge($result, [
                 'profile' => $user?->viewModel(true, true),
                 'unreadChats' => $user?->unread_chats,
-                'theme' => $user?->settings?->theme ?? 'light'
+                'theme' => $user?->settings?->theme ?? 'light',
             ]);
         }
 

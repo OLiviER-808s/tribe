@@ -13,28 +13,28 @@ class UsernameCheckTest extends TestCase
     public function test_check_username_returns_true_when_username_is_taken()
     {
         $response = $this->get(route('username.check', [
-            'username' => $this->otherUser->username
+            'username' => $this->otherUser->username,
         ]));
 
         $response
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJson([
-                'taken' => true
+                'taken' => true,
             ]);
     }
 
     public function test_check_username_returns_false_when_username_is_not_taken()
     {
         $response = $this->get(route('username.check', [
-            'username' => 'username'
+            'username' => 'username',
         ]));
 
         $response
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJson([
-                'taken' => false
+                'taken' => false,
             ]);
     }
 }

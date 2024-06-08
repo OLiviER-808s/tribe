@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ConstMedia;
-use App\Constants\ConstMessageTypes;
 use App\Events\MessageSent;
 use App\Events\UserTyping;
 use App\Http\Requests\StoreMessage;
@@ -29,7 +28,7 @@ class MessageController extends Controller
                 'uuid' => $request['uuid'],
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
-                'content' => $request['content']
+                'content' => $request['content'],
             ]);
 
             if ($request['files']) {
@@ -39,7 +38,7 @@ class MessageController extends Controller
             }
 
             ChatMember::whereIn('uuid', $request['active_uuids'])->update([
-                'last_read_message_id' => $message->id
+                'last_read_message_id' => $message->id,
             ]);
 
             return $message;

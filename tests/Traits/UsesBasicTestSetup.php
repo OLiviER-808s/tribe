@@ -2,9 +2,6 @@
 
 namespace Tests\Traits;
 
-use App\Models\Chat;
-use App\Models\ChatMember;
-use App\Models\Conversation;
 use App\Models\Topic;
 use App\Models\User;
 use Database\Seeders\TopicCategorySeeder;
@@ -13,6 +10,7 @@ use Database\Seeders\TopicSeeder;
 trait UsesBasicTestSetup
 {
     private User $testUser;
+
     private User $otherUser;
 
     protected function setUp(): void
@@ -33,5 +31,7 @@ trait UsesBasicTestSetup
         $this->extraSetup();
     }
 
-    protected function extraSetup() {}
+    protected function extraSetup()
+    {
+    }
 }

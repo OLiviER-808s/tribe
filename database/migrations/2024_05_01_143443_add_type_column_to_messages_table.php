@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::table('messages', function (Blueprint $table) {
             $table->enum('type', [
-                ConstMessageTypes::MESSAGE, 
-                ConstMessageTypes::ACTION
+                ConstMessageTypes::MESSAGE,
+                ConstMessageTypes::ACTION,
             ])->default(ConstMessageTypes::MESSAGE)->after('status');
         });
     }

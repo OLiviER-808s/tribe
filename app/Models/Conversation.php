@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conversation extends Model
 {
-    use HasFactory, UsesUuid, UsesCreatedBy, UsesTopic, IsSearchable;
+    use HasFactory, IsSearchable, UsesCreatedBy, UsesTopic, UsesUuid;
 
     protected $fillable = [
         'title',
@@ -22,7 +22,7 @@ class Conversation extends Model
     ];
 
     public $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     public $searchResultType = 'conversation';
@@ -48,7 +48,7 @@ class Conversation extends Model
             'active' => $this->active,
             'members' => $this->active ? $this->chat->members->count() : $this->limit,
             'limit' => $this->limit,
-            'topic' => $this->topic->viewModel()
+            'topic' => $this->topic->viewModel(),
         ];
     }
 }

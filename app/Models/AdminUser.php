@@ -10,7 +10,7 @@ use Laravel\Nova\Actions\Actionable;
 
 class AdminUser extends Authenticatable
 {
-    use HasFactory, UsesUuid, Notifiable, Actionable;
+    use Actionable, HasFactory, Notifiable, UsesUuid;
 
     protected $fillable = [
         'name',

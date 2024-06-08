@@ -15,7 +15,7 @@ class StoreProfileInterests extends FormRequest
     {
         return [
             'next_route' => 'required|string',
-            'interests' => 'array|required|min:1'
+            'interests' => 'array|required|min:1',
         ];
     }
 }

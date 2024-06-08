@@ -22,16 +22,16 @@ class ChatUpdateTest extends TestCase
     public function test_admin_can_update_chat_name_and_photo()
     {
         Storage::fake('s3');
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
 
         $chat = $this->setupChat($this->testUser, $this->otherUser);
         $photo = UploadedFile::fake()->create('chat_photo.jpg', 500);
 
         $response = $this->put(route('chat.update', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]), [
             'name' => 'edited name',
-            'photo' => $photo
+            'photo' => $photo,
         ]);
 
         $response
@@ -40,7 +40,7 @@ class ChatUpdateTest extends TestCase
 
         $this->assertDatabaseHas('chats', [
             'id' => $chat->id,
-            'name' => 'edited name'
+            'name' => 'edited name',
         ]);
         $this->assertFileExists($chat->getFirstMedia(ConstMedia::CHAT_PHOTO)->getPath());
 
@@ -49,7 +49,7 @@ class ChatUpdateTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => 'changed the chat name to "edited name"',
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         $this->assertDatabaseHas('messages', [
@@ -57,7 +57,7 @@ class ChatUpdateTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => ConstChatActions::PHOTO_CHANGED,
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION
+            'type' => ConstMessageTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class, 2);
@@ -66,16 +66,16 @@ class ChatUpdateTest extends TestCase
     public function test_regular_user_cannot_update_chat_name_and_photo()
     {
         Storage::fake('s3');
-        Event::fake([ MessageSent::class ]);
+        Event::fake([MessageSent::class]);
 
         $chat = $this->setupChat($this->otherUser, $this->testUser);
         $photo = UploadedFile::fake()->create('chat_photo.jpg', 500);
 
         $response = $this->put(route('chat.update', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]), [
             'name' => 'edited name',
-            'photo' => $photo
+            'photo' => $photo,
         ]);
 
         $response
@@ -84,7 +84,7 @@ class ChatUpdateTest extends TestCase
 
         $this->assertDatabaseHas('chats', [
             'id' => $chat->id,
-            'name' => $chat->name
+            'name' => $chat->name,
         ]);
     }
 }

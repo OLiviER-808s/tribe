@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ConstChatActions;
-use App\Constants\ConstMessageTypes;
 use App\Http\Requests\StoreConversation;
 use App\Jobs\AddSearchRecord;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Conversation;
-use App\Models\Message;
 use App\Models\Topic;
 use App\Traits\UsesChatActions;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +26,7 @@ class ConversationController extends Controller
 
         return Inertia::render('Conversations/Conversation', [
             'conversation' => $conversation->viewModel(),
-            'canJoin' => !$conversation->chat->members->where('user_id', Auth::user()->id)->first()
+            'canJoin' => ! $conversation->chat->members->where('user_id', Auth::user()->id)->first(),
         ]);
     }
 
@@ -48,12 +46,12 @@ class ConversationController extends Controller
                 'description' => $request['description'],
                 'topic_id' => $topic->id,
                 'limit' => $request['limit'],
-                'active' => true
+                'active' => true,
             ]);
 
             $chat = Chat::create([
                 'name' => $request['title'],
-                'conversation_id' => $conversation->id
+                'conversation_id' => $conversation->id,
             ]);
 
             ChatMember::create([
@@ -68,7 +66,7 @@ class ConversationController extends Controller
         });
 
         return to_route('chat.show', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]);
     }
 
@@ -95,14 +93,14 @@ class ConversationController extends Controller
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
                 'last_read_message_id' => $chat->latestMessage?->id ?? null,
-                'admin' => false
+                'admin' => false,
             ]);
 
             $this->newChatAction($chat->id, ConstChatActions::USER_JOINED);
         });
 
         return to_route('chat.show', [
-            'uuid' => $chat->uuid
+            'uuid' => $chat->uuid,
         ]);
     }
 }

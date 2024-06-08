@@ -34,7 +34,7 @@ class TopicNovaTest extends TestCase
     public function test_topics_to_review_lens_loads()
     {
         Topic::factory()->count(5)->create([
-            'active' => false
+            'active' => false,
         ]);
 
         $request = new LensRequest();

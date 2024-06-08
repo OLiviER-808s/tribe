@@ -3,12 +3,9 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -16,6 +13,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class User extends Resource
 {
     public static $model = \App\Models\User::class;
+
     public static $title = 'name';
 
     public static $search = [
@@ -49,7 +47,7 @@ class User extends Resource
             Text::make('Location')
                 ->onlyOnDetail(),
 
-            BelongsToMany::make('Interests', 'interests', Topic::class)
+            BelongsToMany::make('Interests', 'interests', Topic::class),
         ];
     }
 

@@ -5,10 +5,8 @@ namespace Database\Seeders;
 use App\Constants\ConstStatus;
 use App\Models\Topic;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Tags\Tag;
 
 class UserSeeder extends Seeder
 {
@@ -23,7 +21,7 @@ class UserSeeder extends Seeder
             'bio' => null,
             'password' => null,
             'location' => null,
-            'status' => ConstStatus::USER_INACTIVE
+            'status' => ConstStatus::USER_INACTIVE,
         ]);
 
         $users = User::factory()->createMany([
@@ -31,19 +29,19 @@ class UserSeeder extends Seeder
                 'email' => 'test1@test.com',
                 'name' => 'Test User 1',
                 'username' => 'test_user1',
-                'password' => Hash::make(self::PASSWORD)
+                'password' => Hash::make(self::PASSWORD),
             ],
             [
                 'email' => 'test2@test.com',
                 'name' => 'Test User 2',
                 'username' => 'test_user2',
-                'password' => Hash::make(self::PASSWORD)
+                'password' => Hash::make(self::PASSWORD),
             ],
             [
                 'email' => 'test3@test.com',
                 'name' => 'Test User 3',
                 'username' => 'test_user3',
-                'password' => Hash::make(self::PASSWORD)
+                'password' => Hash::make(self::PASSWORD),
             ],
         ]);
 

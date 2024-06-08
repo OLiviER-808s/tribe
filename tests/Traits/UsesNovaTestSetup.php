@@ -23,5 +23,7 @@ trait UsesNovaTestSetup
         $this->extraSetup();
     }
 
-    protected function extraSetup() {}
+    protected function extraSetup()
+    {
+    }
 }
