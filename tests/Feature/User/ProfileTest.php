@@ -5,6 +5,7 @@ namespace Tests\Feature\User;
 use App\Constants\ConstStatus;
 use App\Models\Topic;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
@@ -33,6 +34,7 @@ class ProfileTest extends TestCase
             'username' => 'test_username',
             'bio' => 'test bio',
             'location' => 'test location',
+            'dob' => Carbon::now()->subYears(18),
             'next_route' => 'settings.profile',
         ]);
 
@@ -45,6 +47,7 @@ class ProfileTest extends TestCase
             'username' => 'test_username',
             'bio' => 'test bio',
             'location' => 'test location',
+            'date_of_birth' => Carbon::now()->subYears(18),
             'email_verified_at' => $this->testUser->email_verified_at,
         ]);
     }
@@ -61,6 +64,7 @@ class ProfileTest extends TestCase
                 'username' => 'test_username',
                 'bio' => 'test bio',
                 'location' => 'test location',
+                'dob' => Carbon::now()->subYears(18),
                 'next_route' => 'settings.profile',
             ]);
 
@@ -75,6 +79,7 @@ class ProfileTest extends TestCase
             'username' => $this->testUser->username,
             'bio' => 'test bio',
             'location' => 'test location',
+            'dob' => Carbon::now()->subYears(18),
             'next_route' => 'settings.profile',
         ]);
 
@@ -87,6 +92,7 @@ class ProfileTest extends TestCase
             'username' => $this->testUser->username,
             'bio' => 'test bio',
             'location' => 'test location',
+            'date_of_birth' => Carbon::now()->subYears(18),
             'email_verified_at' => $this->testUser->email_verified_at,
         ]);
     }
