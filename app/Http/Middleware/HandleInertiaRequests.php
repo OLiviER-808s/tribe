@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
             $result = array_merge($result, [
                 'profile' => $user?->viewModel(true, true),
                 'unreadChats' => $user?->unread_chats,
-                'theme' => $user?->settings?->theme ?? 'light',
+                'theme' => $user?->settings?->theme,
             ]);
         }
 
