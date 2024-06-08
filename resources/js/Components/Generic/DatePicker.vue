@@ -11,27 +11,38 @@ const today = new Date()
 
 const props = defineProps({
     modelValue: Date,
-    error: String
+    error: String,
+    label: {
+        type: String,
+        default: ''
+    },
+    placeholder: {
+        type: String,
+        default: ''
+    },
+    defaultDate: Date
 })
 const emit = defineEmits(['update:modelValue'])
 
 const { formatDate } = useDates()
 
 const dp = ref(null)
-const date = ref(null)
+const date = ref(props.defaultDate)
 
 watch(date, () => emit('update:modelValue', date.value))
 </script>
 
 <template>
     <div>
+        <label class="font-medium">{{ label }}</label>
+
         <VueDatePicker v-model="date" ref="dp" :format="formatDate" auto-apply :enable-time-picker="false" :max-date="today">
             <template #dp-input="{ value }">
                 <Textbox
-                placeholder="Date of Birth"
-                :value="value"
-                :icon="faCalendar"
-                :error="!!error"
+                    :placeholder="placeholder"
+                    :value="value"
+                    :icon="faCalendar"
+                    :error="!!error"
                 />
             </template>
         </VueDatePicker>

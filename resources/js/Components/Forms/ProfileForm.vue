@@ -7,6 +7,8 @@ import Button from '@/Components/Generic/Button.vue'
 import UsernameInput from '@/Components/Auth/UsernameInput.vue'
 import { ref } from 'vue'
 import CityDropdown from '../Dropdowns/CityDropdown.vue'
+import Textbox from "@/Components/Generic/Textbox.vue";
+import DatePicker from "@/Components/Generic/DatePicker.vue";
 
 const props = defineProps({
     nextRoute: String,
@@ -21,7 +23,9 @@ const props = defineProps({
     onSuccess: {
         type: Function,
         default: () => {}
-    }
+    },
+    withDateOfBirthField: Boolean,
+    withNameField: Boolean
 })
 
 const page = usePage()
@@ -35,6 +39,7 @@ const form = useForm({
     username: props.existingProfile?.username,
     bio: props.existingProfile?.bio,
     location: props.existingProfile?.location,
+    dob: new Date(page.props.auth.user.date_of_birth),
     photo: null,
     next_route: props.nextRoute
 })
@@ -55,6 +60,14 @@ const submit = () => {
         </div>
 
         <form class="flex flex-col gap-4" @submit.prevent="submit" v-if="!cropping">
+            <Textbox
+                v-if="withNameField"
+                v-model="form.name"
+                label="Full Name"
+                placeholder="Your full name..."
+                :error="form.errors.name"
+            />
+
             <UsernameInput v-model="form.username" :error="form.errors.username" :existing-username="existingProfile?.username" />
 
             <Textarea
@@ -66,6 +79,14 @@ const submit = () => {
             />
 
             <CityDropdown v-model="form.location" :default-search-value="form.location" />
+
+            <DatePicker
+                v-if="withDateOfBirthField"
+                label="Date of Birth"
+                placeholder="Your date of birth..."
+                v-model="form.dob"
+                :default-date="form.dob"
+                :error="form.errors.dob" />
 
             <Button type="submit">{{ submitButtonText }}</Button>
         </form>

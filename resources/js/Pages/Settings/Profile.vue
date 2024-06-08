@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPencil, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import InterestsEditModal from '@/Components/Modals/InterestsEditModal.vue'
 
-const { categories } = defineProps({
+const props = defineProps({
     categories: Array
 })
 
@@ -25,7 +25,7 @@ const profileModal = useModal({
 const interestsModal = useModal({
     component: InterestsEditModal,
     attrs: {
-        categories: categories,
+        categories: props.categories,
         onClose() {
             interestsModal.close()
         }

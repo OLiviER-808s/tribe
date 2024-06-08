@@ -54,6 +54,7 @@ class ProfileController extends Controller
             'username' => $request['username'],
             'bio' => $request['bio'],
             'location' => $request['location'],
+            'date_of_birth' => $request['dob']
         ]);
         $user->save();
 

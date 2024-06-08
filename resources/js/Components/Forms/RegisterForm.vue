@@ -16,21 +16,21 @@ const submit = () => form.post(route('register'))
 
 <template>
     <form class="flex flex-col gap-4" @submit.prevent="submit">
-        <Textbox 
+        <Textbox
         v-model="form.name"
         name="name"
         placeholder="Full Name"
         :error="form.errors.name"
         />
 
-        <Textbox 
+        <Textbox
         v-model="form.email"
         name="email"
         placeholder="Email"
         :error="form.errors.email"
         />
 
-        <Textbox 
+        <Textbox
         v-model="form.password"
         name="password"
         type="password"
@@ -38,7 +38,7 @@ const submit = () => form.post(route('register'))
         :error="form.errors.password"
         />
 
-        <DatePicker v-model="form.dob" :error="form.errors.dob" />
+        <DatePicker placeholder="Date of Birth" v-model="form.dob" :error="form.errors.dob" />
 
         <Button type="submit">Continue</Button>
     </form>
