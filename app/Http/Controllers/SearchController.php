@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -32,9 +33,12 @@ class SearchController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $results = $terms
-            ->merge($users)
-            ->merge($conversations)
+        $collection = new Collection();
+
+        $results = $collection
+            ->concat($users)
+            ->concat($conversations)
+            ->concat($terms)
             ->sortByDesc('search_count')
             ->map(fn ($model) => [ ...$model->viewModel(), 'resultType' => $model->searchResultType ])
             ->paginate(15);

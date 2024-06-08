@@ -85,4 +85,13 @@ trait UsesTestHelpers
                 'user_id' => $user->id ?? $chat->members->random()->user->id
             ]);
     }
+
+    public function addSearches($model, $count): void
+    {
+        $users = User::factory()->count($count)->create();
+
+        foreach ($users as $user) {
+            $model->addSearchRecord($user->id);
+        }
+    }
 }

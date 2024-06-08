@@ -44,18 +44,18 @@ watchDebounced(searchValue, async () => {
 
 <template>
     <form @submit.prevent="selectResult">
-        <DropdownMenu :overlay="false" :dropup="false">
+        <DropdownMenu :overlay="false" :dropup="false" class="w-full">
             <template #trigger>
-                <Textbox 
+                <Textbox
                 v-model="searchValue"
-                :icon="faSearch" 
+                :icon="faSearch"
                 placeholder="Press / to search"
                 :on-focus="() => focused = true"
                 :on-blur="() => focused = false"
                 :styles="focused || searchValue.length > 0 ? 'w-96' : 'w-auto'"
                 />
             </template>
-            
+
             <template #body>
                 <div class="overflow-auto max-h-64 flex flex-col" v-if="searchValue.length > 0 && searchResults?.data.length > 0">
                     <button v-for="result in searchResults.data" @click="selectResult(result)" :key="result.uuid" type="button" class="text-md py-2 px-4 hover:bg-dropdown-select rounded-md text-left">
@@ -85,6 +85,6 @@ watchDebounced(searchValue, async () => {
 
 <style>
 .v-dropdown-menu__container {
-    @apply rounded-md bg-dropdown text-dropdown-text !border-none;
+    @apply w-full rounded-md bg-dropdown text-dropdown-text !border-none;
 }
 </style>
