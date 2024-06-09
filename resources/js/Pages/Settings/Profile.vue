@@ -39,6 +39,7 @@ const editingInterests = ref(false)
                         <ProfileForm
                             with-name-field
                             with-date-of-birth-field
+                            :on-success="() => editingProfile = false"
                             next-route="settings.profile"
                             :existing-profile="$page.props.profile" />
                     </Card>
@@ -61,9 +62,9 @@ const editingInterests = ref(false)
                     <Card v-if="editingInterests" styles="w-full flex flex-col max-h-[1200px]">
                         <InterestForm
                             next-route="settings.profile"
+                            :on-success="() => editingInterests = false"
                             :default-categories="categories"
-                            :default-selected-interests="$page.props.profile.interests.map(topic => topic.uuid)"
-                        />
+                            :default-selected-interests="$page.props.profile.interests.map(topic => topic.uuid)" />
                     </Card>
                     <div v-else class="flex gap-2 items-center flex-wrap">
                         <div v-for="interest in $page.props.profile.interests" :key="interest.uuid">
