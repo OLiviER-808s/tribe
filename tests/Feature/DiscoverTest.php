@@ -71,6 +71,37 @@ class DiscoverTest extends TestCase
             );
     }
 
+    public function test_user_can_filter_discover_based_on_interest()
+    {
+        $popTopic = Topic::where('label', 'Pop')->first();
+        $musicTopic = Topic::where('label', 'Music')->first();
+        $basketballTopic = Topic::where('label', 'Basketball')->first();
+        $rockTopic = Topic::where('label', 'Rock')->first();
+        $moviesTopic = Topic::where('label', 'Movies')->first();
+
+        $this->testUser->interests()->sync([$popTopic->id, $basketballTopic->id]);
+
+        $popConversation = $this->setupConversation(true, $popTopic);
+        $basketballConversation = $this->setupConversation(true, $basketballTopic);
+
+        $this->setupConversation(true, $musicTopic);
+        $this->setupConversation(true, $rockTopic);
+        $this->setupConversation(true, $moviesTopic);
+
+        $response = $this->get('/discover?topics=Pop,Basketball');
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertOk()
+            ->assertInertia(
+                fn ($page) => $page
+                    ->component('Discover')
+                    ->has('conversations.data', 2)
+                    ->where('conversations.data.0.uuid', $popConversation->uuid)
+                    ->where('conversations.data.1.uuid', $basketballConversation->uuid)
+            );
+    }
+
     public function test_inactive_conversations_are_not_shown_in_discover()
     {
         $this->setupConversation();
