@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Topic;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 use Tests\Traits\UsesTestHelpers;
@@ -44,6 +46,28 @@ class DiscoverTest extends TestCase
                     ->where('conversations.data.2.uuid', $expectedConversations[2]['uuid'])
                     ->where('conversations.data.3.uuid', $expectedConversations[3]['uuid'])
                     ->where('conversations.data.4.uuid', $expectedConversations[4]['uuid'])
+            );
+    }
+
+    public function test_older_posts_are_shown_lower_in_hierarchy()
+    {
+        $popTopic = Topic::where('label', 'Pop')->first();
+        $this->testUser->interests()->sync([$popTopic->id]);
+
+        $olderPost = $this->setupConversation(true, $popTopic, null, 4, Carbon::now()->subDays(4));
+        $newerPost = $this->setupConversation(true, $popTopic);
+
+        $response = $this->get(route('discover'));
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertOk()
+            ->assertInertia(
+                fn ($page) => $page
+                    ->component('Discover')
+                    ->has('conversations.data', 2)
+                    ->where('conversations.data.0.uuid', $newerPost->uuid)
+                    ->where('conversations.data.1.uuid', $olderPost->uuid)
             );
     }
 

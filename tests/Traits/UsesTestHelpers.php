@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 
 trait UsesTestHelpers
 {
-    private function setupConversation($active = true, $topic = null, $user = null, $limit = 4)
+    private function setupConversation($active = true, $topic = null, $user = null, $limit = 4, $createdAt = null)
     {
         if (! $topic) {
             $topic = Topic::all()->random();
@@ -23,11 +23,16 @@ trait UsesTestHelpers
             $user = User::factory()->create();
         }
 
+        if (! $createdAt) {
+            $createdAt = Carbon::now();
+        }
+
         $conversation = Conversation::factory()->create([
             'topic_id' => $topic->id,
             'created_by_id' => $user->id,
             'limit' => $limit,
             'active' => $active,
+            'created_at' => $createdAt
         ]);
 
         $chat = Chat::factory()->create([

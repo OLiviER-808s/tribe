@@ -3,10 +3,13 @@
 namespace App\Traits;
 
 use App\Models\Topic;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Log;
 
 trait UsesTopic
 {
-    public function topic()
+    public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
     }
@@ -35,6 +38,10 @@ trait UsesTopic
         if ($linkedChild) {
             $relevanceScore += $linkedChild->level;
         }
+
+        // Score decreases every 2 days
+        $today = Carbon::now();
+        $relevanceScore -= $today->diffInDays($this->created_at, true) / 2;
 
         return $relevanceScore;
     }
