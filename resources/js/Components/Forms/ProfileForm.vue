@@ -20,10 +20,6 @@ const props = defineProps({
         type: String,
         default: 'Confirm'
     },
-    onSuccess: {
-        type: Function,
-        default: () => {}
-    },
     withDateOfBirthField: Boolean,
     withNameField: Boolean
 })
@@ -44,13 +40,7 @@ const form = useForm({
     next_route: props.nextRoute
 })
 
-const submit = () => {
-    form.post(route('profile.update'), {
-        onSuccess: () => {
-            props.onSuccess()
-        }
-    })
-}
+const submit = () => form.post(route('profile.update'))
 </script>
 
 <template>

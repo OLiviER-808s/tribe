@@ -14,10 +14,6 @@ const props = defineProps({
         type: Array,
         default: []
     },
-    onSubmitted: {
-        type: Function,
-        default: () => null
-    }
 })
 
 const categories = ref(props.defaultCategories)
@@ -58,9 +54,7 @@ const selectTagFromSearch = (topic) => {
     }
 }
 
-const submit = () => form.patch(route('profile.interests.update'), {
-    onSuccess: () => props.onSubmitted()
-})
+const submit = () => form.patch(route('profile.interests.update'))
 </script>
 
 <template>
