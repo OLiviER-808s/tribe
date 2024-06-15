@@ -9,7 +9,7 @@ const flashMessages = useFlashMessages()
 
 <template>
     <div class="w-full h-full relative">
-        <div class="absolute top-0 right-0 z-50 p-2 flex flex-col gap-2">
+        <div class="absolute top-0 right-0 z-50 p-2 flex flex-col gap-2 overflow-hidden">
             <div v-for="message in flashMessages" :key="message.uuid">
                 <FlashMessage :content="message.content" :color="message.color" />
             </div>
