@@ -4,6 +4,7 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {onMounted, ref} from "vue";
 
 const props = defineProps({
+    content: String,
     opacity: {
         type: Number,
         default: 40
@@ -27,7 +28,7 @@ onMounted(() => setTimeout(() => show.value = false, props.duration))
     <Transition name="slide-fade">
         <div v-if="show" :class="`w-96 flex items-center gap-2 rounded-md p-2 bg-${color}/${opacity}`">
             <div class="flex-grow">
-                <slot />
+                <p class="text-md font-medium">{{ content }}</p>
             </div>
 
             <IconButton :icon="faXmark" color="base" variant="subtle" :on-click="() => show = false" />

@@ -45,7 +45,7 @@ const form = useForm({
 })
 
 const submit = () => form.post(route('profile.update'), {
-    onSuccess: props.onSuccess
+    onSuccess: () => props.onSuccess(),
 })
 </script>
 

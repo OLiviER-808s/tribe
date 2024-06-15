@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ConstFlashMessages;
 use App\Constants\ConstMedia;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\StoreProfileInterests;
