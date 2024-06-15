@@ -4,7 +4,7 @@ import Card from '../Generic/Card.vue'
 import { useForm } from '@inertiajs/vue3'
 import Button from '@/Components/Generic/Button.vue'
 import Textbox from '../Generic/Textbox.vue'
-import { ref, computed, watch } from 'vue'
+import {ref, computed, watch, inject} from 'vue'
 import AvatarGroup from '../Generic/AvatarGroup.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
@@ -25,6 +25,8 @@ const form = useForm({
     photo: null,
 })
 const errors = ref({})
+
+const { addFlashMessage } = inject('flashMessages')
 
 const src = ref(chat.photo ?? '')
 const cropping = ref(false)
@@ -92,6 +94,10 @@ const submit = () => {
     form.post(route('chat.update', { uuid: chat.uuid }), {
         onSuccess: () => {
             emit('close')
+
+            addFlashMessage({
+                content: 'Chat updated successfully.'
+            })
         },
         onError: (errs) => {
             errors.value = errs
@@ -126,7 +132,7 @@ const submit = () => {
                 </div>
 
                 <form class="flex flex-col gap-4" @submit.prevent="submit">
-                    <Textbox 
+                    <Textbox
                     v-model="form.name"
                     label="Chat Name"
                     placeholder="Your chat's name..."
