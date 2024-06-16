@@ -14,4 +14,12 @@ trait Reportable
     {
         return $this->morphMany(Report::class, 'reportable');
     }
+
+    public function resolveReports(): void
+    {
+        foreach ($this->reports as $report) {
+            $report->resolved = true;
+            $report->save();
+        }
+    }
 }

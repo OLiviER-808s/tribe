@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ResolveReportedConversation;
 use App\Nova\Lenses\ReportedConversations;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -42,7 +43,8 @@ class Conversation extends Resource
                 return $this->chat->members->count() . '/' . $this->limit;
             }),
 
-            Boolean::make('Active'),
+            Boolean::make('Active')
+                ->filterable(),
 
             BelongsTo::make('Created By', 'createdByUser', User::class)
                 ->exceptOnForms(),
@@ -61,7 +63,9 @@ class Conversation extends Resource
 
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new ResolveReportedConversation()
+        ];
     }
 
     public static function authorizedToCreate(Request $request): false
