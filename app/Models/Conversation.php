@@ -9,10 +9,11 @@ use App\Traits\UsesTopic;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Actions\Actionable;
 
 class Conversation extends Model
 {
-    use HasFactory, Searchable, Reportable, UsesCreatedBy, UsesTopic, UsesUuid;
+    use HasFactory, Searchable, Reportable, Actionable, UsesCreatedBy, UsesTopic, UsesUuid;
 
     protected $fillable = [
         'title',

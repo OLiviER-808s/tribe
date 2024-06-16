@@ -20,12 +20,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('reportables', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->string('reportable_type');
             $table->unsignedBigInteger('reportable_id');
             $table->foreignId('category_id')->constrained('report_categories')->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->boolean('resolved')->default(false);
             $table->timestamps();
         });
     }
@@ -35,7 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reportables');
+        Schema::dropIfExists('reports');
         Schema::dropIfExists('report_categories');
     }
 };

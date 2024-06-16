@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\AdminUser;
 use App\Nova\AdminUser as AdminUserResource;
+use App\Nova\Conversation;
+use App\Nova\Lenses\ReportedConversations;
 use App\Nova\Lenses\TopicsToReview;
 use App\Nova\Topic;
 use App\Nova\TopicCategory;
@@ -28,8 +30,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return [
                 MenuSection::make('Dashboard')->path('/dashboards/main')->icon('chart-bar'),
                 MenuSection::make('Users')->path('/resources/users')->icon('user'),
+                MenuSection::make('Conversations')->path('/resources/conversations')->icon('chat'),
                 MenuSection::make('Admin', [
                     MenuItem::lens(Topic::class, TopicsToReview::class),
+                    MenuItem::lens(Conversation::class, ReportedConversations::class)
                 ])->collapsedByDefault(),
                 MenuSection::make('Config', [
                     MenuItem::resource(Topic::class),
