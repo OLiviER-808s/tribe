@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Constants\ConstMessageTypes;
+use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
 use App\Models\Chat;
 use App\Models\User;
@@ -25,7 +25,7 @@ class MessageFactory extends Factory
             'user_id' => User::all()->random()->id,
             'content' => fake()->sentence(),
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::MESSAGE,
+            'type' => ConstTypes::MESSAGE,
         ];
     }
 }

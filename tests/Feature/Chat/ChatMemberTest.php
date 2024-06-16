@@ -3,7 +3,7 @@
 namespace Tests\Feature\Chat;
 
 use App\Constants\ConstChatActions;
-use App\Constants\ConstMessageTypes;
+use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
 use App\Events\MessageSent;
 use App\Models\ChatMember;
@@ -41,7 +41,7 @@ class ChatMemberTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => ConstChatActions::USER_LEFT,
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION,
+            'type' => ConstTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class);
@@ -111,7 +111,7 @@ class ChatMemberTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => 'removed '.$this->otherUser->name.' from the chat',
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION,
+            'type' => ConstTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class);

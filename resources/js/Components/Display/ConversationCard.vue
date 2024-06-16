@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faEllipsisVertical, faUsers } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../Generic/IconButton.vue';
 import Tag from '../Generic/Tag.vue';
+import ConversationOptions from "@/Components/Dropdowns/ConversationOptions.vue";
 
 const { conversation } = defineProps({
     conversation: Object
@@ -41,7 +42,7 @@ const join = () => {
             <div class="flex-grow"></div>
 
             <Button styles="text-sm" @click="join">Join</Button>
-            <IconButton :icon="faEllipsisVertical" variant="light" color="base" />
+            <ConversationOptions :conversation="conversation" />
         </div>
     </Card>
 </template>

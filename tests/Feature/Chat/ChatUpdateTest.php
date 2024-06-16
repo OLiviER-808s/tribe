@@ -4,7 +4,7 @@ namespace Tests\Feature\Chat;
 
 use App\Constants\ConstChatActions;
 use App\Constants\ConstMedia;
-use App\Constants\ConstMessageTypes;
+use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
 use App\Events\MessageSent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -49,7 +49,7 @@ class ChatUpdateTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => 'changed the chat name to "edited name"',
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION,
+            'type' => ConstTypes::ACTION,
         ]);
 
         $this->assertDatabaseHas('messages', [
@@ -57,7 +57,7 @@ class ChatUpdateTest extends TestCase
             'user_id' => $this->testUser->id,
             'content' => ConstChatActions::PHOTO_CHANGED,
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::ACTION,
+            'type' => ConstTypes::ACTION,
         ]);
 
         Event::assertDispatched(MessageSent::class, 2);

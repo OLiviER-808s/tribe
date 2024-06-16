@@ -1,6 +1,6 @@
 <?php
 
-use App\Constants\ConstMessageTypes;
+use App\Constants\ConstTypes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::table('messages', function (Blueprint $table) {
             $table->enum('type', [
-                ConstMessageTypes::MESSAGE,
-                ConstMessageTypes::ACTION,
-            ])->default(ConstMessageTypes::MESSAGE)->after('status');
+                ConstTypes::MESSAGE,
+                ConstTypes::ACTION,
+            ])->default(ConstTypes::MESSAGE)->after('status');
         });
     }
 

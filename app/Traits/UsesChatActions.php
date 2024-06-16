@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Constants\ConstMessageTypes;
+use App\Constants\ConstTypes;
 use App\Events\MessageSent;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ trait UsesChatActions
             'user_id' => Auth::user()->id,
             'chat_id' => $chatId,
             'content' => $content,
-            'type' => ConstMessageTypes::ACTION,
+            'type' => ConstTypes::ACTION,
         ]);
 
         broadcast(new MessageSent($action));

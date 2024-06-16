@@ -7,7 +7,7 @@ const props = defineProps({
     content: String,
     opacity: {
         type: Number,
-        default: 40
+        default: 60
     },
     color: {
         type: String,

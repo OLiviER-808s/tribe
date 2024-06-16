@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\IsSearchable;
+use App\Traits\Reportable;
+use App\Traits\Searchable;
 use App\Traits\UsesCreatedBy;
 use App\Traits\UsesTopic;
 use App\Traits\UsesUuid;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conversation extends Model
 {
-    use HasFactory, IsSearchable, UsesCreatedBy, UsesTopic, UsesUuid;
+    use HasFactory, Searchable, Reportable, UsesCreatedBy, UsesTopic, UsesUuid;
 
     protected $fillable = [
         'title',

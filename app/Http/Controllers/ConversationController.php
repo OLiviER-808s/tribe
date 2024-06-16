@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ConstChatActions;
+use App\Http\Requests\ReportRequest;
 use App\Http\Requests\StoreConversation;
 use App\Jobs\AddSearchRecord;
 use App\Models\Chat;
 use App\Models\ChatMember;
 use App\Models\Conversation;
+use App\Models\Report;
+use App\Models\ReportCategory;
 use App\Models\Topic;
 use App\Traits\UsesChatActions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ConversationController extends Controller
@@ -101,6 +105,24 @@ class ConversationController extends Controller
 
         return to_route('chat.show', [
             'uuid' => $chat->uuid,
+        ]);
+    }
+
+    public function report($uuid, ReportRequest $request)
+    {
+        $user = Auth::user();
+        $conversation = Conversation::where('uuid', $uuid)
+            ->where('active', true)
+            ->firstOrFail();
+
+        $category = ReportCategory::where('uuid', $request['uuid'])->firstOrFail();
+
+        Report::updateOrCreate([
+            'reportable_type' => 'App\Models\Conversation',
+            'reportable_id' => $conversation->id,
+            'user_id' => $user->id
+        ], [
+            'category_id' => $category->id
         ]);
     }
 }

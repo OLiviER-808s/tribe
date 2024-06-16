@@ -3,7 +3,7 @@
 namespace Tests\Feature\Chat;
 
 use App\Constants\ConstMedia;
-use App\Constants\ConstMessageTypes;
+use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
 use App\Events\MessageSent;
 use Carbon\Carbon;
@@ -47,7 +47,7 @@ class MessageTest extends TestCase
             'content' => self::TEST_MESSAGE,
             'created_at' => Carbon::now(),
             'status' => ConstStatus::MESSAGE_SENT,
-            'type' => ConstMessageTypes::MESSAGE,
+            'type' => ConstTypes::MESSAGE,
         ]);
 
         Event::assertDispatched(MessageSent::class);

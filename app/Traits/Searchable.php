@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Models\User;
 
-trait IsSearchable
+trait Searchable
 {
     public function userSearches()
     {

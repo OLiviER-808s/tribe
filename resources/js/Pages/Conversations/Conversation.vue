@@ -8,6 +8,7 @@ import { useDates } from '@/Composables/useDates';
 import {Head, router} from '@inertiajs/vue3';
 import Button from '@/Components/Generic/Button.vue';
 import IconButton from '@/Components/Generic/IconButton.vue';
+import ConversationOptions from "@/Components/Dropdowns/ConversationOptions.vue";
 
 const props = defineProps({
     conversation: Object,
@@ -66,7 +67,7 @@ const join = () => {
 
                     <div v-if="conversation.active" class="flex justify-end items-center gap-2">
                         <Button styles="text-sm" @click="join" :disabled="!canJoin">Join</Button>
-                        <IconButton :icon="faEllipsisVertical" variant="light" color="base" />
+                        <ConversationOptions :conversation="conversation" />
                     </div>
                 </div>
             </section>

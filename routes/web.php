@@ -7,6 +7,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportCategoryController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TopicController;
@@ -39,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/topics', [TopicController::class, 'index'])->name('topics');
     Route::post('/topics', [TopicController::class, 'store'])->name('topic.store');
     Route::get('/topics/{uuid}/children', [TopicController::class, 'getChildren'])->name('topic.children');
+
+    // REPORT CATEGORIES
+    Route::get('/report-categories/{type}', [ReportCategoryController::class, 'index'])->name('report-categories');
 });
 
 Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterests::class])->group(function () {
@@ -56,6 +60,7 @@ Route::middleware(['auth', 'verified', RequiresUsername::class, RequiresInterest
     Route::get('/conversations/create', [ConversationController::class, 'create'])->name('conversation.create');
     Route::get('/conversations/{uuid}', [ConversationController::class, 'show'])->name('conversation');
     Route::post('/conversations/{uuid}/join', [ConversationController::class, 'join'])->name('conversation.join');
+    Route::post('/conversations/{uuid}/report', [ConversationController::class, 'report'])->name('conversation.report');
 
     // CHATS
     Route::get('/chats', [ChatController::class, 'index'])->name('chats');

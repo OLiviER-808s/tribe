@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\IsSearchable;
+use App\Traits\Searchable;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CommonSearch extends Model
 {
-    use HasFactory, IsSearchable, UsesUuid;
+    use HasFactory, Searchable, UsesUuid;
 
     protected $fillable = [
         'search_term',

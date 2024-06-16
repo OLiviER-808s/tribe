@@ -7,10 +7,10 @@
 		--primary-color: 255, 121, 43;
 		--secondary-color: 0, 176, 192;
 		--accent-color: 176, 5, 255;
-		
+
 		--error-color: 255, 50, 50;
 		--success-color: 48, 197, 53;
-	
+
 		--base-bg-color: 237, 237, 237;
 		--card-color: 252, 252, 252;
 		--card-color-accent: 238, 238, 238;
@@ -20,19 +20,19 @@
 		--dropdown-select-color: 40, 40, 40;
 		--quick-filter-bg-color: 163, 163, 163;
 		--quick-filter-selected-bg-color: 38, 38, 38;
-	
+
 		--base-text-color: 0, 0, 0;
 		--secondary-text-color: 105, 105, 105;
 		--dropdown-text-color: 255, 255, 255;
 	}
 }
-  
+
 @layer components {
 	.dark {
 		--primary-color: 255, 133, 55;
 		--secondary-color: 3, 189, 206;
 		--accent-color: 170, 0, 250;
-	
+
 		--base-bg-color: 16, 16, 16;
 		--card-color: 40, 40, 40;
 		--card-color-accent: 75, 75, 75;
@@ -42,13 +42,13 @@
 		--dropdown-select-color: 237, 237, 237;
 		--quick-filter-bg-color: 64, 64, 64;
 		--quick-filter-selected-bg-color: 212, 212, 212;
-	
+
 		--base-text-color: 255, 255, 255;
 		--secondary-text-color: 144, 144, 144;
 		--dropdown-text-color: 0, 0, 0;
 	}
 }
-  
+
 
 html {
 	@apply h-full;

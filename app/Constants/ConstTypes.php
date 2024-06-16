@@ -2,9 +2,11 @@
 
 namespace App\Constants;
 
-class ConstMessageTypes
+class ConstTypes
 {
     public const MESSAGE = 'message';
 
     public const ACTION = 'action';
+
+    public const CONVERSATION = 'conversation';
 }

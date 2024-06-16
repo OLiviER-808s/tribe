@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TopicCategorySeeder::class,
             TopicSeeder::class,
+            ReportCategorySeeder::class,
             AdminUserSeeder::class,
             UserSeeder::class,
             ConversationSeeder::class,
