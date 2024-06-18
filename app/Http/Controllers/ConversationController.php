@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ConstChatActions;
+use App\Constants\ConstTypes;
 use App\Http\Requests\ReportRequest;
 use App\Http\Requests\StoreConversation;
 use App\Jobs\AddSearchRecord;
@@ -117,7 +118,9 @@ class ConversationController extends Controller
             ->where('active', true)
             ->firstOrFail();
 
-        $category = ReportCategory::where('uuid', $request['uuid'])->firstOrFail();
+        $category = ReportCategory::where('type', ConstTypes::CONVERSATION)
+            ->where('uuid', $request['uuid'])
+            ->firstOrFail();
 
         Report::updateOrCreate([
             'reportable_type' => 'App\Models\Conversation',

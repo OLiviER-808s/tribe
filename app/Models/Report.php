@@ -23,6 +23,10 @@ class Report extends Model
         'category'
     ];
 
+    protected $casts = [
+        'resolved' => 'boolean'
+    ];
+
     public function reportable(): MorphTo
     {
         return $this->morphTo();
