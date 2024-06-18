@@ -5,7 +5,6 @@ namespace App\Traits;
 use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Log;
 
 trait UsesTopic
 {

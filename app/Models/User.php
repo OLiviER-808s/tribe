@@ -10,14 +10,13 @@ use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Actions\Actionable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use Actionable, HasFactory, InteractsWithMedia, Searchable, Notifiable, UsesUuid;
+    use Actionable, HasFactory, InteractsWithMedia, Notifiable, Searchable, UsesUuid;
 
     protected $fillable = [
         'name',
@@ -96,7 +95,7 @@ class User extends Authenticatable implements HasMedia
             $newValue = $topic->pivot->join_count + 1;
 
             $this->interests()->updateExistingPivot($topicId, [
-                'join_count' => $newValue
+                'join_count' => $newValue,
             ]);
         }
     }

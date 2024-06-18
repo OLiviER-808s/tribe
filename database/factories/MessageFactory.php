@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
+use App\Constants\ConstTypes;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

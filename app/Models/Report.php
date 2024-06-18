@@ -16,15 +16,15 @@ class Report extends Model
         'reportable_id',
         'user_id',
         'category_id',
-        'resolved'
+        'resolved',
     ];
 
     protected $with = [
-        'category'
+        'category',
     ];
 
     protected $casts = [
-        'resolved' => 'boolean'
+        'resolved' => 'boolean',
     ];
 
     public function reportable(): MorphTo

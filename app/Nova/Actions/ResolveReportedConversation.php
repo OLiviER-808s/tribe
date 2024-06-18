@@ -3,7 +3,6 @@
 namespace App\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
@@ -32,7 +31,7 @@ class ResolveReportedConversation extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Boolean::make('Deactivate Conversation', 'deactivate')
+            Boolean::make('Deactivate Conversation', 'deactivate'),
         ];
     }
 }

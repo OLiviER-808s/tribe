@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Constants\ConstTypes;
 use App\Models\ReportCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ReportCategorySeeder extends Seeder
@@ -17,11 +16,11 @@ class ReportCategorySeeder extends Seeder
         ReportCategory::factory()->createMany([
             [
                 'name' => 'Inappropriate',
-                'type' => ConstTypes::CONVERSATION
+                'type' => ConstTypes::CONVERSATION,
             ],
             [
                 'name' => 'Irrelevant',
-                'type' => ConstTypes::CONVERSATION
+                'type' => ConstTypes::CONVERSATION,
             ],
         ]);
     }

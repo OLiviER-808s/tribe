@@ -8,7 +8,6 @@ use App\Models\ReportCategory;
 use App\Models\User;
 use App\Nova\Actions\ResolveReportedConversation;
 use App\Nova\Lenses\ReportedConversations;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\LensRequest;
@@ -71,7 +70,7 @@ class ConversationNovaTest extends TestCase
     public function test_user_can_resolve_reported_conversation_without_deactivating_conversation()
     {
         $category = ReportCategory::factory()->create([
-            'type' => ConstTypes::CONVERSATION
+            'type' => ConstTypes::CONVERSATION,
         ]);
         $user = User::factory()->create();
 
@@ -86,7 +85,7 @@ class ConversationNovaTest extends TestCase
 
         $action->fields($request);
         $action->handle(
-            new ActionFields(collect([ 'deactivate' => false ]), collect()),
+            new ActionFields(collect(['deactivate' => false]), collect()),
             collect([$conversation])
         );
 
@@ -102,7 +101,7 @@ class ConversationNovaTest extends TestCase
     public function test_user_can_resolve_reported_conversation_and_deactivate_conversation()
     {
         $category = ReportCategory::factory()->create([
-            'type' => ConstTypes::CONVERSATION
+            'type' => ConstTypes::CONVERSATION,
         ]);
         $user = User::factory()->create();
 
@@ -117,7 +116,7 @@ class ConversationNovaTest extends TestCase
 
         $action->fields($request);
         $action->handle(
-            new ActionFields(collect([ 'deactivate' => false ]), collect()),
+            new ActionFields(collect(['deactivate' => false]), collect()),
             collect([$conversation])
         );
 
@@ -131,7 +130,7 @@ class ConversationNovaTest extends TestCase
 
         $this->assertDatabaseHas('conversations', [
             'id' => $conversation->id,
-            'active' => true
+            'active' => true,
         ]);
     }
 }

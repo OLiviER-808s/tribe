@@ -18,7 +18,7 @@ class ReportCategoryFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'type' => fake()->word()
+            'type' => fake()->word(),
         ];
     }
 }

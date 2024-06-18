@@ -4,8 +4,8 @@ namespace Tests\Feature\Chat;
 
 use App\Constants\ConstChatActions;
 use App\Constants\ConstMedia;
-use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
+use App\Constants\ConstTypes;
 use App\Events\MessageSent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Chat;
 
 use App\Constants\ConstMedia;
-use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
+use App\Constants\ConstTypes;
 use App\Events\MessageSent;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

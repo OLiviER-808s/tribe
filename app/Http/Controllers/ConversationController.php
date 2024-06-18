@@ -16,7 +16,6 @@ use App\Models\Topic;
 use App\Traits\UsesChatActions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ConversationController extends Controller
@@ -125,9 +124,9 @@ class ConversationController extends Controller
         Report::updateOrCreate([
             'reportable_type' => 'App\Models\Conversation',
             'reportable_id' => $conversation->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ], [
-            'category_id' => $category->id
+            'category_id' => $category->id,
         ]);
     }
 }

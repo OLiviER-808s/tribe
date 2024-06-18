@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -19,8 +18,9 @@ class Conversation extends Resource
     public static $model = \App\Models\Conversation::class;
 
     public static $title = 'title';
+
     public static $search = [
-        'id', 'title'
+        'id', 'title',
     ];
 
     public function fields(NovaRequest $request)
@@ -40,7 +40,7 @@ class Conversation extends Resource
                 ->filterable(),
 
             Text::make('Members', function () {
-                return $this->chat->members->count() . '/' . $this->limit;
+                return $this->chat->members->count().'/'.$this->limit;
             }),
 
             Boolean::make('Active')
@@ -50,21 +50,21 @@ class Conversation extends Resource
                 ->exceptOnForms(),
 
             Date::make('Created At')
-                ->exceptOnForms()
+                ->exceptOnForms(),
         ];
     }
 
     public function lenses(NovaRequest $request)
     {
         return [
-            new ReportedConversations()
+            new ReportedConversations(),
         ];
     }
 
     public function actions(NovaRequest $request)
     {
         return [
-            new ResolveReportedConversation()
+            new ResolveReportedConversation(),
         ];
     }
 

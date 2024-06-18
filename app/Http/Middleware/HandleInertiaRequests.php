@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -40,8 +39,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => [
                 'error' => fn () => $request->session()->get('error'),
-                'success' => fn () => $request->session()->get('success')
-            ]
+                'success' => fn () => $request->session()->get('success'),
+            ],
         ]);
 
         if ($user instanceof User) {

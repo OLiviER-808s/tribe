@@ -32,7 +32,7 @@ trait UsesTestHelpers
             'created_by_id' => $user->id,
             'limit' => $limit,
             'active' => $active,
-            'created_at' => $createdAt
+            'created_at' => $createdAt,
         ]);
 
         $chat = Chat::factory()->create([

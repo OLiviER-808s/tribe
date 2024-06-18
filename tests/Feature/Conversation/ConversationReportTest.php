@@ -5,7 +5,6 @@ namespace Tests\Feature\Conversation;
 use App\Constants\ConstTypes;
 use App\Models\ReportCategory;
 use Carbon\Carbon;
-use Database\Seeders\ReportCategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
@@ -18,11 +17,11 @@ class ConversationReportTest extends TestCase
     public function test_user_can_get_report_categories()
     {
         ReportCategory::factory()->count(5)->create([
-            'type' => ConstTypes::CONVERSATION
+            'type' => ConstTypes::CONVERSATION,
         ]);
 
         $response = $this->get(route('report-categories', [
-            'type' => ConstTypes::CONVERSATION
+            'type' => ConstTypes::CONVERSATION,
         ]));
 
         $response
@@ -37,13 +36,13 @@ class ConversationReportTest extends TestCase
     {
         $conversation = $this->setupConversation();
         $category = ReportCategory::factory()->create([
-            'type' => ConstTypes::CONVERSATION
+            'type' => ConstTypes::CONVERSATION,
         ]);
 
         $response = $this->post(route('conversation.report', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]), [
-            'uuid' => strval($category->uuid)
+            'uuid' => strval($category->uuid),
         ]);
 
         $response
@@ -56,7 +55,7 @@ class ConversationReportTest extends TestCase
             'user_id' => $this->testUser->id,
             'category_id' => $category->id,
             'resolved' => false,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
     }
 
@@ -66,9 +65,9 @@ class ConversationReportTest extends TestCase
         $category = ReportCategory::factory()->create();
 
         $response = $this->post(route('conversation.report', [
-            'uuid' => $conversation->uuid
+            'uuid' => $conversation->uuid,
         ]), [
-            'uuid' => strval($category->uuid)
+            'uuid' => strval($category->uuid),
         ]);
 
         $response

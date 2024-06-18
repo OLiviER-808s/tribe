@@ -5,12 +5,10 @@ namespace App\Nova\Lenses;
 use App\Nova\Topic;
 use App\Nova\User;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
@@ -59,7 +57,7 @@ class ReportedConversations extends Lens
                 }
 
                 return array_search(max($reasons), $reasons);
-            })
+            }),
         ];
     }
 

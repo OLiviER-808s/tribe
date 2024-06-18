@@ -3,8 +3,8 @@
 namespace Tests\Feature\Conversation;
 
 use App\Constants\ConstChatActions;
-use App\Constants\ConstTypes;
 use App\Constants\ConstStatus;
+use App\Constants\ConstTypes;
 use App\Events\MessageSent;
 use App\Models\ChatMember;
 use Carbon\Carbon;

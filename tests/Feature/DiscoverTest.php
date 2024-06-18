@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Tests\Traits\UsesBasicTestSetup;
 use Tests\Traits\UsesTestHelpers;

@@ -33,7 +33,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Conversations')->path('/resources/conversations')->icon('chat'),
                 MenuSection::make('Admin', [
                     MenuItem::lens(Topic::class, TopicsToReview::class),
-                    MenuItem::lens(Conversation::class, ReportedConversations::class)
+                    MenuItem::lens(Conversation::class, ReportedConversations::class),
                 ])->collapsedByDefault(),
                 MenuSection::make('Config', [
                     MenuItem::resource(Topic::class),
