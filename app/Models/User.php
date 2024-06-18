@@ -10,6 +10,7 @@ use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Actions\Actionable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -43,7 +44,7 @@ class User extends Authenticatable implements HasMedia
 
     public function interests()
     {
-        return $this->belongsToMany(Topic::class, 'user_interests');
+        return $this->belongsToMany(Topic::class, 'user_interests')->withPivot('join_count');
     }
 
     public function settings()
@@ -87,15 +88,35 @@ class User extends Authenticatable implements HasMedia
         $this->addMediaCollection(ConstMedia::PROFILE_PHOTO)->singleFile();
     }
 
-    public function viewModel($withLocation = false, $withDateOfBirth = false)
+    public function incrementJoinCount($topicId): void
     {
+        $topic = $this->interests->where('id', $topicId)->first();
+
+        if ($topic) {
+            $newValue = $topic->pivot->join_count + 1;
+
+            $this->interests()->updateExistingPivot($topicId, [
+                'join_count' => $newValue
+            ]);
+        }
+    }
+
+    public function viewModel($withLocation = false, $withDateOfBirth = false): array
+    {
+        $interests = $this->interests
+            ->sortByDesc(function ($topic) {
+                return $topic->pivot->join_count;
+            })
+            ->values()
+            ->map(fn ($topic) => $topic);
+
         $model = [
             'uuid' => $this->uuid,
             'name' => $this->name,
             'username' => $this->username,
             'bio' => $this->bio,
             'photo' => $this->getFirstMedia(ConstMedia::PROFILE_PHOTO)?->getFullUrl() ?? ConstMedia::DEFAULT_PROFILE_PHOTO_PATH,
-            'interests' => $this->interests->map(fn ($topic) => $topic->viewModel()),
+            'interests' => $interests,
         ];
 
         if ($withLocation) {

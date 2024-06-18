@@ -93,6 +93,8 @@ class ConversationController extends Controller
                 $conversation->save();
             }
 
+            $user->incrementJoinCount($conversation->topic->id);
+
             ChatMember::create([
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
