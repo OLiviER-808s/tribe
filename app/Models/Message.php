@@ -58,11 +58,11 @@ class Message extends Model implements HasMedia
             'files' => $this->formatFiles($this->getMedia(ConstMedia::MESSAGE_ATTACHMENTS)),
         ];
 
-        if ($message = $this->replyToMessage) {
+        if ($replyToMessage = $this->replyToMessage) {
             $model = array_merge($model, [
                 'reply_to' => [
-                    'content' => $message->content,
-                    'sent_by' => $message->user->name
+                    'content' => $replyToMessage->content,
+                    'sent_by' => $replyToMessage->user->name
                 ]
             ]);
         }

@@ -66,6 +66,13 @@ const send = () => {
 	}
 }
 
+const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault()
+        send()
+    }
+}
+
 const handleAttachmentUpload = (event) => {
 	const files = Array.from(event.target.files)
 
@@ -98,7 +105,13 @@ watchDebounced(content, () => {
 
 		<form @submit.prevent="send()" class="flex gap-2">
 			<div class="w-full">
-				<Textarea variant="outline" placeholder="Message" :rows="1" v-model="content" />
+				<Textarea
+                    variant="outline"
+                    placeholder="Message"
+                    :rows="1"
+                    :on-key-press="handleKeyPress"
+                    v-model="content"
+                />
 			</div>
 
             <IconButton :icon="faPaperclip" size="lg" color="base" variant="subtle" @click="handleAttachmentClick" />

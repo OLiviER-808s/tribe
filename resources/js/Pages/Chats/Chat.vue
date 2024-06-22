@@ -1,5 +1,5 @@
 <script setup>
-import { provide, ref, nextTick, onUnmounted, watch, computed } from 'vue'
+import { provide, ref, onUnmounted, computed } from 'vue'
 import ChatLayout from '../../Layouts/ChatLayout.vue'
 import MessageInput from '@/Components/InputFields/MessageInput.vue'
 import ChatHeader from '@/Components/Display/ChatHeader.vue'
@@ -11,7 +11,7 @@ import ChatCard from '@/Components/Display/ChatCard.vue'
 import MessageFeed from '@/Components/Chat/MessageFeed.vue'
 import AttachmentUploadView from '@/Components/Chat/AttachmentUploadView.vue'
 import AttachmentInspectView from '@/Components/Chat/AttachmentInspectView.vue'
-import { useInfiniteScroll } from '@vueuse/core'
+import {useMessageScroll} from "@/Composables/useMessageScroll"
 
 const props = defineProps({
     chats: Array,
@@ -20,19 +20,9 @@ const props = defineProps({
 })
 
 const page = usePage()
-
-const scrollToBottom = () => {
-    if (feedContainer.value && (feedContainer.value.scrollHeight - feedContainer.value.clientHeight <= feedContainer.value.scrollTop + 50)) {
-        nextTick(() => {
-            feedContainer.value.scrollTop = feedContainer.value.scrollHeight
-        })
-    }
-}
+const { feedContainer, scrollToBottom } = useMessageScroll(props)
 
 const messagesState = ref(props.messages.data)
-const loading = ref(false)
-
-const feedContainer = ref(null)
 const activeMembers = ref([])
 
 const inspectInfo = ref(null)
@@ -68,23 +58,6 @@ window.Echo.join(`chat.${props.chat.uuid}`)
         const idx = activeMembers.value.findIndex(({ uuid }) => uuid === member_uuid)
         activeMembers.value[idx].typing = typing
     })
-
-watch(feedContainer, () => {
-    if (feedContainer.value) {
-        feedContainer.value.scrollTop = feedContainer.value.scrollHeight
-    }
-}, { immediate: true })
-
-useInfiniteScroll(feedContainer, async () => {
-    if (loading.value || !props.messages.meta.next_cursor) return
-
-    loading.value = true
-    const response = await axios.get(`${props.messages.meta.path}?cursor=${props.messages.meta.next_cursor}`)
-
-    messagesState.value = [...messagesState.value, ...response.data.data]
-    props.messages.meta = response.data.meta
-    loading.value = false
-}, { distance: 200, direction: 'top' })
 
 onUnmounted(() => window.Echo.leave(`presence-chat.${props.chat.uuid}`))
 </script>

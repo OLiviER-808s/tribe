@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ConstMedia;
+use App\Constants\ConstStatus;
+use App\Constants\ConstTypes;
 use App\Events\MessageSent;
 use App\Events\UserTyping;
 use App\Http\Requests\StoreMessage;
@@ -29,6 +31,8 @@ class MessageController extends Controller
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
                 'content' => $request['content'],
+                'type' => ConstTypes::MESSAGE,
+                'status' => ConstStatus::MESSAGE_SENT
             ]);
 
             if ($request['files']) {

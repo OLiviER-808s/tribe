@@ -23,6 +23,7 @@ const props = defineProps({
     onInput: Function as PropType<(e: Event) => void>,
     onFocus: Function as PropType<() => void>,
     onBlur: Function as PropType<() => void>,
+    onKeyPress: Function as PropType<(any) => void>
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -83,6 +84,7 @@ watch(() => props.modelValue, (newVal) => {
                 @input="handleInput"
                 @focus="handleFocus"
                 @blur="handleBlur"
+                @keydown="onKeyPress"
                 :maxlength="maxlength"
                 :rows="rows"
             ></textarea>
