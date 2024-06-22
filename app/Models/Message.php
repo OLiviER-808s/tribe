@@ -7,6 +7,7 @@ use App\Traits\UsesFiles;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -19,18 +20,24 @@ class Message extends Model implements HasMedia
         'user_id',
         'chat_id',
         'content',
+        'reply_to_id',
         'status',
         'type',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function chat()
+    public function chat(): BelongsTo
     {
         return $this->belongsTo(Chat::class);
+    }
+
+    public function replyToMessage(): BelongsTo
+    {
+        return $this->belongsTo(Message::class, 'reply_to_id');
     }
 
     public function registerMediaCollections(): void
@@ -38,9 +45,9 @@ class Message extends Model implements HasMedia
         $this->addMediaCollection(ConstMedia::MESSAGE_ATTACHMENTS);
     }
 
-    public function viewModel()
+    public function viewModel(): array
     {
-        return [
+        $model = [
             'uuid' => $this->uuid,
             'chat_uuid' => $this->chat->uuid,
             'content' => $this->content,
@@ -50,5 +57,16 @@ class Message extends Model implements HasMedia
             'sent_at' => $this->created_at,
             'files' => $this->formatFiles($this->getMedia(ConstMedia::MESSAGE_ATTACHMENTS)),
         ];
+
+        if ($message = $this->replyToMessage) {
+            $model = array_merge($model, [
+                'reply_to' => [
+                    'content' => $message->content,
+                    'sent_by' => $message->user->name
+                ]
+            ]);
+        }
+
+        return $model;
     }
 }
