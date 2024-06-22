@@ -7,6 +7,9 @@ import NumberInput from '@/Components/Generic/NumberInput.vue'
 import Button from '@/Components/Generic/Button.vue'
 import {Head, useForm} from '@inertiajs/vue3'
 import ConversationTopicDropdown from '@/Components/Dropdowns/ConversationTopicDropdown.vue'
+import {provide} from "vue";
+
+provide('headerTitle', 'New Conversation')
 
 const form = useForm({
     title: '',

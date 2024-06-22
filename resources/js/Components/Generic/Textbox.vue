@@ -29,10 +29,9 @@ const props = defineProps({
     onBlur: Function as PropType<() => void>,
     modelValue: String
 })
-
 const emit = defineEmits(['update:modelValue'])
-const internalValue = ref(props.value)
 
+const internalValue = ref(props.value)
 const focused = ref(false)
 
 const variantStyles = computed(() => props.variant === 'filled' ? 'bg-base' : 'bg-transparent border border-secondary-text')
@@ -99,8 +98,7 @@ watch(() => props.modelValue, (newVal) => {
         </div>
 
         <p v-if="error && typeof error !== 'boolean'" class="text-error text-sm">{{ error }}</p>
-
-        <p v-if="success && typeof error !== 'boolean'" class="text-success text-sm">{{ success }}</p>
+        <p v-else-if="success && typeof error !== 'boolean'" class="text-success text-sm">{{ success }}</p>
     </div>
 </template>
 
@@ -108,7 +106,6 @@ watch(() => props.modelValue, (newVal) => {
 .selected {
     @apply border-none ring-1 ring-primary;
 }
-
 .error {
     @apply border-none ring-1 ring-error;
 }

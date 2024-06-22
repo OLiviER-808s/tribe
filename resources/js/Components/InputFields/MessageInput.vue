@@ -1,12 +1,13 @@
 <script setup>
-import Textbox from '../Generic/Textbox.vue'
+import Textarea from '../Generic/Textarea.vue'
 import IconButton from '../Generic/IconButton.vue'
-import { ref, inject } from 'vue'
+import {ref, inject, watch} from 'vue'
 import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { useForm, usePage } from '@inertiajs/vue3'
 import { v4 as uuidv4 } from 'uuid'
 import { useFiles } from '@/Composables/useFiles'
 import axios from 'axios'
+import {watchDebounced} from "@vueuse/core"
 
 const props = defineProps({
 	chat: Object,
@@ -25,8 +26,6 @@ const fileInput = ref(null)
 const typing = ref(false)
 
 const mainContent = inject('mainContent')
-
-let debounceTimer = null
 
 const send = () => {
 	if (content.value) {
@@ -67,20 +66,6 @@ const send = () => {
 	}
 }
 
-const startTyping = () => {
-	clearTimeout(debounceTimer)
-
-	if (!typing.value) {
-		typing.value = true
-		axios.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: true })
-	}
-
-	debounceTimer = setTimeout(() => {
-		typing.value = false
-		axios.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: false })
-	}, 1000)
-}
-
 const handleAttachmentUpload = (event) => {
 	const files = Array.from(event.target.files)
 
@@ -93,23 +78,30 @@ const handleAttachmentClick = () => {
 	fileInput.value.value = ''
     fileInput.value.click()
 }
+
+watch(content, () => {
+    if (!typing.value) {
+        typing.value = true
+        axios.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: true })
+    }
+})
+
+watchDebounced(content, () => {
+    typing.value = false
+    axios.post(route('chat.typing', { uuid: props.chat.uuid }), { typing: false })
+}, { debounce: 1000 })
 </script>
 
 <template>
     <div class="p-2 bg-inherit w-full">
-		<input name="message-attchments" @change="handleAttachmentUpload" ref="fileInput" type="file" multiple hidden />
+		<input name="message-attachments" @change="handleAttachmentUpload" ref="fileInput" type="file" multiple hidden />
 
-		<form @submit.prevent="send()" class="flex items-center gap-2">
-			<div class="flex-grow">
-				<Textbox variant="outline" placeholder="Message" v-model="content" :on-input="startTyping">
-					<template #right-section>
-						<div class="mr-1 flex items-center justify-center">
-							<IconButton :icon="faPaperclip" color="base" variant="subtle" @click="handleAttachmentClick" />
-						</div>
-					</template>
-				</Textbox>
+		<form @submit.prevent="send()" class="flex gap-2">
+			<div class="w-full">
+				<Textarea variant="outline" placeholder="Message" :rows="1" v-model="content" />
 			</div>
 
+            <IconButton :icon="faPaperclip" size="lg" color="base" variant="subtle" @click="handleAttachmentClick" />
 			<IconButton :icon="faPaperPlane" size="lg" type="submit" />
 		</form>
 	</div>
