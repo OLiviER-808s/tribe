@@ -20,17 +20,19 @@ class MessageController extends Controller
     public function store($chatUuid, StoreMessage $request)
     {
         $user = Auth::user();
-
         $chat = Chat::where('uuid', $chatUuid)->whereHas('members', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->firstOrFail();
 
-        $message = DB::transaction(function () use ($request, $user, $chat) {
+        $replyToMessage = Message::where('chat_id', $chat->id)->where('uuid', $request['reply_to_uuid'])->first();
+
+        $message = DB::transaction(function () use ($request, $user, $chat, $replyToMessage) {
             $message = Message::create([
                 'uuid' => $request['uuid'],
                 'user_id' => $user->id,
                 'chat_id' => $chat->id,
                 'content' => $request['content'],
+                'reply_to_id' => $replyToMessage?->id ?? null,
                 'type' => ConstTypes::MESSAGE,
                 'status' => ConstStatus::MESSAGE_SENT
             ]);

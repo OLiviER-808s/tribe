@@ -22,17 +22,19 @@ const props = defineProps({
 const messagesState = ref(props.messages.data)
 const activeMembers = ref([])
 
+const replyToMessage = ref(null)
 const inspectInfo = ref(null)
 const mainContent = ref(null)
+
+provide('chats', props.chats)
+provide('inspectInfo', inspectInfo)
+provide('mainContent', mainContent)
+provide('replyToMessage', replyToMessage)
 
 const page = usePage()
 const { feedContainer, scrollToBottom } = useMessageScroll(props, messagesState)
 
 const allFiles = computed(() => messagesState.value.flatMap(message => message.files.map(file => (({ ...file, message_uuid: message.uuid, status: message.status })))))
-
-provide('chats', props.chats)
-provide('inspectInfo', inspectInfo)
-provide('mainContent', mainContent)
 
 window.Echo.join(`chat.${props.chat.uuid}`)
     .here((members) => {

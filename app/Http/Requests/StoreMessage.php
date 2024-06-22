@@ -16,6 +16,7 @@ class StoreMessage extends FormRequest
         return [
             'uuid' => 'required|string',
             'content' => 'required|string',
+            'reply_to_uuid' => 'nullable|string',
             'files' => 'nullable|array',
             'files.*' => 'file',
             'active_uuids' => 'nullable|array',

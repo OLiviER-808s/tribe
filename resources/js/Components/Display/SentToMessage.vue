@@ -1,21 +1,27 @@
 <script setup>
 import { useDates } from '@/Composables/useDates'
-import { computed } from 'vue'
+import {computed, inject, ref} from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faCircleCheck, faClock, faEye } from '@fortawesome/free-solid-svg-icons'
+import {faCircleCheck, faClock, faEye, faReply} from '@fortawesome/free-solid-svg-icons'
 import MessageAttachments from '../Chat/MessageAttachments.vue'
+import IconButton from "@/Components/Generic/IconButton.vue";
 
-const { message } = defineProps({
+const props = defineProps({
     message: Object
 })
 
+const hovering = ref(false)
+const replyToMessage = inject('replyToMessage')
+
+const onReply = () => replyToMessage.value = props.message
+
 const { formatTimestamp24Hour } = useDates()
-const timestamp = computed(() => formatTimestamp24Hour(new Date(message.sent_at)))
+const timestamp = computed(() => formatTimestamp24Hour(new Date(props.message.sent_at)))
 
 const statusIcon = computed(() => {
     let result = faClock
 
-    switch (message.status) {
+    switch (props.message.status) {
         case 'sent':
             result = faCircleCheck
             break
@@ -29,7 +35,7 @@ const statusIcon = computed(() => {
 </script>
 
 <template>
-    <div class="flex flex-row-reverse py-1">
+    <div class="flex flex-row-reverse py-1" @mouseover="hovering = true" @mouseleave="hovering = false">
         <div :class="[message.files?.length > 0 ? 'w-1/3' : 'w-3/5']">
             <div class="flex flex-row-reverse">
 				<div class="bg-primary/30 rounded-lg p-1 rounded-br-none">
@@ -39,7 +45,7 @@ const statusIcon = computed(() => {
                         <div class="p-1">
                             {{ message.content }}
                         </div>
-        
+
                         <div class="text-xs text-secondary-text flex flex-col justify-end">
                             <span class="flex items-center gap-1">
                                 {{ timestamp }}
@@ -48,6 +54,17 @@ const statusIcon = computed(() => {
                         </div>
                     </div>
 				</div>
+
+                <div class="flex items-center">
+                    <IconButton
+                        v-if="hovering"
+                        :on-click="onReply"
+                        :icon="faReply"
+                        size="sm"
+                        variant="subtle"
+                        color="base"
+                    />
+                </div>
 			</div>
         </div>
     </div>
