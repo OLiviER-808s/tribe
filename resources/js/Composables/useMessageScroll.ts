@@ -1,10 +1,10 @@
 import {nextTick, ref, watch} from "vue";
 import {useInfiniteScroll} from "@vueuse/core";
 
-export const useMessageScroll = (props: any) => {
+export const useMessageScroll = (props: any, messagesState) => {
     const feedContainer = ref(null)
 
-    const nextCursor = ref(null)
+    const nextCursor = ref(props.messages.meta.next_cursor)
     const loading = ref(false)
 
     const scrollToBottom = () => {

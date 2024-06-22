@@ -19,14 +19,14 @@ const props = defineProps({
     messages: Object,
 })
 
-const page = usePage()
-const { feedContainer, scrollToBottom } = useMessageScroll(props)
-
 const messagesState = ref(props.messages.data)
 const activeMembers = ref([])
 
 const inspectInfo = ref(null)
 const mainContent = ref(null)
+
+const page = usePage()
+const { feedContainer, scrollToBottom } = useMessageScroll(props, messagesState)
 
 const allFiles = computed(() => messagesState.value.flatMap(message => message.files.map(file => (({ ...file, message_uuid: message.uuid, status: message.status })))))
 
