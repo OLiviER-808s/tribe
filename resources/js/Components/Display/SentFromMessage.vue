@@ -41,6 +41,11 @@ const timestamp = computed(() => formatTimestamp24Hour(new Date(props.message.se
                 <div v-else class="min-w-8 w-8"></div>
 
 				<div class="bg-message rounded-lg p-1" :class="{ 'rounded-tl-none': showUserInfo }">
+                    <div v-if="message.reply_to" class="border-l-4 border-primary text-sm text-secondary-text pl-1 m-1">
+                        <p class="font-medium text-primary">{{ message.reply_to.sent_by }}</p>
+                        <p>{{ message.reply_to.content }}</p>
+                    </div>
+
                     <MessageAttachments v-if="message.files?.length > 0" :files="message.files" :message-uuid="message.uuid" />
 
                     <div class="flex gap-1 justify-between">

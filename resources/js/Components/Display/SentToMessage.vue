@@ -39,6 +39,11 @@ const statusIcon = computed(() => {
         <div :class="[message.files?.length > 0 ? 'w-1/3' : 'w-3/5']">
             <div class="flex flex-row-reverse">
 				<div class="bg-primary/30 rounded-lg p-1 rounded-br-none">
+                    <div v-if="message.reply_to" class="border-l-4 border-secondary-text text-sm text-secondary-text pl-1 m-1">
+                        <p class="font-medium">{{ message.reply_to.sent_by }}</p>
+                        <p>{{ message.reply_to.content }}</p>
+                    </div>
+
                     <MessageAttachments v-if="message.files?.length > 0" :files="message.files" :message-uuid="message.uuid" />
 
 					<div class="flex gap-1 justify-between">
@@ -55,7 +60,7 @@ const statusIcon = computed(() => {
                     </div>
 				</div>
 
-                <div class="flex items-center">
+                <div class="flex items-center justify-end w-44 pr-2">
                     <IconButton
                         v-if="hovering"
                         :on-click="onReply"
