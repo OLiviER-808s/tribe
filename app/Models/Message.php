@@ -62,8 +62,8 @@ class Message extends Model implements HasMedia
             $model = array_merge($model, [
                 'reply_to' => [
                     'content' => $replyToMessage->content,
-                    'sent_by' => $replyToMessage->user->name
-                ]
+                    'sent_by' => $replyToMessage->user->name,
+                ],
             ]);
         }
 

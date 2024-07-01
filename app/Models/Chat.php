@@ -20,7 +20,8 @@ class Chat extends Model implements HasMedia
 
     protected $fillable = [
         'name',
-        'conversation_id',
+        'attachable_type',
+        'attachable_id',
     ];
 
     public function members(): HasMany

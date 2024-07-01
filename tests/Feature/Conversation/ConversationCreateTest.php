@@ -60,7 +60,8 @@ class ConversationCreateTest extends TestCase
 
         $this->assertDatabaseHas('chats', [
             'name' => self::TEST_STRING,
-            'conversation_id' => $conversation->id,
+            'attachable_type' => 'App\Models\Conversation',
+            'attachable_id' => $conversation->id,
             'created_at' => Carbon::now(),
         ]);
 

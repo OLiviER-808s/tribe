@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Reportable;
 use App\Traits\Searchable;
+use App\Traits\UsesChat;
 use App\Traits\UsesCreatedBy;
 use App\Traits\UsesTopic;
 use App\Traits\UsesUuid;
@@ -13,7 +14,7 @@ use Laravel\Nova\Actions\Actionable;
 
 class Conversation extends Model
 {
-    use Actionable, HasFactory, Reportable, Searchable, UsesCreatedBy, UsesTopic, UsesUuid;
+    use Actionable, HasFactory, Reportable, Searchable, UsesChat, UsesCreatedBy, UsesTopic, UsesUuid;
 
     protected $fillable = [
         'title',
@@ -29,17 +30,7 @@ class Conversation extends Model
 
     public $searchResultType = 'conversation';
 
-    public function chat()
-    {
-        return $this->hasOne(Chat::class);
-    }
-
-    public function userSearches()
-    {
-        return $this->morphToMany(User::class, 'searchable');
-    }
-
-    public function viewModel()
+    public function viewModel(): array
     {
         return [
             'uuid' => $this->uuid,

@@ -36,7 +36,8 @@ trait UsesTestHelpers
         ]);
 
         $chat = Chat::factory()->create([
-            'conversation_id' => $conversation->id,
+            'attachable_type' => 'App\Models\Conversation',
+            'attachable_id' => $conversation->id,
             'created_by_id' => $user->id,
         ]);
 

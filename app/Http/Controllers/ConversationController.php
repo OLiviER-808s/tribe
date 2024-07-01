@@ -55,8 +55,8 @@ class ConversationController extends Controller
 
             $chat = Chat::create([
                 'name' => $request['title'],
-                'conversation_id' => $conversation->id,
             ]);
+            $conversation->chat()->save($chat);
 
             ChatMember::create([
                 'user_id' => $user->id,

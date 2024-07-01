@@ -34,7 +34,7 @@ class MessageController extends Controller
                 'content' => $request['content'],
                 'reply_to_id' => $replyToMessage?->id ?? null,
                 'type' => ConstTypes::MESSAGE,
-                'status' => ConstStatus::MESSAGE_SENT
+                'status' => ConstStatus::MESSAGE_SENT,
             ]);
 
             if ($request['files']) {

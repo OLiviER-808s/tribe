@@ -26,7 +26,8 @@ class ConversationSeeder extends Seeder
 
             foreach ($conversations as $conversation) {
                 $chat = Chat::factory()->create([
-                    'conversation_id' => $conversation->id,
+                    'attachable_type' => 'App\Models\Conversation',
+                    'attachable_id' => $conversation->id,
                     'created_by_id' => $conversation->created_by_id,
                     'name' => $conversation->title,
                     'created_at' => $conversation->created_at,
