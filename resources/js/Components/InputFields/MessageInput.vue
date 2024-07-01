@@ -128,6 +128,7 @@ watchDebounced(content, () => {
 				<Textarea
                     variant="outline"
                     placeholder="Message"
+                    field-sizing-content
                     :rows="1"
                     :on-key-press="handleKeyPress"
                     v-model="content"

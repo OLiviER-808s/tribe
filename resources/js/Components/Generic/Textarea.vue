@@ -20,6 +20,10 @@ const props = defineProps({
         type: Number,
         default: 4
     },
+    fieldSizingContent: {
+        type: Boolean,
+        default: false
+    },
     onInput: Function as PropType<(e: Event) => void>,
     onFocus: Function as PropType<() => void>,
     onBlur: Function as PropType<() => void>,
@@ -77,6 +81,7 @@ watch(() => props.modelValue, (newVal) => {
         >
             <textarea
                 class="rounded-lg p-2 flex-grow bg-transparent outline-none max-w-full placeholder:text-secondary-text border-none"
+                :class="{ 'field-sizing-content': fieldSizingContent }"
                 :name="name"
                 :placeholder="placeholder"
                 :value="modelValue"
@@ -96,7 +101,7 @@ watch(() => props.modelValue, (newVal) => {
 </template>
 
 <style>
-textarea {
+.field-sizing-content {
     field-sizing: content;
 }
 
